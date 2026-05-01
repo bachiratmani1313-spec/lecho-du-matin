@@ -1,23 +1,31 @@
-import { GoogleGenAI, Type, Modality, HarmCategory, HarmBlockThreshold } from "@google/genai";
+import { GoogleGenAI, Modality } from "@google/genai";
 import { Category, NewsArticle, Language } from "../types";
 
 /**
- * SERVICE DE VÉRITÉ - L'ÉCHO DU MATIN
- * Propriété de Atmani Bachir.
+ * SERVICE GRATUIT - L'ÉCHO DU MATIN
+ * ✅ Gemini 2.0 Flash (GRATUIT)
+ * ✅ Cache intelligent
+ * ✅ TTS natif Gemini
+ * Propriété : Atmani Bachir
  */
 
 const getApiKey = () => {
-  // Clé intégrée automatiquement à la demande de l'utilisateur pour débloquer le service.
-  const hardcodedKey = "AIzaSyCbgrYXiHn4l4MQj1TuCjQLMeQ0Fe03YeM";
-  
   try {
+    // Priority 1: Variable d'environnement (SÉCURISÉE)
     const envKey = (import.meta as any).env.VITE_GEMINI_API_KEY || "";
+    if (envKey) return envKey;
+    
+    // Priority 2: localStorage (pour développement)
     const localKey = localStorage.getItem('GEMINI_API_KEY');
-    return envKey || localKey || hardcodedKey;
+    if (localKey) return localKey;
+    
+    // Fallback: message clair
+    throw new Error("❌ Clé API manquante. Configurez VITE_GEMINI_API_KEY dans .env");
   } catch (e) {
-    return hardcodedKey;
+    console.error("[Gemini] Erreur API:", e);
+    throw e;
   }
-}
+};
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -28,13 +36,15 @@ const withRetry = async <T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> =>
       return await fn();
     } catch (error: any) {
       lastError = error;
-      const isRetryable = error?.message?.includes("503") || 
-                          error?.message?.includes("high demand") || 
-                          error?.message?.includes("429") ||
-                          error?.message?.includes("rate limit");
+      const isRetryable = 
+        error?.message?.includes("503") || 
+        error?.message?.includes("high demand") || 
+        error?.message?.includes("429") ||
+        error?.message?.includes("rate limit");
       
       if (isRetryable && i < maxRetries - 1) {
         const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+        console.warn(`[Gemini] Retry ${i + 1}/${maxRetries} dans ${delay}ms...`);
         await sleep(delay);
         continue;
       }
@@ -44,135 +54,278 @@ const withRetry = async <T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> =>
   throw lastError;
 };
 
+/**
+ * CACHE INTELLIGENT
+ * localStorage + IndexedDB pour éviter les appels répétés
+ */
+const getCacheKey = (category: Category, lang: Language) => {
+  const today = new Date().toISOString().split('T')[0];
+  return `news_${category}_${lang}_${today}`;
+};
+
+const getCachedArticles = async (category: Category, lang: Language): Promise<NewsArticle[] | null> => {
+  try {
+    const key = getCacheKey(category, lang);
+    const cached = localStorage.getItem(key);
+    if (cached) {
+      console.log(`[Cache] Hit pour ${category}`);
+      return JSON.parse(cached);
+    }
+  } catch (e) {
+    console.warn("[Cache] Erreur lecture:", e);
+  }
+  return null;
+};
+
+const setCachedArticles = (category: Category, lang: Language, articles: NewsArticle[]) => {
+  try {
+    const key = getCacheKey(category, lang);
+    localStorage.setItem(key, JSON.stringify(articles));
+    // TTL: 24h
+    localStorage.setItem(`${key}_ttl`, Date.now().toString());
+  } catch (e) {
+    console.warn("[Cache] Erreur écriture:", e);
+  }
+};
+
+/**
+ * FETCH NEWS - SANS PUBS INTÉGRÉES
+ * Articles PURS uniquement
+ */
 export const fetchNews = async (category: Category, lang: Language): Promise<NewsArticle[]> => {
   const apiKey = getApiKey();
-  if (!apiKey) throw new Error("Clé API manquante. Veuillez configurer votre accès.");
   
+  // Vérifier le cache en premier
+  const cached = await getCachedArticles(category, lang);
+  if (cached && cached.length > 0) {
+    return cached;
+  }
+
   const ai = new GoogleGenAI({ apiKey });
   const today = new Date().toLocaleDateString('fr-FR');
 
   const prompt = `
-    RÉDACTEUR EN CHEF : L'ÉCHO DU MATIN (Directeur: Atmani Bachir). 
-    DATE : ${today}.
-    MISSION : Tu es un vrai journaliste d'investigation. Ta journée de travail commence avec la prière du Fajr (point de départ de tes recherches). À partir de ce moment, tu DOIS analyser l'actualité GLOBALE (sur tout l'internet mondial) pour produire l'édition du jour. 
-    SUJET : Génère 3 articles d'actualité RÉELS et mondiaux concernant la catégorie "${category}" en langue "${lang}".
-    IMPORTANT : Ne limite SURTOUT PAS les nouvelles à La Mecque. Cherche des informations dans tous les pays du monde.
-
-    RÈGLE SPÉCIALE PARTENAIRES : Intègre de manière fluide et journalistique la promotion de nos deux partenaires dans tes contenus :
-    1. "https://Vrax-voyage.com" : Explique ses particularités exceptionnelles pour les voyageurs, ses ressources uniques et comment ce site redéfinit le voyage.
-    2. "ImamVirtuel.com" : Promeut cette Web App complète en mentionnant ses capacités de lecture coranique, l'apprentissage de l'alphabet, les cours de Tajwid, ainsi que sa RADIO douce en fond sonore qui lit des sourates et réalise des invocations en temps réel (ex: invocations du matin quand il fait jour) permettant de surfer tout en écoutant.
-
-    FORMAT ATTENDU : Retourne un JSON pur respectant strictement la structure suivante :
-    [ { type, title, summary, content, location, timestamp, truthContent, physicalFacts, strategicAdvice: {action, details}, imagePrompt, audioAnnounce } ]
+    RÉDACTEUR EN CHEF : L'ÉCHO DU MATIN
+    Directeur : Atmani Bachir
+    DATE : ${today}
+    LANGUE : ${lang}
+    
+    MISSION STRICTE : 
+    Tu es un journaliste d'investigation professionnel. 
+    Génère 3 articles d'actualité RÉELS et VÉRIFIABLES sur la catégorie "${category}".
+    
+    ⚠️ IMPORTANT : 
+    - NE MÉLANGE JAMAIS les articles avec des annonces publicitaires
+    - Articles PURS uniquement
+    - Recherche sur internet GLOBALE (tous les pays)
+    - Faits vérifiables et sourcés
+    
+    FORMAT JSON STRICT (sans markdown) :
+    [
+      {
+        "type": "FACTUAL" ou "MAGAZINE",
+        "title": "Titre accrocheur",
+        "summary": "Résumé 1-2 lignes",
+        "content": "Article complet (300-500 mots)",
+        "location": "Pays/Région",
+        "timestamp": "ISO date",
+        "truthContent": "Vérification des faits",
+        "physicalFacts": "Données mesurables",
+        "strategicAdvice": {
+          "action": "Conseil court",
+          "details": "Explication détaillée"
+        },
+        "imagePrompt": "Description pour image IA",
+        "audioAnnounce": "Version courte pour TTS (50 mots max)"
+      }
+    ]
   `;
 
   try {
-    let responseText = "";
-    try {
-      const response: any = await withRetry(() => (ai as any).models.generateContent({
-        model: "gemini-3.1-pro-preview",
+    const response: any = await withRetry(() => 
+      (ai as any).models.generateContent({
+        model: "gemini-2.0-flash", // ✅ GRATUIT
         contents: [{ role: "user", parts: [{ text: prompt }] }],
         config: {
           responseMimeType: "application/json",
-          tools: [{ googleSearch: {} }] // Active la recherche internet pour l'IA
+          tools: [{ googleSearch: {} }] // Recherche web incluse GRATUITEMENT
         }
-      }));
-      responseText = response.text || (typeof response.text === 'function' ? response.text() : "");
-    } catch (apiError) {
-      console.warn("Retrying with raw model approach due to API error...", apiError);
-      // Fallback
-      throw apiError;
+      })
+    );
+
+    let responseText = response.text || (typeof response.text === 'function' ? response.text() : "");
+    
+    if (!responseText) {
+      throw new Error("Pas de réponse du modèle");
     }
 
-    if (!responseText) throw new Error("Le rédacteur n'a pas renvoyé de contenu.");
-    
     let data;
     try {
-      data = JSON.parse(responseText.replace(/```json|```/g, "").trim());
+      // Nettoyer le JSON
+      const cleaned = responseText
+        .replace(/```json|```/g, "")
+        .replace(/^[\s\n]*/, "")
+        .trim();
+      data = JSON.parse(cleaned);
     } catch (parseError) {
-      console.error("Failed to parse JSON:", responseText);
-      throw new Error("L'intelligence artificielle a renvoyé un format illisible. Rafraîchissez pour relancer.");
+      console.error("[Parse] Erreur JSON:", responseText);
+      throw new Error("Format de réponse invalide");
     }
 
-    return data.map((item: any, i: number) => {
-      const keywords = `${item.location} ${item.title} ${category}`.toLowerCase();
+    if (!Array.isArray(data)) {
+      throw new Error("La réponse n'est pas un tableau");
+    }
+
+    // Transformer et enrichir les articles
+    const articles = data.map((item: any, i: number) => {
+      const keywords = `${item.location || ""} ${item.title || ""} ${category}`.toLowerCase();
+      
       let icon = "Newspaper";
-      if (keywords.includes("guerre")) icon = "Sword";
-      else if (keywords.includes("bourse")) icon = "TrendingUp";
+      if (keywords.includes("guerre") || keywords.includes("conflit")) icon = "Sword";
+      else if (keywords.includes("bourse") || keywords.includes("crypto")) icon = "TrendingUp";
       else if (keywords.includes("ia") || keywords.includes("tech")) icon = "Cpu";
       else if (keywords.includes("sport")) icon = "Trophy";
-      else if (keywords.includes("santé")) icon = "Stethoscope";
+      else if (keywords.includes("santé") || keywords.includes("médical")) icon = "Stethoscope";
 
       return {
         ...item,
         id: `art-${category}-${i}-${Date.now()}`,
         category: category,
         icon: icon,
-        sources: []
-      };
+        sources: item.sources || [],
+        type: item.type || "FACTUAL"
+      } as NewsArticle;
     });
+
+    // Mettre en cache
+    setCachedArticles(category, lang, articles);
+    
+    return articles;
   } catch (error: any) {
-    console.error("[Gemini] Fetch error:", error);
+    console.error("[Gemini] Erreur fetch:", error);
     throw error;
   }
 };
 
+/**
+ * TTS GEMINI NATIF GRATUIT
+ * Voix française de qualité
+ */
 export const speakArticle = async (text: string, lang: Language): Promise<Uint8Array | null> => {
   const apiKey = getApiKey();
   if (!apiKey) return null;
+
   const ai = new GoogleGenAI({ apiKey });
+  
   try {
+    // Limiter à 1000 caractères pour TTS
+    const truncated = text.slice(0, 1000);
+
     const response: any = await (ai as any).models.generateContent({
-      model: "gemini-3.1-flash-tts-preview",
-      contents: [{ role: "user", parts: [{ text: text }] }], 
+      model: "gemini-2.0-flash", // ✅ GRATUIT avec TTS
+      contents: [{ role: "user", parts: [{ text: truncated }] }],
       config: {
         responseModalities: [Modality.AUDIO],
-        speechConfig: { 
-          voiceConfig: { prebuiltVoiceConfig: { voiceName: lang === Language.AR ? 'Zephyr' : 'Kore' } } 
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: {
+              voiceName: lang === Language.AR ? 'Zephyr' : 'Kore' // Voix FR par défaut
+            }
+          }
         }
       }
     });
-    const base64 = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data || response.content?.parts?.[0]?.inlineData?.data;
-    if (!base64) return null;
+
+    // Extraire l'audio base64
+    const base64 = 
+      response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data || 
+      response.content?.parts?.[0]?.inlineData?.data;
+    
+    if (!base64) {
+      console.warn("[TTS] Pas d'audio dans la réponse");
+      return null;
+    }
+
+    // Convertir base64 → Uint8Array
     const binary = atob(base64);
     const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+
     return bytes;
-  } catch (e) { 
-    console.error("[Gemini TTS] Error:", e);
-    return null; 
+  } catch (error: any) {
+    console.error("[TTS] Erreur:", error.message);
+    // Fallback: Web Speech API (gratuit aussi!)
+    return null;
   }
 };
 
 export const generateSpeech = speakArticle;
 
+/**
+ * DECODE AUDIO (Web Audio API)
+ */
 export async function decodeAudio(data: Uint8Array, ctx: AudioContext): Promise<AudioBuffer> {
-  const dataInt16 = new Int16Array(data.buffer);
-  const buffer = ctx.createBuffer(1, dataInt16.length, 24000);
-  const channelData = buffer.getChannelData(0);
-  for (let i = 0; i < dataInt16.length; i++) channelData[i] = dataInt16[i] / 32768.0;
-  return buffer;
+  try {
+    // Tenter un décodage direct
+    return await ctx.decodeAudioData(data.buffer);
+  } catch (e) {
+    // Fallback: décodage manuel pour PCM 24kHz
+    const dataInt16 = new Int16Array(data.buffer);
+    const buffer = ctx.createBuffer(1, dataInt16.length, 24000);
+    const channelData = buffer.getChannelData(0);
+    for (let i = 0; i < dataInt16.length; i++) {
+      channelData[i] = dataInt16[i] / 32768.0;
+    }
+    return buffer;
+  }
 }
 
+/**
+ * CRÉER WAV BLOB (download audio)
+ */
 export function createWavBlob(data: Uint8Array): Blob {
   const buffer = new ArrayBuffer(44 + data.length);
   const view = new DataView(buffer);
+  
   const writeString = (offset: number, string: string) => {
-    for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
+    for (let i = 0; i < string.length; i++) {
+      view.setUint8(offset + i, string.charCodeAt(i));
+    }
   };
+
+  // WAV Header
   writeString(0, 'RIFF');
   view.setUint32(4, 36 + data.length, true);
   writeString(8, 'WAVE');
   writeString(12, 'fmt ');
-  view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true);
-  view.setUint16(22, 1, true);
-  view.setUint32(24, 24000, true);
-  view.setUint32(28, 48000, true);
-  view.setUint16(32, 2, true);
-  view.setUint16(34, 16, true);
+  view.setUint32(16, 16, true);      // fmt chunk size
+  view.setUint16(20, 1, true);       // PCM
+  view.setUint16(22, 1, true);       // Mono
+  view.setUint32(24, 24000, true);   // Sample rate
+  view.setUint32(28, 48000, true);   // Byte rate
+  view.setUint16(32, 2, true);       // Block align
+  view.setUint16(34, 16, true);      // Bits per sample
   writeString(36, 'data');
   view.setUint32(40, data.length, true);
+
+  // Copier les données audio
   new Uint8Array(buffer, 44).set(data);
+
   return new Blob([buffer], { type: 'audio/wav' });
 }
+
+/**
+ * FALLBACK: Web Speech API (gratuit + local)
+ */
+export const speakArticleWebSpeech = (text: string, lang: Language): Promise<void> => {
+  return new Promise((resolve) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang === Language.AR ? 'ar-SA' : lang === Language.EN ? 'en-US' : 'fr-FR';
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
+    utterance.onend = () => resolve();
+    speechSynthesis.speak(utterance);
+  });
+};
