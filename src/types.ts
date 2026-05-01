@@ -1,4 +1,3 @@
-
 export enum Category {
   UNES = "À la une",
   GEOPOLITIQUE = "Géopolitique & Conflits",
@@ -52,4 +51,26 @@ export interface IslamModule {
     question: string;
     answer: boolean;
   }[];
+}
+
+export interface Advertisement {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  features: string[];
+  cta: string;
+  ctaLink: string;
+  icon: string;
+  color: string;
+  bgGradient: string;
+  badge?: string;
+}
+
+export interface AppConfig {
+  apiKeyGemini?: string;
+  apiKeyNewsAPI?: string;
+  apiKeyElevenLabs?: string;
+  cacheTTL: number;
+  debug: boolean;
 }
