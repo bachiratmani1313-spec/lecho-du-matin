@@ -1,167 +1,235 @@
 import React, { useState } from 'react';
 
 const App = () => {
-  const [selectedZone, setSelectedZone] = useState('1000');
+  const [selected, setSelected] = useState(null);
 
-  const businesses = {
-    '1000': [
-      { name: 'Pizza Express', type: 'Restaurant', zone: '1000 Bruxelles' },
-      { name: 'Carrefour Market', type: 'Supermarché', zone: '1000 Bruxelles' },
-      { name: 'Electro Shop', type: 'Électronique', zone: '1000 Bruxelles' },
-      { name: 'Boulangerie du Coin', type: 'Boulangerie', zone: '1000 Bruxelles' },
-      { name: 'Coiffure Michel', type: 'Coiffeur', zone: '1000 Bruxelles' },
-      { name: 'Pharmacie Central', type: 'Pharmacie', zone: '1000 Bruxelles' },
-      { name: 'Bar du Marché', type: 'Café', zone: '1000 Bruxelles' },
-      { name: 'Vestiaire Pro', type: 'Vêtements', zone: '1000 Bruxelles' },
-      { name: 'Phone Store', type: 'Téléphonie', zone: '1000 Bruxelles' },
-      { name: 'Chez Pierre', type: 'Restaurant', zone: '1000 Bruxelles' },
-      { name: 'Fleurs Martine', type: 'Fleuriste', zone: '1000 Bruxelles' },
-      { name: 'Auto Garage', type: 'Mécanique', zone: '1000 Bruxelles' },
-      { name: 'Snack Palace', type: 'Fast Food', zone: '1000 Bruxelles' },
-      { name: 'Libraire ABC', type: 'Librairie', zone: '1000 Bruxelles' },
-      { name: 'Salon Beauté', type: 'Beauté', zone: '1000 Bruxelles' },
-    ],
-    '1040': [
-      { name: 'Kebab House', type: 'Restaurant', zone: '1040 Etterbeek' },
-      { name: 'Lidl Etterbeek', type: 'Supermarché', zone: '1040 Etterbeek' },
-      { name: 'McDonald\'s', type: 'Fast Food', zone: '1040 Etterbeek' },
-      { name: 'Pharmacie Etterbeek', type: 'Pharmacie', zone: '1040 Etterbeek' },
-      { name: 'Salon Coiffure Plus', type: 'Coiffeur', zone: '1040 Etterbeek' },
-      { name: 'Boucherie Carlier', type: 'Boucherie', zone: '1040 Etterbeek' },
-      { name: 'Auchan', type: 'Supermarché', zone: '1040 Etterbeek' },
-      { name: 'Opticien Vision', type: 'Optique', zone: '1040 Etterbeek' },
-      { name: 'Resto Thai', type: 'Restaurant', zone: '1040 Etterbeek' },
-      { name: 'Station essence', type: 'Carburant', zone: '1040 Etterbeek' },
-    ],
-    '1060': [
-      { name: 'Tacos Mexico', type: 'Fast Food', zone: '1060 Saint-Gilles' },
-      { name: 'Aldi', type: 'Supermarché', zone: '1060 Saint-Gilles' },
-      { name: 'Café Noir', type: 'Café', zone: '1060 Saint-Gilles' },
-      { name: 'Pharmacie Central', type: 'Pharmacie', zone: '1060 Saint-Gilles' },
-      { name: 'Barbier Express', type: 'Coiffeur', zone: '1060 Saint-Gilles' },
-      { name: 'Crêperie Française', type: 'Restaurant', zone: '1060 Saint-Gilles' },
-      { name: 'Vêtements Mode', type: 'Vêtements', zone: '1060 Saint-Gilles' },
-      { name: 'Quincaillerie Pro', type: 'Quincaillerie', zone: '1060 Saint-Gilles' },
-      { name: 'Sushi Bar', type: 'Restaurant', zone: '1060 Saint-Gilles' },
-      { name: 'Imprimerie Ink', type: 'Imprimerie', zone: '1060 Saint-Gilles' },
-    ],
-    '1070': [
-      { name: 'Snack Rapide', type: 'Fast Food', zone: '1070 Anderlecht' },
-      { name: 'Carrefour', type: 'Supermarché', zone: '1070 Anderlecht' },
-      { name: 'Boulangerie Bio', type: 'Boulangerie', zone: '1070 Anderlecht' },
-      { name: 'Coiffeur Men', type: 'Coiffeur', zone: '1070 Anderlecht' },
-      { name: 'Pizzeria Napoli', type: 'Restaurant', zone: '1070 Anderlecht' },
-      { name: 'Pharmacie Plus', type: 'Pharmacie', zone: '1070 Anderlecht' },
-      { name: 'Spa Relax', type: 'Spa', zone: '1070 Anderlecht' },
-      { name: 'Bureau Sens', type: 'Fournitures', zone: '1070 Anderlecht' },
-      { name: 'Resto Chinois', type: 'Restaurant', zone: '1070 Anderlecht' },
-      { name: 'Fleuriste Romain', type: 'Fleuriste', zone: '1070 Anderlecht' },
-    ],
-    '1080': [
-      { name: 'Quick', type: 'Fast Food', zone: '1080 Molenbeek' },
-      { name: 'Jumbo', type: 'Supermarché', zone: '1080 Molenbeek' },
-      { name: 'Salon Barbershop', type: 'Coiffeur', zone: '1080 Molenbeek' },
-      { name: 'Chez Mama', type: 'Restaurant', zone: '1080 Molenbeek' },
-      { name: 'Pharmacie Molenbeek', type: 'Pharmacie', zone: '1080 Molenbeek' },
-      { name: 'Burgers & Co', type: 'Restaurant', zone: '1080 Molenbeek' },
-      { name: 'Vêtements Sport', type: 'Vêtements', zone: '1080 Molenbeek' },
-      { name: 'Électroménager Pro', type: 'Électroménager', zone: '1080 Molenbeek' },
-      { name: 'Café Internet', type: 'Café', zone: '1080 Molenbeek' },
-      { name: 'Vitrerie Moderne', type: 'Vitrerie', zone: '1080 Molenbeek' },
-    ],
-    '1090': [
-      { name: 'Thai Express', type: 'Restaurant', zone: '1090 Jette' },
-      { name: 'Delhaize', type: 'Supermarché', zone: '1090 Jette' },
-      { name: 'Coiffure Jette', type: 'Coiffeur', zone: '1090 Jette' },
-      { name: 'Pains Artisan', type: 'Boulangerie', zone: '1090 Jette' },
-      { name: 'Pharmacie Jette', type: 'Pharmacie', zone: '1090 Jette' },
-      { name: 'Kebab Star', type: 'Fast Food', zone: '1090 Jette' },
-      { name: 'Magasin Jouets', type: 'Jouets', zone: '1090 Jette' },
-      { name: 'Salon Beauté Plus', type: 'Beauté', zone: '1090 Jette' },
-      { name: 'Resto Méditerranéen', type: 'Restaurant', zone: '1090 Jette' },
-      { name: 'Station Lavage', type: 'Services Auto', zone: '1090 Jette' },
-    ],
-  };
-
-  const currentBusinesses = businesses[selectedZone] || [];
+  const annonces = [
+    { 
+      id: '1', 
+      title: 'PIZZA EXPRESS BRUXELLES', 
+      zone: '1000 Bruxelles Centre', 
+      desc: 'Restaurant italien authentique au cœur de Bruxelles. Pizzas faites maison, pâtes fraîches, ambiance chaleureuse. Ouvert 7j/7.',
+      image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&q=80',
+      type: 'Restaurant'
+    },
+    { 
+      id: '2', 
+      title: 'CARREFOUR MARKET ETTERBEEK', 
+      zone: '1040 Etterbeek', 
+      desc: 'Supermarché moderne avec large gamme de produits. Fruits frais quotidiens, boucherie, fromagerie. Drive disponible.',
+      image: 'https://images.unsplash.com/photo-1585521924905-c3400ca199e7?w=800&q=80',
+      type: 'Supermarché'
+    },
+    { 
+      id: '3', 
+      title: 'SALON COIFFURE MICHEL', 
+      zone: '1060 Saint-Gilles', 
+      desc: 'Coiffeur professionnel depuis 25 ans. Coupes hommes et femmes, coloration, soins. Barbier traditionnel.',
+      image: 'https://images.unsplash.com/photo-1585747860715-cd4628902046?w=800&q=80',
+      type: 'Coiffeur'
+    },
+    { 
+      id: '4', 
+      title: 'CRÊPERIE FRANÇAISE SAINT-GILLES', 
+      zone: '1060 Saint-Gilles', 
+      desc: 'Crêperie traditionnelle française. Crêpes sucrées et salées, galettes bretonnes. Terrasse en été.',
+      image: 'https://images.unsplash.com/photo-1586190936529-385a432d3ace?w=800&q=80',
+      type: 'Restaurant'
+    },
+    { 
+      id: '5', 
+      title: 'PHARMACIE CENTRALE ANDERLECHT', 
+      zone: '1070 Anderlecht', 
+      desc: 'Pharmacie moderne avec équipe diplômée. Conseil en santé, ordonnances, produits de parapharmacie.',
+      image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde0f?w=800&q=80',
+      type: 'Pharmacie'
+    },
+    { 
+      id: '6', 
+      title: 'ALDI MOLENBEEK', 
+      zone: '1080 Molenbeek', 
+      desc: 'Supermarché discount qualité. Produits alimentaires variés, marques propres excellentes. Prix imbattables.',
+      image: 'https://images.unsplash.com/photo-1578916547515-7ecbab49a803?w=800&q=80',
+      type: 'Supermarché'
+    },
+    { 
+      id: '7', 
+      title: 'SPA RELAX ANDERLECHT', 
+      zone: '1070 Anderlecht', 
+      desc: 'Centre de bien-être avec massages, soins du visage, hammam. Équipe professionnelle, ambiance zen.',
+      image: 'https://images.unsplash.com/photo-1596178065887-cf88eb7ce338?w=800&q=80',
+      type: 'Spa'
+    },
+    { 
+      id: '8', 
+      title: 'THAI EXPRESS JETTE', 
+      zone: '1090 Jette', 
+      desc: 'Restaurant thaïlandais authentique. Curry, pad thai, soupes traditionnelles. Livraison et menu à emporter.',
+      image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80',
+      type: 'Restaurant'
+    },
+    { 
+      id: '9', 
+      title: 'OPTICIEN VISION ETTERBEEK', 
+      zone: '1040 Etterbeek', 
+      desc: 'Opticien avec large choix de montures. Verres dernière génération, examen vue, réparations rapides.',
+      image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&q=80',
+      type: 'Optique'
+    },
+    { 
+      id: '10', 
+      title: 'BOULANGERIE ARTISAN JETTE', 
+      zone: '1090 Jette', 
+      desc: 'Boulangerie traditionnelle. Pain au levain naturel, pains complets, croissants beurre. Bio certifié.',
+      image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80',
+      type: 'Boulangerie'
+    }
+  ];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FDFCF8', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#FDFCF8', color: '#1f2937' }}>
       {/* Header */}
-      <header style={{ background: '#1f2937', color: 'white', padding: '16px', textAlign: 'center' }}>
-        <h1 style={{ margin: '0 0 4px 0', fontSize: '20px', fontWeight: 900 }}>L'ÉCHO DU MATIN • BRUXELLES</h1>
-        <p style={{ margin: 0, fontSize: '10px', color: '#999' }}>ANNUAIRE DES COMMERCES LOCAUX</p>
+      <header style={{ borderBottom: '4px solid #000', margin: '16px 40px', paddingBottom: '24px', textAlign: 'center' }}>
+        <p style={{ fontSize: '10px', fontWeight: 900, letterSpacing: '0.15em', color: '#666', marginBottom: '8px' }}>ANNONCES LOCALES BRUXELLES</p>
+        <h1 style={{ fontSize: '64px', fontWeight: 900, fontStyle: 'italic', letterSpacing: '-0.02em', margin: '0 0 12px 0' }}>
+          L'ÉCHO <span style={{ color: '#dc2626' }}>DU MATIN</span>
+        </h1>
+        <p style={{ fontSize: '10px', fontWeight: 900, letterSpacing: '0.15em', color: '#666', margin: 0 }}>Les meilleurs commerces de votre quartier • Rédigé par Claude</p>
       </header>
 
-      {/* Zone Selector */}
-      <div style={{ background: '#f3f4f6', padding: '12px 16px', borderBottom: '1px solid #ccc', display: 'flex', gap: '8px', overflowX: 'auto', fontSize: '12px', fontWeight: 'bold' }}>
-        {['1000', '1040', '1060', '1070', '1080', '1090'].map(zone => (
-          <button
-            key={zone}
-            onClick={() => setSelectedZone(zone)}
-            style={{
-              padding: '6px 12px',
-              border: selectedZone === zone ? '2px solid #000' : '1px solid #999',
-              background: selectedZone === zone ? '#000' : 'white',
-              color: selectedZone === zone ? 'white' : '#000',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              whiteSpace: 'nowrap'
-            }}
-          >
-            CP {zone}
-          </button>
-        ))}
-      </div>
-
-      {/* Content */}
-      <main style={{ padding: '16px' }}>
-        <h2 style={{ fontSize: '14px', fontWeight: 900, marginBottom: '12px', borderBottom: '2px solid #000', paddingBottom: '8px' }}>
-          {selectedZone === '1000' && '1000 - CENTRE BRUXELLES'}
-          {selectedZone === '1040' && '1040 - ETTERBEEK'}
-          {selectedZone === '1060' && '1060 - SAINT-GILLES'}
-          {selectedZone === '1070' && '1070 - ANDERLECHT'}
-          {selectedZone === '1080' && '1080 - MOLENBEEK'}
-          {selectedZone === '1090' && '1090 - JETTE'}
-          ({currentBusinesses.length} commerces)
-        </h2>
-
-        {/* Grid Compact */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '8px' }}>
-          {currentBusinesses.map((business, idx) => (
-            <div
-              key={idx}
-              style={{
-                padding: '8px',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                background: 'white',
-                fontSize: '11px',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#f0f0f0';
-                e.currentTarget.style.borderColor = '#000';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'white';
-                e.currentTarget.style.borderColor = '#ccc';
-              }}
+      {/* Main */}
+      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
+          {annonces.map((a, idx) => (
+            <article 
+              key={a.id} 
+              style={{ borderBottom: '1px solid #e5e7eb', paddingBottom: '40px', cursor: 'pointer' }}
+              onClick={() => setSelected(a)}
             >
-              <p style={{ margin: '0 0 4px 0', fontWeight: 900, fontSize: '12px' }}>{business.name}</p>
-              <p style={{ margin: '0 0 2px 0', color: '#666', fontSize: '10px' }}>{business.type}</p>
-              <p style={{ margin: 0, color: '#999', fontSize: '9px' }}>{business.zone}</p>
-            </div>
+              {/* Grid: Image + Content */}
+              <div style={{ display: 'grid', gridTemplateColumns: idx % 2 === 0 ? '2fr 1fr' : '1fr 2fr', gap: '32px', alignItems: 'start' }}>
+                {/* Image */}
+                <div style={{ order: idx % 2 === 0 ? 1 : 2 }}>
+                  <img 
+                    src={a.image} 
+                    alt={a.title}
+                    style={{ width: '100%', height: '320px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div style={{ order: idx % 2 === 0 ? 2 : 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                    <span style={{ fontSize: '10px', fontWeight: 900, background: '#dc2626', color: 'white', padding: '4px 8px', borderRadius: '3px' }}>
+                      {a.type.toUpperCase()}
+                    </span>
+                    <span style={{ fontSize: '10px', color: '#999', fontWeight: 900 }}>★★★★★</span>
+                  </div>
+
+                  <h2 style={{ fontSize: '28px', fontWeight: 900, fontStyle: 'italic', margin: '0 0 12px 0', lineHeight: '1.1' }}>
+                    {a.title}
+                  </h2>
+
+                  <p style={{ fontSize: '13px', color: '#999', fontWeight: 700, margin: '0 0 16px 0' }}>
+                    📍 {a.zone}
+                  </p>
+
+                  <p style={{ fontSize: '14px', color: '#333', lineHeight: '1.6', margin: '0 0 16px 0', fontStyle: 'italic' }}>
+                    {a.desc}
+                  </p>
+
+                  <button 
+                    style={{
+                      padding: '10px 20px',
+                      background: '#000',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      fontWeight: 900,
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}
+                  >
+                    Voir la fiche
+                  </button>
+                </div>
+              </div>
+            </article>
           ))}
+
+          {/* CTA */}
+          <div style={{ padding: '40px', background: '#1f2937', color: 'white', borderRadius: '8px', textAlign: 'center' }}>
+            <h3 style={{ fontSize: '24px', fontWeight: 900, margin: '0 0 12px 0' }}>Votre commerce dans L'ÉCHO DU MATIN</h3>
+            <p style={{ fontSize: '14px', margin: '0 0 20px 0' }}>À partir de 1€ • Rejoignez 150+ commerces locaux</p>
+            <button style={{ padding: '12px 32px', background: '#dc2626', color: 'white', border: 'none', borderRadius: '4px', fontWeight: 900, cursor: 'pointer', fontSize: '12px' }}>
+              AJOUTER VOTRE ANNONCE
+            </button>
+          </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer style={{ background: '#f3f4f6', padding: '12px', textAlign: 'center', fontSize: '10px', color: '#666', borderTop: '1px solid #ccc' }}>
-        <p style={{ margin: 0 }}>© 2026 L'ÉCHO DU MATIN • Rédigé par Claude • Tous les commerces locaux</p>
+      <footer style={{ background: '#1f2937', color: 'white', padding: '48px 40px', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '24px', fontStyle: 'italic', fontWeight: 900, margin: '0 0 12px 0' }}>L'ÉCHO DU MATIN</h2>
+        <p style={{ fontSize: '10px', letterSpacing: '0.2em', color: '#999', margin: 0 }}>ANNUAIRE DES COMMERCES LOCAUX • RÉDIGÉ PAR CLAUDE</p>
       </footer>
+
+      {/* Modal */}
+      {selected && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'white', overflowY: 'auto' }}>
+          <div style={{ position: 'sticky', top: 0, padding: '24px 40px', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'white' }}>
+            <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>✕</button>
+            <span style={{ fontSize: '16px', fontStyle: 'italic', fontWeight: 900 }}>L'ÉCHO DU MATIN</span>
+            <div></div>
+          </div>
+
+          <article style={{ maxWidth: '900px', margin: '0 auto', padding: '48px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 900, background: '#dc2626', color: 'white', padding: '6px 12px', borderRadius: '3px' }}>
+                {selected.type.toUpperCase()}
+              </span>
+              <span style={{ fontSize: '11px', color: '#999', fontWeight: 900 }}>★★★★★</span>
+            </div>
+
+            <h2 style={{ fontSize: '48px', fontWeight: 900, fontStyle: 'italic', margin: '0 0 24px 0', lineHeight: '1.1' }}>
+              {selected.title}
+            </h2>
+
+            <p style={{ fontSize: '14px', color: '#999', fontWeight: 700, margin: '0 0 24px 0' }}>
+              📍 {selected.zone}
+            </p>
+
+            <img 
+              src={selected.image} 
+              alt={selected.title}
+              style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '4px', marginBottom: '40px', border: '2px solid #000' }}
+            />
+
+            <p style={{ fontSize: '18px', lineHeight: '1.8', marginBottom: '40px', color: '#333', fontStyle: 'italic' }}>
+              {selected.desc}
+            </p>
+
+            <button
+              style={{
+                padding: '14px 32px',
+                background: '#000',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                fontWeight: 900,
+                fontSize: '13px',
+                cursor: 'pointer',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}
+            >
+              Contacter le commerce
+            </button>
+          </article>
+        </div>
+      )}
     </div>
   );
 };
