@@ -175,3 +175,68 @@ const App: React.FC = () => {
               exit={{ scale: 0.9 }}
               style={{
                 width: '90%',
+                maxWidth: '500px',
+                background: 'linear-gradient(to bottom right, #1e293b, #0f172a)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '16px',
+                padding: '32px',
+                position: 'relative'
+              }}
+            >
+              <button
+                onClick={() => setShowModal(false)}
+                style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'white',
+                  cursor: 'pointer',
+                  fontSize: '24px'
+                }}
+              >
+                ✕
+              </button>
+
+              <h2 style={{ fontSize: '24px', fontWeight: 'black', marginBottom: '24px', color: '#06b6d4' }}>Ajouter votre entreprise</h2>
+
+              <form style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <input type="text" placeholder="Nom" style={{ padding: '12px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.05)', color: 'white' }} />
+                <select style={{ padding: '12px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.05)', color: 'white' }}>
+                  <option>Sélectionner une catégorie</option>
+                  <option>Restaurants</option>
+                  <option>Immobilier</option>
+                  <option>Technologie</option>
+                </select>
+                <textarea placeholder="Description" style={{ padding: '12px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.2)', background: 'rgba(255, 255, 255, 0.05)', color: 'white', minHeight: '80px' }} />
+                
+                <div style={{ padding: '16px', borderRadius: '8px', background: 'rgba(6, 182, 212, 0.1)', border: '1px solid rgba(6, 182, 212, 0.3)', textAlign: 'center', marginBottom: '12px' }}>
+                  <p style={{ fontWeight: 'bold', color: '#06b6d4', fontSize: '14px' }}>À partir de 1€</p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  style={{
+                    padding: '12px',
+                    background: 'linear-gradient(to right, #06b6d4, #0ea5e9)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Procéder au paiement (1€)
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default App;
