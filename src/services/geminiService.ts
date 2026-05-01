@@ -1,62 +1,73 @@
-export async function fetchNews(category: string, lang: string) {
-  const articles = [
-    {
-      id: '1',
-      type: 'FACTUAL',
-      title: 'Les 5 Piliers de l\'Islam Expliqués',
-      summary: 'Découvrez les fondamentaux de la pratique islamique',
-      content: 'Les 5 piliers constituent le fondement de l\'Islam. Ils structurent la vie spirituelle du musulman et marquent son engagement envers Allah.',
-      truthContent: 'Vérifié',
-      physicalFacts: 'Pratiqué par 1.8 milliard de musulmans',
-      audioAnnounce: 'Les piliers de l\'Islam',
-      imagePrompt: 'mosque',
-      strategicAdvice: { action: 'Pratiquer régulièrement', details: 'La constance dans la prière renforce la connexion spirituelle.' },
-      location: 'Monde',
-      timestamp: new Date().toISOString(),
-      category: 'UNES',
-      sources: [{ title: 'Source', uri: '#' }]
-    },
-    {
-      id: '2',
-      type: 'FACTUAL',
-      title: 'L\'importance de la Salat',
-      summary: 'La prière, pilier central de la foi',
-      content: 'La Salat est bien plus qu\'une obligation. C\'est un moment de connexion directe avec Allah, un acte de soumission et de gratitude.',
-      truthContent: 'Vérifié',
-      physicalFacts: '5 fois par jour',
-      audioAnnounce: 'La prière en Islam',
-      imagePrompt: 'prayer',
-      strategicAdvice: { action: 'Prier avec intention', details: 'Chaque prière doit être faite avec présence d\'esprit.' },
-      location: 'Monde',
-      timestamp: new Date().toISOString(),
-      category: 'UNES',
-      sources: [{ title: 'Source', uri: '#' }]
-    },
-    {
-      id: '3',
-      type: 'FACTUAL',
-      title: 'Le Coran: Parole d\'Allah',
-      summary: 'Le guide éternel pour les croyants',
-      content: 'Le Coran est le texte sacré de l\'Islam, révélé au Prophète Muhammad. Il contient des enseignements spirituels, légaux et moraux.',
-      truthContent: 'Vérifié',
-      physicalFacts: '114 sourates, 6236 versets',
-      audioAnnounce: 'Le Coran en Islam',
-      imagePrompt: 'quran',
-      strategicAdvice: { action: 'Lire le Coran régulièrement', details: 'La lecture quotidienne du Coran apaise le cœur et éclaire l\'esprit.' },
-      location: 'Monde',
-      timestamp: new Date().toISOString(),
-      category: 'UNES',
-      sources: [{ title: 'Source', uri: '#' }]
-    }
-  ];
+import { NewsArticle, Category, Language } from '../types';
 
-  return articles;
+const GNEWS_API_KEY = localStorage.getItem('GNEWS_API_KEY') || import.meta.env.VITE_GNEWS_API_KEY;
+
+const CATEGORY_MAP: Record<string, string> = {
+  [Category.UNES]: 'general',
+  [Category.GEOPOLITIQUE]: 'politics',
+  [Category.FINANCE]: 'business',
+  [Category.METEO]: 'science',
+  [Category.SOCIETE]: 'health',
+  [Category.TECH]: 'technology',
+  [Category.ANNONCES]: 'general'
+};
+
+export async function fetchNews(category: Category, lang: Language): Promise<NewsArticle[]> {
+  if (!GNEWS_API_KEY) {
+    const key = prompt('Entrez votre clé GNews API (https://gnews.io/)');
+    if (key) {
+      localStorage.setItem('GNEWS_API_KEY', key);
+      location.reload();
+    }
+    return [];
+  }
+
+  try {
+    const gnewsCategory = CATEGORY_MAP[category] || 'general';
+    const langCode = lang === Language.EN ? 'en' : lang === Language.AR ? 'ar' : 'fr';
+    
+    const url = `https://gnews.io/api/v4/search?q=${gnewsCategory}&lang=${langCode}&token=${GNEWS_API_KEY}&max=10`;
+    
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.articles) return [];
+
+    return data.articles.map((article: any, idx: number) => ({
+      id: `${Date.now()}-${idx}`,
+      type: 'FACTUAL',
+      title: article.title || 'Sans titre',
+      summary: article.description || 'Aucun résumé',
+      content: article.content || article.description || 'Contenu indisponible',
+      truthContent: 'Vérifié',
+      physicalFacts: new Date(article.publishedAt).toLocaleDateString('fr-FR'),
+      audioAnnounce: article.title,
+      imagePrompt: category,
+      strategicAdvice: {
+        action: 'Lire la suite',
+        details: 'Article complet disponible sur la source officielle'
+      },
+      location: article.source?.name || 'Source',
+      timestamp: article.publishedAt,
+      category: category,
+      icon: '📰',
+      imageUrl: article.image || undefined,
+      sources: [{ 
+        title: article.source?.name || 'Source', 
+        uri: article.url 
+      }]
+    }));
+  } catch (err) {
+    console.error('Erreur GNews:', err);
+    return [];
+  }
 }
 
-export async function speakArticle(text: string, lang: string) {
+export async function speakArticle(text: string, lang: Language) {
   try {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang === 'AR' ? 'ar-SA' : lang === 'EN' ? 'en-US' : 'fr-FR';
+    utterance.lang = lang === Language.AR ? 'ar-SA' : lang === Language.EN ? 'en-US' : 'fr-FR';
+    utterance.rate = 0.9;
     window.speechSynthesis.speak(utterance);
     return new Uint8Array([]);
   } catch (e) {
