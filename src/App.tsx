@@ -1,317 +1,98 @@
 import React, { useState } from 'react';
-import { Category, NewsArticle, Language } from './types';
-import { motion, AnimatePresence } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
-import { Plus, X, ExternalLink, Star } from 'lucide-react';
 
-const ANNONCES: NewsArticle[] = [
-  {
-    id: '1',
-    type: 'FACTUAL',
-    title: 'RESTAURANT GOURMET PARIS',
-    summary: '5 étoiles • Cuisine française gastronomique au cœur de Paris',
-    content: 'Découvrez notre sélection de plats traditionnels revisités par nos chefs étoilés. Restaurant ouvert 7j/7 de 12h à 23h. Réservation recommandée.',
-    truthContent: 'Vérifié',
-    physicalFacts: '127 avis positifs',
-    audioAnnounce: 'Restaurant Gourmet',
-    imagePrompt: 'restaurant',
-    strategicAdvice: { action: 'Réserver maintenant', details: 'Tables disponibles pour les groupes et événements privés' },
-    location: 'Paris 8ème',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'Restaurant Gourmet', uri: 'https://example.com' }]
-  },
-  {
-    id: '2',
-    type: 'FACTUAL',
-    title: 'AGENCE IMMOBILIÈRE CÔTE D\'AZUR',
-    summary: '★★★★★ • Propriétés exclusives et résidences de luxe',
-    content: 'Spécialisée dans la vente de villas et appartements haut de gamme. Portfolio de 150+ propriétés. Accompagnement personnalisé pour chaque client.',
-    truthContent: 'Vérifié',
-    physicalFacts: '50 ans d\'expérience',
-    audioAnnounce: 'Immobilier Côte d\'Azur',
-    imagePrompt: 'immobilier',
-    strategicAdvice: { action: 'Consulter les annonces', details: 'Visite virtuelle 3D disponible pour toutes les propriétés' },
-    location: 'Côte d\'Azur',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1570129477492-45a003537e1f?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'Agence Immobilière', uri: 'https://example.com' }]
-  },
-  {
-    id: '3',
-    type: 'FACTUAL',
-    title: 'TECHHUB INNOVATION',
-    summary: '★★★★★ • Solutions technologiques pour startups',
-    content: 'Accompagnement complet: conseil en développement, infrastructure cloud, formation des équipes. 200+ startups accompagnées avec succès.',
-    truthContent: 'Vérifié',
-    physicalFacts: '15 ans d\'expertise',
-    audioAnnounce: 'TechHub Innovation',
-    imagePrompt: 'technologie',
-    strategicAdvice: { action: 'Prendre rendez-vous', details: 'Audit technologique gratuit pour les nouveaux clients' },
-    location: 'Paris 10ème',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'TechHub', uri: 'https://example.com' }]
-  },
-  {
-    id: '4',
-    type: 'FACTUAL',
-    title: 'WELLNESS CLINIC',
-    summary: '★★★★★ • Centre médical premium avec spécialistes',
-    content: 'Cardiologie, neurologie, dermatologie, dentisterie. Équipes reconnues internationalement. Prise de RDV en ligne 24h/24.',
-    truthContent: 'Vérifié',
-    physicalFacts: '1200+ patients satisfaits/mois',
-    audioAnnounce: 'Wellness Clinic',
-    imagePrompt: 'sante',
-    strategicAdvice: { action: 'Prendre RDV', details: 'Consultation initiale offerte pour les nouveaux patients' },
-    location: 'Lyon Centre',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'Wellness Clinic', uri: 'https://example.com' }]
-  },
-  {
-    id: '5',
-    type: 'FACTUAL',
-    title: 'TRANSPORT PREMIUM LYON',
-    summary: '★★★★★ • VTC et transport de luxe',
-    content: 'Flottes modernes, chauffeurs professionnels formés, disponibilité 24/7. Trajets aéroport, entreprise, événements. Tarifs compétitifs.',
-    truthContent: 'Vérifié',
-    physicalFacts: '5000+ trajets/mois',
-    audioAnnounce: 'Transport Premium',
-    imagePrompt: 'transport',
-    strategicAdvice: { action: 'Réserver un trajet', details: 'Application mobile avec suivi en temps réel' },
-    location: 'Lyon',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'Transport Premium', uri: 'https://example.com' }]
-  },
-  {
-    id: '6',
-    type: 'FACTUAL',
-    title: 'SALON DE BEAUTÉ PARIS',
-    summary: '★★★★★ • Soins premium et bien-être',
-    content: 'Coiffure, maquillage, massages, soins du visage. Produits haut de gamme bio. Ambiance zen et relaxante.',
-    truthContent: 'Vérifié',
-    physicalFacts: '800+ clients réguliers',
-    audioAnnounce: 'Salon Beauté',
-    imagePrompt: 'beaute',
-    strategicAdvice: { action: 'Réserver un soin', details: 'Forfaits abonnement avec 20% de réduction' },
-    location: 'Paris Marais',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1552693938-d5dbe7e32397?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'Salon Beauté', uri: 'https://example.com' }]
-  },
-  {
-    id: '7',
-    type: 'FACTUAL',
-    title: 'ÉCOLE DE LANGUES BORDEAUX',
-    summary: '★★★★★ • Apprentissage intensif et flexible',
-    content: 'Anglais, espagnol, allemand, mandarin. Cours individuels et groupes. Préparation aux certifications TOEFL, DELE, etc.',
-    truthContent: 'Vérifié',
-    physicalFacts: '2000+ étudiants formés',
-    audioAnnounce: 'École de Langues',
-    imagePrompt: 'education',
-    strategicAdvice: { action: 'S\'inscrire', details: 'Essai gratuit d\'une semaine pour tous les nouveaux inscrits' },
-    location: 'Bordeaux',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1427504494785-cdaf8680d1d3?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'École de Langues', uri: 'https://example.com' }]
-  },
-  {
-    id: '8',
-    type: 'FACTUAL',
-    title: 'AGENCE DE DESIGN MARSEILLE',
-    summary: '★★★★★ • Création graphique et web',
-    content: 'Logos, sites web, branding complet. Équipe créative de 12 designers. Devis gratuit en 24h.',
-    truthContent: 'Vérifié',
-    physicalFacts: '300+ projets réussis',
-    audioAnnounce: 'Agence Design',
-    imagePrompt: 'design',
-    strategicAdvice: { action: 'Demander un devis', details: 'Consultation stratégique gratuite incluse' },
-    location: 'Marseille',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'Agence Design', uri: 'https://example.com' }]
-  },
-  {
-    id: '9',
-    type: 'FACTUAL',
-    title: 'FITNESS CENTER TOULOUSE',
-    summary: '★★★★★ • Salle de sport nouvelle génération',
-    content: 'Musculation, cardio, yoga, pilates. Coaching personnalisé. Nutrition et suivi personnalisé. Abonnements flexibles.',
-    truthContent: 'Vérifié',
-    physicalFacts: '1500+ membres actifs',
-    audioAnnounce: 'Fitness Center',
-    imagePrompt: 'fitness',
-    strategicAdvice: { action: 'S\'inscrire', details: 'Mois gratuit + bilan de fitness offert' },
-    location: 'Toulouse',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'Fitness Center', uri: 'https://example.com' }]
-  },
-  {
-    id: '10',
-    type: 'FACTUAL',
-    title: 'BOULANGERIE ARTISANALE NICE',
-    summary: '★★★★★ • Pain et pâtisseries faits maison',
-    content: 'Boulangerie traditionnelle depuis 30 ans. Farines biologiques, levain naturel, zero additif. Livraison possible.',
-    truthContent: 'Vérifié',
-    physicalFacts: '500+ clients quotidiens',
-    audioAnnounce: 'Boulangerie Artisanale',
-    imagePrompt: 'boulangerie',
-    strategicAdvice: { action: 'Commander', details: 'Pains et viennoiseries sur commande dès 6h du matin' },
-    location: 'Nice',
-    timestamp: new Date().toISOString(),
-    category: Category.UNES,
-    imageUrl: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80',
-    sources: [{ title: 'Boulangerie', uri: 'https://example.com' }]
-  }
-];
+const App = () => {
+  const [selected, setSelected] = useState(null);
 
-const SponsorBanner = () => (
-  <div className="my-8 p-6 bg-zinc-900 text-white rounded-3xl space-y-4">
-    <div className="flex justify-between items-center text-[8px] font-black uppercase tracking-widest mb-4">
-      <span className="text-zinc-500">Votre entreprise ici</span>
-    </div>
-    <div className="text-center space-y-4">
-      <h3 className="text-2xl font-black italic">Mettez votre annonce dans L'ÉCHO DU MATIN</h3>
-      <p className="text-sm text-zinc-300">À partir de 1€ • Rejoignez 10 entreprises visibles en ce moment</p>
-      <button className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-black rounded-full hover:scale-105 transition-all">
-        Ajouter votre annonce
-      </button>
-    </div>
-  </div>
-);
-
-const App: React.FC = () => {
-  const [lang] = useState<Language>(Language.FR);
-  const [category] = useState<Category>(Category.UNES);
-  const [selected, setSelected] = useState<NewsArticle | null>(null);
+  const annonces = [
+    { id: '1', title: 'RESTAURANT GOURMET PARIS', location: 'Paris 8ème', desc: '5 étoiles - Cuisine française gastronomique', image: 'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600' },
+    { id: '2', title: 'AGENCE IMMOBILIÈRE CÔTE D\'AZUR', location: 'Côte d\'Azur', desc: '★★★★★ - Propriétés exclusives', image: 'https://images.unsplash.com/photo-1570129477492-45a003537e1f?w=600' },
+    { id: '3', title: 'TECHHUB INNOVATION', location: 'Paris 10ème', desc: '★★★★★ - Solutions technologiques', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600' },
+    { id: '4', title: 'WELLNESS CLINIC', location: 'Lyon Centre', desc: '★★★★★ - Centre médical premium', image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?w=600' },
+    { id: '5', title: 'TRANSPORT PREMIUM', location: 'Lyon', desc: '★★★★★ - VTC et transport de luxe', image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600' },
+    { id: '6', title: 'SALON DE BEAUTÉ PARIS', location: 'Paris Marais', desc: '★★★★★ - Soins premium et bien-être', image: 'https://images.unsplash.com/photo-1552693938-d5dbe7e32397?w=600' },
+    { id: '7', title: 'ÉCOLE DE LANGUES BORDEAUX', location: 'Bordeaux', desc: '★★★★★ - Apprentissage intensif', image: 'https://images.unsplash.com/photo-1427504494785-cdaf8680d1d3?w=600' },
+    { id: '8', title: 'AGENCE DE DESIGN MARSEILLE', location: 'Marseille', desc: '★★★★★ - Création graphique et web', image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600' },
+    { id: '9', title: 'FITNESS CENTER TOULOUSE', location: 'Toulouse', desc: '★★★★★ - Salle de sport nouvelle génération', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600' },
+    { id: '10', title: 'BOULANGERIE ARTISANALE NICE', location: 'Nice', desc: '★★★★★ - Pain et pâtisseries faits maison', image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600' }
+  ];
 
   return (
-    <div className="min-h-screen bg-[#FDFCF8] text-zinc-950">
+    <div style={{ minHeight: '100vh', background: '#FDFCF8', color: '#1f2937' }}>
       {/* Header */}
-      <header className="border-b-4 border-zinc-900 mx-4 md:mx-10 mt-4 md:mt-6 pb-4 md:pb-6 text-center">
-        <div className="text-center space-y-2">
-          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Annonces d'entreprises</p>
-          <h1 className="font-serif text-[2.8rem] md:text-[7rem] font-black italic tracking-tighter leading-none">
-            L'ÉCHO <span className="text-red-600">DU MATIN</span>
-          </h1>
-          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mt-2">
-            Les meilleurs services et entreprises de France • Direc par Claude
-          </p>
-        </div>
+      <header style={{ borderBottom: '4px solid #000', margin: '16px 40px', paddingBottom: '24px', textAlign: 'center' }}>
+        <p style={{ fontSize: '10px', fontWeight: 900, letterSpacing: '0.15em', color: '#999', marginBottom: '8px' }}>ANNONCES D'ENTREPRISES</p>
+        <h1 style={{ fontSize: '56px', fontWeight: 900, fontStyle: 'italic', letterSpacing: '-0.02em', marginBottom: '12px' }}>
+          L'ÉCHO <span style={{ color: '#dc2626' }}>DU MATIN</span>
+        </h1>
+        <p style={{ fontSize: '10px', fontWeight: 900, letterSpacing: '0.15em', color: '#999' }}>Les meilleurs services et entreprises de France • Redige par Claude</p>
       </header>
 
-      {/* Navigation */}
-      <div className="sticky top-0 bg-[#FDFCF8]/95 backdrop-blur z-50 border-b border-zinc-900 py-4 px-6">
-        <nav className="flex items-center justify-center gap-8 overflow-x-auto">
-          <button className="text-[10px] font-black uppercase tracking-widest text-black border-b-2 border-black whitespace-nowrap">
-            À LA UNE
-          </button>
-          <button className="text-[10px] font-black uppercase tracking-widest text-zinc-300 hover:text-zinc-600 whitespace-nowrap">
-            ANNONCES LOCALES
-          </button>
-          <button className="text-[10px] font-black uppercase tracking-widest text-zinc-300 hover:text-zinc-600 whitespace-nowrap">
-            AJOUTER VOTRE ANNONCE
-          </button>
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-10 w-full">
-        <div className="space-y-8">
-          {ANNONCES.map((annonce, idx) => (
-            <article key={annonce.id} className="border-b border-zinc-100 pb-10 cursor-pointer group" onClick={() => setSelected(annonce)}>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Image */}
-                <div className="md:col-span-2">
-                  <div className="aspect-video overflow-hidden rounded-sm border border-zinc-200 mb-6">
-                    <img
-                      src={annonce.imageUrl}
-                      alt={annonce.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                  </div>
-                </div>
-
-                {/* Content */}
+      {/* Main */}
+      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          {annonces.map((a) => (
+            <article key={a.id} style={{ borderBottom: '1px solid #e5e7eb', paddingBottom: '40px', cursor: 'pointer' }} onClick={() => setSelected(a)}>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
                 <div>
-                  <h2 className="font-serif font-black italic tracking-tighter text-2xl mb-3 group-hover:text-zinc-700 transition-colors">
-                    {annonce.title}
-                  </h2>
-                  <p className="text-zinc-500 text-sm leading-relaxed italic line-clamp-3 mb-4">
-                    {annonce.summary}
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-xs font-bold">{annonce.location}</span>
-                  </div>
+                  <img src={a.image} alt={a.title} style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '4px', marginBottom: '24px' }} />
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '24px', fontWeight: 900, fontStyle: 'italic', marginBottom: '12px' }}>{a.title}</h2>
+                  <p style={{ fontSize: '14px', color: '#666', marginBottom: '16px', lineHeight: '1.6' }}>{a.desc}</p>
+                  <p style={{ fontSize: '12px', fontWeight: 700 }}>{a.location}</p>
                 </div>
               </div>
             </article>
           ))}
 
-          {/* Sponsor Banner */}
-          <SponsorBanner />
+          {/* CTA */}
+          <div style={{ padding: '32px', background: '#1f2937', color: 'white', borderRadius: '12px', textAlign: 'center' }}>
+            <h3 style={{ fontSize: '24px', fontWeight: 900, marginBottom: '12px' }}>Mettez votre annonce dans L'ÉCHO DU MATIN</h3>
+            <p style={{ fontSize: '14px', marginBottom: '20px' }}>À partir de 1€ • Rejoignez 10 entreprises visibles en ce moment</p>
+            <button style={{ padding: '12px 32px', background: '#dc2626', color: 'white', border: 'none', borderRadius: '24px', fontWeight: 900, cursor: 'pointer' }}>
+              Ajouter votre annonce
+            </button>
+          </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-zinc-900 text-white py-16 px-10 text-center">
-        <h2 className="font-serif text-3xl italic font-black mb-4">L'ÉCHO DU MATIN</h2>
-        <p className="text-[10px] tracking-[0.5em] text-zinc-500 uppercase mb-6">Annuaire d'entreprises • Rédigé par Claude</p>
+      <footer style={{ background: '#1f2937', color: 'white', padding: '64px 40px', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '24px', fontStyle: 'italic', fontWeight: 900, marginBottom: '16px' }}>L'ÉCHO DU MATIN</h2>
+        <p style={{ fontSize: '10px', letterSpacing: '0.2em', color: '#999' }}>Annuaire d'entreprises • Rédigé par Claude</p>
       </footer>
 
-      {/* Modal Article */}
+      {/* Modal */}
       {selected && (
-        <div className="fixed inset-0 z-[100] bg-white overflow-y-auto">
-          <div className="sticky top-0 p-4 flex justify-between items-center z-50 border-b bg-white/95 border-zinc-100 backdrop-blur">
-            <button onClick={() => setSelected(null)} className="p-2 rounded-full hover:bg-zinc-100">
-              ✕
-            </button>
-            <span className="font-serif font-black italic text-lg hidden sm:block">L'ÉCHO DU MATIN</span>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'white', overflowY: 'auto' }}>
+          <div style={{ position: 'sticky', top: 0, padding: '16px 40px', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>✕</button>
+            <span style={{ fontSize: '18px', fontStyle: 'italic', fontWeight: 900, display: 'none' }}>L'ÉCHO DU MATIN</span>
             <div></div>
           </div>
 
-          <article className="max-w-3xl mx-auto py-10 px-4 md:px-6 space-y-10 pb-32">
-            <h2 className="font-serif font-black italic tracking-tighter text-4xl md:text-6xl leading-[0.9]">
-              {selected.title}
-            </h2>
+          <article style={{ maxWidth: '900px', margin: '0 auto', padding: '40px' }}>
+            <h2 style={{ fontSize: '48px', fontWeight: 900, fontStyle: 'italic', marginBottom: '32px' }}>{selected.title}</h2>
+            <img src={selected.image} alt={selected.title} style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '8px', marginBottom: '32px', border: '2px solid #000' }} />
+            <p style={{ fontSize: '18px', fontStyle: 'italic', lineHeight: '1.8', marginBottom: '32px', color: '#333' }}>{selected.desc}</p>
+            <p style={{ fontSize: '16px', marginBottom: '32px', color: '#666' }}>Localisation: {selected.location}</p>
 
-            <div className="aspect-video rounded-sm overflow-hidden border-2 border-zinc-900 shadow-2xl">
-              <img src={selected.imageUrl} alt={selected.title} className="w-full h-full object-cover" />
-            </div>
-
-            <p className="text-lg md:text-2xl text-zinc-800 leading-relaxed font-serif italic whitespace-pre-line">
-              {selected.content}
-            </p>
-
-            <div className="bg-zinc-900 text-white p-8 rounded-2xl space-y-4">
-              <h4 className="font-bold text-lg">{selected.strategicAdvice?.action}</h4>
-              <p className="text-sm text-zinc-300">{selected.strategicAdvice?.details}</p>
-            </div>
-
-            <div className="flex gap-4">
-              
-                href={selected.sources[0]?.uri}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-grow p-5 bg-black text-white rounded-full font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-zinc-800 transition-all"
-              >
-                Visiter
-                <ExternalLink className="w-5 h-5" />
-              </a>
-            </div>
+            <button
+              onClick={() => window.open('https://example.com')}
+              style={{
+                width: '100%',
+                padding: '16px',
+                background: '#000',
+                color: 'white',
+                border: 'none',
+                borderRadius: '24px',
+                fontWeight: 900,
+                fontSize: '14px',
+                cursor: 'pointer'
+              }}
+            >
+              Visiter l'annonce
+            </button>
           </article>
         </div>
       )}
