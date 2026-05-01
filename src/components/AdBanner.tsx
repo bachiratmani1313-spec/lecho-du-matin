@@ -57,14 +57,14 @@ const ADS: AdCard[] = [
     id: 'compagnon-2030',
     title: 'Le Compagnon 2030',
     subtitle: 'Votre Guide Interactif',
-    description: 'Marre des recherches confuses ? Le Compagnon 2030 simplifie votre pratique islamique avec un apprentissage structuré, authentique et accessible. Pour seulement 2,50 €.',
+    description: 'Marre des recherches confuses ? Le Compagnon 2030 simplifie votre pratique islamique avec un apprentissage structuré, authentique et accessible. Pour seulement 2,50 EUR.',
     features: [
       '✨ Les 5 Piliers expliqués',
       '🙏 Salat guidée pas à pas',
       '🎵 Voix du Sheikh Mishary Rashid Alafasy',
       '💡 Technologie + Tradition'
     ],
-    cta: 'JE COMMENCE (2,50 €)',
+    cta: 'JE COMMENCE (2,50 EUR)',
     ctaLink: 'https://bachiratmani1313.systeme.io/30245d2f',
     icon: '💎',
     color: 'from-amber-600 to-red-600',
@@ -97,7 +97,7 @@ const AdCard: React.FC<{ ad: AdCard; index: number }> = ({ ad, index }) => {
             </p>
           </div>
           {ad.badge && (
-            <div className={`px-4 py-2 rounded-full bg-gradient-to-r ${ad.color} text-white font-black text-[10px] uppercase tracking-widest whitespace-nowrap shadow-lg`}>
+            <div className={`px-4 py-2 rounded-full bg-gradient-to-r ${ad.color} text-white font-black text-xs uppercase tracking-widest whitespace-nowrap shadow-lg`}>
               {ad.badge}
             </div>
           )}
@@ -120,105 +120,4 @@ const AdCard: React.FC<{ ad: AdCard; index: number }> = ({ ad, index }) => {
           href={ad.ctaLink}
           target="_blank"
           rel="noopener noreferrer"
-          className={`block w-full py-5 md:py-6 px-6 bg-gradient-to-r ${ad.color} text-white font-black uppercase tracking-widest text-center rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-3 group/btn`}
-        >
-          <span>{ad.cta}</span>
-          <ExternalLink className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-        </a>
-
-        {ad.id === 'compagnon-2030' && (
-          <p className="text-[10px] text-zinc-600 italic text-center border-t border-zinc-200 pt-4 font-serif">
-            "Apprendre la prière n'a jamais été aussi simple et accessible."<br/>
-            <span className="font-bold">Exclusivité :</span> Accès complet à tous les modules d'apprentissage
-          </p>
-        )}
-      </div>
-    </motion.div>
-  );
-};
-
-export const AnnouncementsView: React.FC = () => {
-  return (
-    <div className="space-y-12 animate-in fade-in duration-700">
-      <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <h2 className="font-serif text-5xl md:text-7xl font-black italic tracking-tighter">
-          NOS <span className="text-red-600">PARTENAIRES</span>
-        </h2>
-        <p className="text-zinc-600 text-lg italic font-serif">
-          Découvrez les services et applications recommandés par L'ÉCHO DU MATIN.
-          Des solutions de confiance pour enrichir votre vie.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-20">
-        {ADS.map((ad, idx) => (
-          <AdCard key={ad.id} ad={ad} index={idx} />
-        ))}
-      </div>
-
-      <div className="bg-zinc-900 text-white rounded-3xl p-10 md:p-16 space-y-8 border border-zinc-800 shadow-2xl">
-        <div className="space-y-4 text-center max-w-2xl mx-auto">
-          <div className="flex justify-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-            ))}
-          </div>
-          <h3 className="font-serif text-3xl italic font-black">
-            Pourquoi faire confiance à nos partenaires ?
-          </h3>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: <Sparkles className="w-8 h-8" />,
-              title: 'Qualité Premium',
-              description: 'Chaque service est sélectionné pour son excellence et son authenticité.'
-            },
-            {
-              icon: <Users className="w-8 h-8" />,
-              title: 'Communauté de Confiance',
-              description: 'Des milliers d\'utilisateurs satisfaits en France et dans le monde.'
-            },
-            {
-              icon: <Clock className="w-8 h-8" />,
-              title: 'Support 24/7',
-              description: 'Équipes dédiées pour vous accompagner à chaque étape.'
-            }
-          ].map((benefit, i) => (
-            <div key={i} className="space-y-3 text-center">
-              <div className="flex justify-center text-red-500">{benefit.icon}</div>
-              <h4 className="font-bold text-lg">{benefit.title}</h4>
-              <p className="text-zinc-400 text-sm italic">{benefit.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-3xl p-10 md:p-16 text-center space-y-6 shadow-2xl">
-        <h3 className="font-serif text-4xl md:text-5xl font-black italic tracking-tighter">
-          Vous hésitez encore ?
-        </h3>
-        <p className="text-lg italic font-serif opacity-90 max-w-2xl mx-auto">
-          Chaque jour, des milliers de personnes choisissent ces services pour améliorer leur vie spirituelle, leurs voyages et leur apprentissage. À votre tour !
-        </p>
-        <div className="flex flex-col md:flex-row gap-4 justify-center pt-4">
-          
-            href="https://bachiratmani1313.systeme.io/30245d2f"
-            className="px-8 py-4 bg-white text-red-600 font-black uppercase tracking-widest rounded-full hover:scale-105 transition-all shadow-lg"
-          >
-            Découvrir Le Compagnon 2030
-          </a>
-          
-            href="https://limamvirtuel.com"
-            className="px-8 py-4 bg-white/20 border-2 border-white text-white font-black uppercase tracking-widest rounded-full hover:scale-105 transition-all backdrop-blur"
-          >
-            Explorer ImamVirtuel
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default AnnouncementsView;
+          className="block w-full py-5 md:py-6 px-6 bg-gradient-to-r text-white font-black uppercase tracking-widest text-center rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center
