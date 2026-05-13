@@ -12,6 +12,29 @@ const CATEGORY_MAP: Record<string, string> = {
   [Category.ANNONCES]: 'general'
 };
 
+// ✅ Vérifie si une URL est une vidéo YouTube
+function isYoutubeUrl(url: string): boolean {
+  return url.includes('youtube.com') || 
+         url.includes('youtu.be') || 
+         url.includes('ytimg.com');
+}
+
+// ✅ Génère une image gratuite via Pollinations.ai (0€, illimité)
+function getPollinationsImage(prompt: string): string {
+  const encoded = encodeURIComponent(
+    `professional news journalism photo ${prompt} cinematic realistic`
+  );
+  return `https://image.pollinations.ai/prompt/${encoded}?width=800&height=450&nologo=true&seed=${Date.now()}`;
+}
+
+// ✅ Retourne une image propre : jamais YouTube, toujours une vraie image
+function getSafeImageUrl(articleImage: string | null | undefined, fallbackPrompt: string): string {
+  if (!articleImage || isYoutubeUrl(articleImage)) {
+    return getPollinationsImage(fallbackPrompt);
+  }
+  return articleImage;
+}
+
 export async function fetchNews(category: Category, lang: Language): Promise<NewsArticle[]> {
   if (!GNEWS_API_KEY) {
     const key = prompt('Entrez votre clé GNews API (https://gnews.io/)');
@@ -51,7 +74,8 @@ export async function fetchNews(category: Category, lang: Language): Promise<New
       timestamp: article.publishedAt,
       category: category,
       icon: '📰',
-      imageUrl: article.image || undefined,
+      // ✅ CORRECTION BUG : jamais une URL YouTube comme image d'article
+      imageUrl: getSafeImageUrl(article.image, article.title),
       sources: [{ 
         title: article.source?.name || 'Source', 
         uri: article.url 
@@ -62,6 +86,25 @@ export async function fetchNews(category: Category, lang: Language): Promise<New
     return [];
   }
 }
+
+// ✅ Articles partenaires - YouTube autorisé ICI uniquement
+export interface PartnerVideo {
+  id: string;
+  title: string;
+  youtubeId: string;
+  description: string;
+  type: 'partenaire' | 'annonce';
+}
+
+export const PARTNER_VIDEOS: PartnerVideo[] = [
+  {
+    id: 'partner-1',
+    title: 'Mon Compagnon 2030 — Apprendre l\'Islam',
+    youtubeId: 'UCMhZrqyvbruHrPgAcfTH05Q', // ← remplace par le vrai ID vidéo
+    description: 'Application d\'apprentissage des bases de l\'Islam',
+    type: 'partenaire'
+  }
+];
 
 export async function speakArticle(text: string, lang: Language) {
   try {
