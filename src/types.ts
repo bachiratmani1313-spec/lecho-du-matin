@@ -5,13 +5,15 @@ export enum Category {
   METEO = "Météo & Alertes Sat",
   SOCIETE = "Belgique & Europe",
   TECH = "IA & Futur",
-  ANNONCES = "Partenariats & Annonces"
+  ANNONCES = "Annonces & Partenaires"
 }
 
 export enum Language {
-  FR = "Français",
-  EN = "English",
-  AR = "العربية"
+  FR = "fr",
+  EN = "en",
+  ES = "es",
+  DE = "de",
+  AR = "ar"
 }
 
 export type ArticleType = "FACTUAL" | "MAGAZINE_COMIC" | "MAGAZINE_FABLE" | "AI_REFLECTION";
@@ -21,56 +23,18 @@ export interface NewsArticle {
   type: ArticleType;
   title: string;
   summary: string;
-  content: string; 
-  truthContent: string; 
-  physicalFacts: string; 
-  audioAnnounce: string; 
-  imagePrompt: string; 
+  content: string;
+  truthContent: string;
+  physicalFacts: string;
+  audioAnnounce: string;
+  imagePrompt: string;
   strategicAdvice: {
-    action: string; 
+    action: string;
     details: string;
   };
   location: string;
   timestamp: string;
   category: Category;
-  icon?: string;
-  imageUrl?: string;
-  dynamicImageUrl?: string;
+  imageUrl: string;
   sources: { title: string; uri: string }[];
-  isSponsor?: boolean;
-  sponsorLink?: string;
-}
-
-export interface IslamModule {
-  id: string;
-  title: string;
-  description: string;
-  content: string;
-  isUnlocked: boolean;
-  questions?: {
-    question: string;
-    answer: boolean;
-  }[];
-}
-
-export interface Advertisement {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  features: string[];
-  cta: string;
-  ctaLink: string;
-  icon: string;
-  color: string;
-  bgGradient: string;
-  badge?: string;
-}
-
-export interface AppConfig {
-  apiKeyGemini?: string;
-  apiKeyNewsAPI?: string;
-  apiKeyElevenLabs?: string;
-  cacheTTL: number;
-  debug: boolean;
 }
