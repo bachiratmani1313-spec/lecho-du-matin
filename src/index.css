@@ -1,138 +1,373 @@
-@import "tailwindcss";
+/* ===============================================
+   L'Écho du Matin — Styles
+   Design éditorial « journal », fond papier,
+   accent lever de soleil. Responsive + RTL.
+   =============================================== */
 
-@theme {
-  --font-serif: "Playfair Display", serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Spectral:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap');
 
 :root {
-  --bg: #FDFCF8;
-  --ink: #111;
+  --paper:        #f6f1e7;   /* fond papier crème */
+  --paper-card:   #fffdf8;   /* fond des cartes */
+  --ink:          #1c1a17;   /* encre quasi-noire */
+  --ink-soft:     #4a463f;   /* texte secondaire */
+  --sun:          #c0492b;   /* accent terracotta (lever de soleil) */
+  --sun-deep:     #8f3320;   /* accent foncé */
+  --gold:         #b8893b;   /* doré */
+  --line:         #d8cfbb;   /* lignes / bordures */
+  --shadow:       0 2px 14px rgba(40, 30, 15, 0.10);
 }
 
-body {
-  font-family: var(--font-sans);
-  background-color: var(--bg);
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
   color: var(--ink);
-  margin: 0;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  overscroll-behavior-y: none;
-}
-
-/* Navigation scrollable horizontalement pour mobile */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  overflow-x: auto;
-  display: flex;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.nav-item {
-  scroll-snap-align: start;
-  flex-shrink: 0;
-}
-
-.dropcap::first-letter {
-  float: left;
-  font-family: var(--font-serif);
-  font-size: 4rem;
-  line-height: 0.7;
-  padding-top: 8px;
-  padding-right: 12px;
-  font-weight: 900;
-}
-
-.skeleton {
-  background: #f3f4f6;
-  position: relative;
-  overflow: hidden;
-}
-
-.skeleton::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  transform: translateX(-100%);
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-/* Markdown styling */
-.markdown-body h1 {
-  font-size: 2em;
-  font-weight: 900;
-  margin-bottom: 0.5em;
-}
-
-.markdown-body h2 {
-  font-size: 1.5em;
-  font-weight: 800;
-  margin-bottom: 0.5em;
-}
-
-.markdown-body p {
-  margin-bottom: 1em;
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 17px;            /* lisible — important pour les malvoyants */
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-.markdown-body ul {
-  list-style-type: disc;
-  padding-left: 1.5em;
-  margin-bottom: 1em;
+.echo {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 18px 60px;
 }
 
-.markdown-body ol {
-  list-style-type: decimal;
-  padding-left: 1.5em;
-  margin-bottom: 1em;
+/* Police arabe quand le site est en RTL */
+.echo.rtl,
+.echo.rtl .echo-card-title,
+.echo.rtl .echo-title,
+.echo.rtl .echo-section-title {
+  font-family: 'Amiri', 'Spectral', serif;
 }
+.echo.rtl { text-align: right; }
 
-.markdown-body blockquote {
-  border-left: 4px solid #ccc;
-  padding-left: 1em;
+/* ============== EN-TÊTE ============== */
+.echo-header {
+  text-align: center;
+  padding: 22px 0 14px;
+  border-bottom: 3px double var(--ink);
+  margin-bottom: 4px;
+}
+.echo-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.echo-date {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
   font-style: italic;
-  margin: 1em 0;
+  text-transform: capitalize;
+}
+.echo-lang {
+  font-family: 'Spectral', serif;
+  font-size: 0.95rem;
+  padding: 7px 12px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper-card);
+  color: var(--ink);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.echo-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(2.4rem, 8vw, 4.6rem);
+  letter-spacing: -0.5px;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.echo-tagline {
+  font-style: italic;
+  color: var(--sun-deep);
+  font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+  margin-top: 6px;
 }
 
-@keyframes music-bar {
-  0%, 100% {
-    height: 20%;
-  }
-  50% {
-    height: 100%;
-  }
-}
-
-/* Masque de dégradé pour indiquer le scroll sur mobile */
-.nav-container {
-  position: relative;
-  width: 100%;
-}
-
-.nav-container::after {
-  content: '';
-  position: absolute;
-  right: 0;
+/* ============== NAVIGATION ============== */
+.echo-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1.5px solid var(--ink);
+  margin-bottom: 26px;
+  position: sticky;
   top: 0;
-  bottom: 0;
-  width: 50px;
-  background: linear-gradient(to right, transparent, var(--bg));
-  pointer-events: none;
-  z-index: 10;
+  background: var(--paper);
+  z-index: 20;
 }
+.echo-nav-btn {
+  font-family: 'Spectral', serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.echo-nav-btn:hover { color: var(--sun); background: rgba(192, 73, 43, 0.07); }
+.echo-nav-btn.active {
+  color: var(--paper-card);
+  background: var(--sun);
+}
+
+/* ============== BARRE « ÉCOUTER LE JOURNAL » ============== */
+.echo-listen-bar {
+  text-align: center;
+  margin-bottom: 22px;
+}
+.echo-listen-journal {
+  font-family: 'Spectral', serif;
+  font-size: 1.08rem;
+  font-weight: 700;
+  padding: 13px 30px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background 0.15s ease;
+}
+.echo-listen-journal:hover { background: var(--sun-deep); }
+.echo-listen-journal.playing { background: var(--sun); }
+
+/* ============== TITRE DE SECTION ============== */
+.echo-section-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  color: var(--ink);
+  margin-bottom: 18px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--gold);
+  display: inline-block;
+}
+
+/* ============== INFOS / CHARGEMENT / ERREUR ============== */
+.echo-info {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+.echo-info-text {
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-bottom: 18px;
+}
+.echo-retry {
+  margin-top: 14px;
+  font-family: 'Spectral', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 9px 22px;
+  background: var(--sun);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* ============== GRILLE D'ARTICLES ============== */
+.echo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+}
+.echo-card {
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.echo-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 22px rgba(40, 30, 15, 0.16);
+}
+.echo-card-img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+  background: var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.echo-card-body {
+  padding: 15px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.echo-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  font-size: 0.8rem;
+}
+.echo-card-source {
+  font-weight: 700;
+  color: var(--sun-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.echo-card-date { color: var(--ink-soft); font-style: italic; }
+.echo-card-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.22rem;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.echo-card-summary {
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+/* ====== Boutons d'action des articles ====== */
+.echo-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.echo-btn {
+  font-family: 'Spectral', serif;
+  font-size: 0.93rem;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1.5px solid var(--ink);
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.15s ease;
+}
+.echo-btn-listen {
+  background: var(--ink);
+  color: var(--paper);
+}
+.echo-btn-listen:hover { background: var(--sun-deep); border-color: var(--sun-deep); }
+.echo-btn-listen.playing { background: var(--sun); border-color: var(--sun); }
+.echo-btn-read {
+  background: transparent;
+  color: var(--ink);
+}
+.echo-btn-read:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+
+/* ====== Boutons de partage ====== */
+.echo-card-share {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+.echo-share-btn {
+  font-family: 'Spectral', serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.echo-share-btn:hover { background: var(--paper); color: var(--ink); border-color: var(--ink-soft); }
+.echo-share-btn.fb:hover { background: #1877f2; color: #fff; border-color: #1877f2; }
+
+/* ============== MÉTÉO ============== */
+.echo-weather-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+}
+.echo-weather-card {
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 18px 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  box-shadow: var(--shadow);
+}
+.echo-weather-emoji { font-size: 2.6rem; line-height: 1; }
+.echo-weather-city {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.echo-weather-temp {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--sun);
+}
+.echo-weather-minmax { font-size: 0.88rem; color: var(--ink-soft); }
+
+/* ============== PARTENAIRES ============== */
+.echo-partner-card { text-align: center; }
+.echo-partner-emoji {
+  font-size: 3.4rem;
+  padding: 26px 0 6px;
+  background: linear-gradient(180deg, rgba(192,73,43,0.08), transparent);
+}
+
+/* ============== PIED DE PAGE ============== */
+.echo-footer {
+  margin-top: 50px;
+  padding-top: 24px;
+  border-top: 3px double var(--ink);
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+.echo-footer-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.echo-footer-year { margin-top: 8px; font-style: italic; }
+
+/* ============== RESPONSIVE MOBILE ============== */
+@media (max-width: 640px) {
+  html, body { font-size: 16px; }
+  .echo { padding: 0 12px 40px; }
+  .echo-header-top { flex-direction: row; }
+  .echo-grid { grid-template-columns: 1fr; gap: 18px; }
+  .echo-nav { gap: 2px; padding: 8px 0; }
+  .echo-nav-btn { font-size: 0.9rem; padding: 7px 10px; }
+  .echo-card-img { height: 200px; }
+}
+
+/* ============== AJUSTEMENTS RTL (arabe) ============== */
+.echo.rtl .echo-card-meta,
+.echo.rtl .echo-header-top { flex-direction: row-reverse; }
+.echo.rtl .echo-section-title { border-bottom-color: var(--gold); }
