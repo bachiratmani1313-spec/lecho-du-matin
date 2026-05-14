@@ -12,7 +12,7 @@
 // =====================================================================
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-// Note : les styles (index.css) sont chargés par main.tsx
+import './index.css';
 
 // =====================================================================
 //  1. TYPES
