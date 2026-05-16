@@ -1,80 +1,127 @@
 import { NewsArticle, Category, Language } from '../types';
 
-const RSS_FEEDS: Record<string, string[]> = {
-  'À la une': [
-    'https://www.france24.com/fr/rss',
-    'https://feeds.bbci.co.uk/news/world/rss.xml'
-  ],
-  'Géopolitique & Conflits': [
-    'https://feeds.reuters.com/Reuters/worldNews',
-    'https://feeds.bbci.co.uk/news/world/middle_east/rss.xml'
-  ],
-  'Finance & Crypto': [
-    'https://feeds.bbci.co.uk/news/business/rss.xml',
-    'https://www.coindesk.com/arc/outboundfeeds/rss/'
-  ],
-  'Météo & Alertes Sat': [
-    'https://feeds.bbci.co.uk/news/science_and_environment/rss.xml'
-  ],
-  'Belgique & Europe': [
-    'https://www.rtbf.be/info/rss',
-    'https://www.lalibre.be/arc/outboundfeeds/rss/?outputType=xml'
-  ],
-  'IA & Futur': [
-    'https://feeds.bbci.co.uk/news/technology/rss.xml',
-    'https://www.lemonde.fr/pixels/rss_full.xml'
-  ],
-  'Annonces & Partenaires': []
+const GNEWS_API_KEY = localStorage.getItem('GNEWS_API_KEY') || import.meta.env.VITE_GNEWS_API_KEY;
+
+const CATEGORY_MAP: Record<string, string> = {
+  [Category.UNES]: 'general',
+  [Category.GEOPOLITIQUE]: 'politics',
+  [Category.FINANCE]: 'business',
+  [Category.METEO]: 'science',
+  [Category.SOCIETE]: 'health',
+  [Category.TECH]: 'technology',
+  [Category.ANNONCES]: 'general'
 };
 
-const PARTNER_VIDEOS: NewsArticle[] = [
-  {
-    id: 'partner-1',
-    type: 'FACTUAL',
-    title: "Mon Compagnon 2030 — Apprendre l'Islam de Zéro",
-    summary: "Application d'apprentissage des bases de l'Islam pour débutants et convertis. 6 modules : Piliers, Shahada, Salat, Woudou, Dhikr, Gestes.",
-    content: "Mon Compagnon 2030 est une application mobile éducative qui couvre les 6 piliers fondamentaux de l'apprentissage de l'Islam. Conçue par Atmani Bachir, elle s'adresse aux débutants et aux convertis cherchant une méthode pas à pas, claire et pédagogique. Découvrez l'application et soutenez le projet en visitant la chaîne YouTube partenaire.",
-    truthContent: 'Partenaire officiel L\'Écho du Matin',
-    physicalFacts: 'Application disponible · 6 modules · Méthode progressive',
-    audioAnnounce: "Découvrez Mon Compagnon 2030, l'application pour apprendre l'Islam pas à pas",
-    imagePrompt: 'islamic learning mobile app',
-    strategicAdvice: { action: 'Découvrir l\'application', details: 'Disponible bientôt en téléchargement' },
-    location: 'Atmani Bachir',
-    timestamp: new Date().toLocaleDateString('fr-FR'),
-    category: 'Annonces & Partenaires' as any,
-    icon: '🤝',
-    imageUrl: 'https://image.pollinations.ai/prompt/islamic%20education%20mobile%20app%20clean%20modern?width=800&height=450&nologo=true',
-    sources: [{ title: 'Chaîne YouTube L\'Écho du Matin', uri: 'https://www.youtube.com/channel/UCMhZrqyvbruHrPgAcfTH05Q' }]
-  } as NewsArticle
-];
-
+// ✅ Vérifie si une URL est une vidéo YouTube
 function isYoutubeUrl(url: string): boolean {
-  return url.includes('youtube.com') || url.includes('youtu.be') || url.includes('ytimg.com');
+  return url.includes('youtube.com') || 
+         url.includes('youtu.be') || 
+         url.includes('ytimg.com');
 }
 
-function getSafeImageUrl(articleImage: string | null | undefined, title: string): string {
+// ✅ Génère une image gratuite via Pollinations.ai (0€, illimité)
+function getPollinationsImage(prompt: string): string {
+  const encoded = encodeURIComponent(
+    `professional news journalism photo ${prompt} cinematic realistic`
+  );
+  return `https://image.pollinations.ai/prompt/${encoded}?width=800&height=450&nologo=true&seed=${Date.now()}`;
+}
+
+// ✅ Retourne une image propre : jamais YouTube, toujours une vraie image
+function getSafeImageUrl(articleImage: string | null | undefined, fallbackPrompt: string): string {
   if (!articleImage || isYoutubeUrl(articleImage)) {
-    return `https://image.pollinations.ai/prompt/${encodeURIComponent('news journalism ' + title)}?width=800&height=450&nologo=true`;
+    return getPollinationsImage(fallbackPrompt);
   }
   return articleImage;
 }
 
 export async function fetchNews(category: Category, lang: Language): Promise<NewsArticle[]> {
-  // Section Partenaires = vidéos YouTube, pas RSS
-  if (category === 'Annonces & Partenaires' as any) {
-    return PARTNER_VIDEOS;
+  if (!GNEWS_API_KEY) {
+    const key = prompt('Entrez votre clé GNews API (https://gnews.io/)');
+    if (key) {
+      localStorage.setItem('GNEWS_API_KEY', key);
+      location.reload();
+    }
+    return [];
   }
 
-  const feeds = RSS_FEEDS[category] || RSS_FEEDS['À la une'];
-  const articles: NewsArticle[] = [];
-  const seenTitles = new Set<string>();
+  try {
+    const gnewsCategory = CATEGORY_MAP[category] || 'general';
+    const langCode = lang === Language.EN ? 'en' : lang === Language.AR ? 'ar' : 'fr';
+    
+    const url = `https://gnews.io/api/v4/search?q=${gnewsCategory}&lang=${langCode}&token=${GNEWS_API_KEY}&max=10`;
+    
+    const response = await fetch(url);
+    const data = await response.json();
 
-  for (const feedUrl of feeds) {
-    try {
-      const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
-      const response = await fetch(url);
-      const data = await response.json();
+    if (!data.articles) return [];
 
-      if (data.status === 'ok' && data.items) {
-        data.items.slice(0, 5).forEach((item: any, idx: number) => {
-          const tit
+    return data.articles.map((article: any, idx: number) => ({
+      id: `${Date.now()}-${idx}`,
+      type: 'FACTUAL',
+      title: article.title || 'Sans titre',
+      summary: article.description || 'Aucun résumé',
+      content: article.content || article.description || 'Contenu indisponible',
+      truthContent: 'Vérifié',
+      physicalFacts: new Date(article.publishedAt).toLocaleDateString('fr-FR'),
+      audioAnnounce: article.title,
+      imagePrompt: category,
+      strategicAdvice: {
+        action: 'Lire la suite',
+        details: 'Article complet disponible sur la source officielle'
+      },
+      location: article.source?.name || 'Source',
+      timestamp: article.publishedAt,
+      category: category,
+      icon: '📰',
+      // ✅ CORRECTION BUG : jamais une URL YouTube comme image d'article
+      imageUrl: getSafeImageUrl(article.image, article.title),
+      sources: [{ 
+        title: article.source?.name || 'Source', 
+        uri: article.url 
+      }]
+    }));
+  } catch (err) {
+    console.error('Erreur GNews:', err);
+    return [];
+  }
+}
+
+// ✅ Articles partenaires - YouTube autorisé ICI uniquement
+export interface PartnerVideo {
+  id: string;
+  title: string;
+  youtubeId: string;
+  description: string;
+  type: 'partenaire' | 'annonce';
+}
+
+export const PARTNER_VIDEOS: PartnerVideo[] = [
+  {
+    id: 'partner-1',
+    title: 'Mon Compagnon 2030 — Apprendre l\'Islam',
+    youtubeId: 'UCMhZrqyvbruHrPgAcfTH05Q', // ← remplace par le vrai ID vidéo
+    description: 'Application d\'apprentissage des bases de l\'Islam',
+    type: 'partenaire'
+  }
+];
+
+export async function speakArticle(text: string, lang: Language) {
+  try {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang === Language.AR ? 'ar-SA' : lang === Language.EN ? 'en-US' : 'fr-FR';
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+    return new Uint8Array([]);
+  } catch (e) {
+    return null;
+  }
+}
+
+export async function decodeAudio(bytes: Uint8Array, audioCtx: AudioContext) {
+  return audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
+}
+
+export function createWavBlob(bytes: Uint8Array) {
+  return new Blob([bytes], { type: 'audio/wav' });
+}
