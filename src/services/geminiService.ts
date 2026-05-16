@@ -1,88 +1,130 @@
 import { NewsArticle, Category, Language } from '../types';
 
-const GNEWS_API_KEY = localStorage.getItem('GNEWS_API_KEY') || import.meta.env.VITE_GNEWS_API_KEY;
+// 📊 Source des articles : Google Sheets (système automatique de Bachir)
+const GOOGLE_SHEETS_ID = '1CZyvkyK-wK_n0PDXb5pfEXoBrxs8AOasAwq0mVc61bs';
+const GOOGLE_SHEETS_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEETS_ID}/export?format=csv`;
 
-const CATEGORY_MAP: Record<string, string> = {
-  [Category.UNES]: 'general',
-  [Category.GEOPOLITIQUE]: 'politics',
-  [Category.FINANCE]: 'business',
-  [Category.METEO]: 'science',
-  [Category.SOCIETE]: 'health',
-  [Category.TECH]: 'technology',
-  [Category.ANNONCES]: 'general'
+// Mapping des codes catégorie du Google Sheets vers les rubriques du journal
+const SHEET_CATEGORY_MAP: Record<string, Category> = {
+  'une': Category.UNES,
+  'unes': Category.UNES,
+  'a la une': Category.UNES,
+  'à la une': Category.UNES,
+  'geopolitique': Category.GEOPOLITIQUE,
+  'géopolitique': Category.GEOPOLITIQUE,
+  'geopolitique & conflits': Category.GEOPOLITIQUE,
+  'finance': Category.FINANCE,
+  'crypto': Category.FINANCE,
+  'finance & crypto': Category.FINANCE,
+  'meteo': Category.METEO,
+  'météo': Category.METEO,
+  'meteo & alertes sat': Category.METEO,
+  'europe': Category.SOCIETE,
+  'belgique': Category.SOCIETE,
+  'societe': Category.SOCIETE,
+  'belgique & europe': Category.SOCIETE,
+  'futur': Category.TECH,
+  'tech': Category.TECH,
+  'ia': Category.TECH,
+  'ia & futur': Category.TECH,
+  'partenaires': Category.ANNONCES,
+  'annonces': Category.ANNONCES,
+  'partenariats': Category.ANNONCES,
+  'partenariats & annonces': Category.ANNONCES,
 };
 
-// ✅ Vérifie si une URL est une vidéo YouTube
-function isYoutubeUrl(url: string): boolean {
-  return url.includes('youtube.com') || 
-         url.includes('youtu.be') || 
-         url.includes('ytimg.com');
+// Parseur CSV robuste : gère les virgules et sauts de ligne dans les champs entre guillemets
+function parseCSV(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = '';
+  let inQuotes = false;
+  let i = 0;
+  while (i < text.length) {
+    const char = text[i];
+    if (inQuotes) {
+      if (char === '"') {
+        if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+        inQuotes = false; i++; continue;
+      }
+      field += char; i++; continue;
+    }
+    if (char === '"') { inQuotes = true; i++; continue; }
+    if (char === ',') { row.push(field); field = ''; i++; continue; }
+    if (char === '\r') { i++; continue; }
+    if (char === '\n') { row.push(field); rows.push(row); row = []; field = ''; i++; continue; }
+    field += char; i++;
+  }
+  if (field.length > 0 || row.length > 0) { row.push(field); rows.push(row); }
+  return rows;
 }
 
-// ✅ Génère une image gratuite via Pollinations.ai (0€, illimité)
+// ✅ Image gratuite et illimitée via Pollinations.ai (0€)
 function getPollinationsImage(prompt: string): string {
   const encoded = encodeURIComponent(
     `professional news journalism photo ${prompt} cinematic realistic`
   );
-  return `https://image.pollinations.ai/prompt/${encoded}?width=800&height=450&nologo=true&seed=${Date.now()}`;
+  const seed = Math.abs(prompt.split('').reduce((a, c) => a + c.charCodeAt(0), 0));
+  return `https://image.pollinations.ai/prompt/${encoded}?width=800&height=450&nologo=true&seed=${seed}`;
 }
 
-// ✅ Retourne une image propre : jamais YouTube, toujours une vraie image
-function getSafeImageUrl(articleImage: string | null | undefined, fallbackPrompt: string): string {
-  if (!articleImage || isYoutubeUrl(articleImage)) {
-    return getPollinationsImage(fallbackPrompt);
-  }
-  return articleImage;
-}
-
+// 📥 Récupère les articles depuis le Google Sheets
+// Structure attendue : Date | Catégorie | Titre | Résumé | Contenu | Lien | Statut
 export async function fetchNews(category: Category, lang: Language): Promise<NewsArticle[]> {
-  if (!GNEWS_API_KEY) {
-    const key = prompt('Entrez votre clé GNews API (https://gnews.io/)');
-    if (key) {
-      localStorage.setItem('GNEWS_API_KEY', key);
-      location.reload();
-    }
-    return [];
-  }
-
   try {
-    const gnewsCategory = CATEGORY_MAP[category] || 'general';
-    const langCode = lang === Language.EN ? 'en' : lang === Language.AR ? 'ar' : 'fr';
-    
-    const url = `https://gnews.io/api/v4/search?q=${gnewsCategory}&lang=${langCode}&token=${GNEWS_API_KEY}&max=10`;
-    
-    const response = await fetch(url);
-    const data = await response.json();
+    const response = await fetch(`${GOOGLE_SHEETS_CSV_URL}&_=${Date.now()}`);
+    if (!response.ok) {
+      console.error('Erreur Google Sheets (HTTP ' + response.status + ')');
+      return [];
+    }
 
-    if (!data.articles) return [];
+    const csvText = await response.text();
+    const rows = parseCSV(csvText);
+    if (rows.length < 2) return [];
 
-    return data.articles.map((article: any, idx: number) => ({
-      id: `${Date.now()}-${idx}`,
-      type: 'FACTUAL',
-      title: article.title || 'Sans titre',
-      summary: article.description || 'Aucun résumé',
-      content: article.content || article.description || 'Contenu indisponible',
-      truthContent: 'Vérifié',
-      physicalFacts: new Date(article.publishedAt).toLocaleDateString('fr-FR'),
-      audioAnnounce: article.title,
-      imagePrompt: category,
-      strategicAdvice: {
-        action: 'Lire la suite',
-        details: 'Article complet disponible sur la source officielle'
-      },
-      location: article.source?.name || 'Source',
-      timestamp: article.publishedAt,
-      category: category,
-      icon: '📰',
-      // ✅ CORRECTION BUG : jamais une URL YouTube comme image d'article
-      imageUrl: getSafeImageUrl(article.image, article.title),
-      sources: [{ 
-        title: article.source?.name || 'Source', 
-        uri: article.url 
-      }]
-    }));
+    // Ligne 1 = en-têtes, on saute
+    const dataRows = rows.slice(1);
+    const articles: NewsArticle[] = [];
+
+    dataRows.forEach((cols, idx) => {
+      const date = (cols[0] || '').trim();
+      const catCode = (cols[1] || '').trim().toLowerCase();
+      const title = (cols[2] || '').trim();
+      const summary = (cols[3] || '').trim();
+      const content = (cols[4] || '').trim();
+      const link = (cols[5] || '').trim();
+
+      if (!title) return;
+
+      const mappedCat = SHEET_CATEGORY_MAP[catCode] || Category.UNES;
+      if (mappedCat !== category) return;
+
+      articles.push({
+        id: `sheet-${idx}-${Date.now()}`,
+        type: 'FACTUAL',
+        title: title,
+        summary: summary || title,
+        content: content || summary || title,
+        truthContent: 'Vérifié',
+        physicalFacts: date || new Date().toLocaleDateString('fr-FR'),
+        audioAnnounce: title,
+        imagePrompt: title,
+        strategicAdvice: {
+          action: 'Lire la suite',
+          details: 'Article complet disponible sur la source officielle'
+        },
+        location: 'Rédaction IA · L\'Écho du Matin',
+        timestamp: date || new Date().toISOString(),
+        category: mappedCat,
+        icon: '📰',
+        imageUrl: getPollinationsImage(title),
+        sources: link ? [{ title: 'Source', uri: link }] : []
+      });
+    });
+
+    return articles;
   } catch (err) {
-    console.error('Erreur GNews:', err);
+    console.error('Erreur lecture Google Sheets:', err);
     return [];
   }
 }
@@ -100,7 +142,7 @@ export const PARTNER_VIDEOS: PartnerVideo[] = [
   {
     id: 'partner-1',
     title: 'Mon Compagnon 2030 — Apprendre l\'Islam',
-    youtubeId: 'UCMhZrqyvbruHrPgAcfTH05Q', // ← remplace par le vrai ID vidéo
+    youtubeId: 'UCMhZrqyvbruHrPgAcfTH05Q',
     description: 'Application d\'apprentissage des bases de l\'Islam',
     type: 'partenaire'
   }
