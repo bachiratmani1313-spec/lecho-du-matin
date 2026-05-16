@@ -35,7 +35,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUBLIC_DIR = os.path.join(REPO_ROOT, "public")
-VIDEOS_DIR = os.path.join(REPO_ROOT, "videos")
+VIDEOS_DIR = os.path.join(PUBLIC_DIR, "videos")
 WORK_DIR = os.path.join(REPO_ROOT, ".pipeline_work")
 ARTICLES_JSON = os.path.join(PUBLIC_DIR, "articles.json")
 
@@ -358,11 +358,13 @@ def main():
             image_p = os.path.join(WORK_DIR, slug + ".png")
             video_p = os.path.join(VIDEOS_DIR, slug + ".mp4")
 
+            video_rel = ""
             narration = f"{art['title']}. {art['summary']}"
             youtube_id = ""
 
             if generate_audio(narration, audio_p) and generate_image(art["title"], cat, image_p):
                 if make_video(image_p, audio_p, video_p):
+                    video_rel = "/videos/" + os.path.basename(video_p)
                     if youtube:
                         desc = (
                             f"{art['summary']}\n\n"
@@ -381,6 +383,7 @@ def main():
                 "link": art["link"],
                 "image": art["image"],
                 "youtubeId": youtube_id,
+                "videoFile": video_rel,
             })
 
     # Écriture du fichier lu par le site

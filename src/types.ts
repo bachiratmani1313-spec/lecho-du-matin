@@ -43,6 +43,7 @@ export interface NewsArticle {
   isSponsor?: boolean;
   sponsorLink?: string;
   youtubeId?: string;
+  videoFile?: string;
 }
 
 export interface IslamModule {

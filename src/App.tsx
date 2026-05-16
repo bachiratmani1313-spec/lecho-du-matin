@@ -869,7 +869,7 @@ const App: React.FC = () => {
             </h2>
             
             {!isReadingMode && (
-              <div className="aspect-video rounded-sm overflow-hidden border-2 border-zinc-900 shadow-2xl">
+              <div className="aspect-video rounded-sm overflow-hidden border-2 border-zinc-900 shadow-2xl bg-black">
                 {selected.youtubeId ? (
                   <iframe
                     width="100%"
@@ -880,6 +880,18 @@ const App: React.FC = () => {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
+                ) : selected.videoFile ? (
+                  <video
+                    width="100%"
+                    height="100%"
+                    controls
+                    playsInline
+                    poster={selected.imageUrl}
+                    src={selected.videoFile}
+                    className="w-full h-full object-cover"
+                  >
+                    Votre navigateur ne supporte pas la vidéo.
+                  </video>
                 ) : (
                   <ArticleIllustration category={selected.category} />
                 )}
