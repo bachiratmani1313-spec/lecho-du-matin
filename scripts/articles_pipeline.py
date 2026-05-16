@@ -49,30 +49,31 @@ TTS_VOICE = "fr-FR-HenriNeural"
 # Nombre d'articles par rubrique
 ARTICLES_PER_CATEGORY = 2
 
-# Flux RSS gratuits par rubrique (code catégorie du site)
+# Flux RSS gratuits par rubrique — SOURCES 100% FRANÇAISES (pas d'anglais)
 RSS_FEEDS = {
     "une": [
         "https://www.france24.com/fr/rss",
-        "https://feeds.bbci.co.uk/news/world/rss.xml",
+        "https://www.francetvinfo.fr/titres.rss",
     ],
     "geopolitique": [
-        "https://feeds.bbci.co.uk/news/world/rss.xml",
         "https://www.france24.com/fr/moyen-orient/rss",
+        "https://www.france24.com/fr/europe/rss",
     ],
     "finance": [
-        "https://feeds.bbci.co.uk/news/business/rss.xml",
         "https://www.france24.com/fr/économie/rss",
+        "https://www.francetvinfo.fr/economie.rss",
     ],
     "meteo": [
-        "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
+        "https://www.francetvinfo.fr/meteo.rss",
+        "https://www.france24.com/fr/planète/rss",
     ],
     "europe": [
         "https://www.rtbf.be/site-info/api/rss/info.xml",
         "https://www.france24.com/fr/europe/rss",
     ],
     "futur": [
-        "https://feeds.bbci.co.uk/news/technology/rss.xml",
         "https://www.france24.com/fr/tech/rss",
+        "https://www.francetvinfo.fr/internet.rss",
     ],
 }
 
