@@ -151,7 +151,7 @@ export const PARTNER_VIDEOS: PartnerVideo[] = [
 export async function speakArticle(text: string, lang: Language) {
   try {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang === Language.AR ? 'ar-SA' : lang === Language.EN ? 'en-US' : 'fr-FR';
+    utterance.lang = lang === Language.AR ? 'ar-SA' : lang === Language.EN ? 'en-US' : lang === Language.ES ? 'es-ES' : lang === Language.DE ? 'de-DE' : 'fr-FR';
     utterance.rate = 0.9;
     window.speechSynthesis.speak(utterance);
     return new Uint8Array([]);
