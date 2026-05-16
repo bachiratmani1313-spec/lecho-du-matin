@@ -41,7 +41,7 @@ jobs:
         run: |
           git config user.name "🤖 L'Écho Bot"
           git config user.email "echo@lechodumatin.com"
-          git add videos/
+          git add public/articles.json videos/ || true
           git commit -m "📹 Nouvelles vidéos - $(date +'%Y-%m-%d')" || echo "Rien à commiter"
           git push
       
