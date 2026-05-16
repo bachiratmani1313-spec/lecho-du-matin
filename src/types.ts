@@ -42,6 +42,7 @@ export interface NewsArticle {
   sources: { title: string; uri: string }[];
   isSponsor?: boolean;
   sponsorLink?: string;
+  youtubeId?: string;
 }
 
 export interface IslamModule {

@@ -870,7 +870,19 @@ const App: React.FC = () => {
             
             {!isReadingMode && (
               <div className="aspect-video rounded-sm overflow-hidden border-2 border-zinc-900 shadow-2xl">
-                <ArticleIllustration category={selected.category} />
+                {selected.youtubeId ? (
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${selected.youtubeId}?rel=0`}
+                    title={selected.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <ArticleIllustration category={selected.category} />
+                )}
               </div>
             )}
             

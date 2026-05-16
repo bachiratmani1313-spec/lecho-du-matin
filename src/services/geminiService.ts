@@ -68,9 +68,62 @@ function getPollinationsImage(prompt: string): string {
   return `https://image.pollinations.ai/prompt/${encoded}?width=800&height=450&nologo=true&seed=${seed}`;
 }
 
-// 📥 Récupère les articles depuis le Google Sheets
-// Structure attendue : Date | Catégorie | Titre | Résumé | Contenu | Lien | Statut
+// 📥 Source 1 (prioritaire) : articles.json généré par le pipeline automatique
+// Contient les vidéos YouTube de la chaîne de Bachir
+async function fetchFromPipeline(category: Category): Promise<NewsArticle[]> {
+  try {
+    const response = await fetch(`/articles.json?_=${Date.now()}`);
+    if (!response.ok) return [];
+    const data = await response.json();
+    const list: any[] = (data && data.articles) || [];
+    const articles: NewsArticle[] = [];
+
+    list.forEach((a, idx) => {
+      const catCode = (a.category || '').trim().toLowerCase();
+      const mappedCat = SHEET_CATEGORY_MAP[catCode] || Category.UNES;
+      if (mappedCat !== category) return;
+      if (!a.title) return;
+
+      articles.push({
+        id: `pipe-${idx}-${a.date || ''}`,
+        type: 'FACTUAL',
+        title: a.title,
+        summary: a.summary || a.title,
+        content: a.content || a.summary || a.title,
+        truthContent: 'Vérifié',
+        physicalFacts: a.date || new Date().toLocaleDateString('fr-FR'),
+        audioAnnounce: a.title,
+        imagePrompt: a.title,
+        strategicAdvice: {
+          action: 'Lire la suite',
+          details: 'Article complet disponible sur la source officielle'
+        },
+        location: 'Rédaction IA · L\'Écho du Matin',
+        timestamp: a.date || new Date().toISOString(),
+        category: mappedCat,
+        icon: '📰',
+        imageUrl: a.image || getPollinationsImage(a.title),
+        youtubeId: a.youtubeId || '',
+        sources: a.link ? [{ title: 'Source', uri: a.link }] : []
+      });
+    });
+
+    return articles;
+  } catch {
+    return [];
+  }
+}
+
+// 📥 Récupère les articles : pipeline d'abord, Google Sheets en secours
+// Structure Sheets : Date | Catégorie | Titre | Résumé | Contenu | Lien | Statut
 export async function fetchNews(category: Category, lang: Language): Promise<NewsArticle[]> {
+  // 1️⃣ Priorité : articles générés automatiquement (avec vidéos YouTube)
+  const pipelineArticles = await fetchFromPipeline(category);
+  if (pipelineArticles.length > 0) {
+    return pipelineArticles;
+  }
+
+  // 2️⃣ Secours : Google Sheets (rédaction manuelle)
   try {
     const response = await fetch(`${GOOGLE_SHEETS_CSV_URL}&_=${Date.now()}`);
     if (!response.ok) {
