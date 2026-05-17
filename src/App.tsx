@@ -258,6 +258,38 @@ const App: React.FC = () => {
   const editionKey = getDailyEditionKey();
   const [lang, setLang] = useState<Language>(Language.FR);
 
+  // Dictionnaire de traduction de l'INTERFACE (onglets, gros titres, boutons)
+  const UI: Record<string, Record<string, string>> = {
+    "À la une": { EN: "Headlines", ES: "Portada", DE: "Schlagzeilen", AR: "الأبرز" },
+    "Géopolitique & Conflits": { EN: "Geopolitics & Conflicts", ES: "Geopolítica y Conflictos", DE: "Geopolitik & Konflikte", AR: "الجيوسياسة والنزاعات" },
+    "Finance & Crypto": { EN: "Finance & Crypto", ES: "Finanzas y Cripto", DE: "Finanzen & Krypto", AR: "المال والعملات الرقمية" },
+    "Météo & Alertes Sat": { EN: "Weather & Sat Alerts", ES: "Clima y Alertas", DE: "Wetter & Warnungen", AR: "الطقس والتنبيهات" },
+    "Belgique & Europe": { EN: "Belgium & Europe", ES: "Bélgica y Europa", DE: "Belgien & Europa", AR: "بلجيكا وأوروبا" },
+    "IA & Futur": { EN: "AI & Future", ES: "IA y Futuro", DE: "KI & Zukunft", AR: "الذكاء الاصطناعي والمستقبل" },
+    "Partenariats & Annonces": { EN: "Partners & Ads", ES: "Socios y Anuncios", DE: "Partner & Anzeigen", AR: "الشركاء والإعلانات" },
+    "6 HEURES, VU PAR L'IA": { EN: "6 AM, SEEN BY AI", ES: "LAS 6, VISTO POR IA", DE: "6 UHR, VON KI GESEHEN", AR: "السادسة صباحًا بعين الذكاء الاصطناعي" },
+    "DIRECTEUR :": { EN: "DIRECTOR:", ES: "DIRECTOR:", DE: "DIREKTOR:", AR: "المدير:" },
+    "DIRECT": { EN: "LIVE", ES: "EN VIVO", DE: "LIVE", AR: "مباشر" },
+    "ÉCOUTER LE JOURNAL (RADIO)": { EN: "LISTEN TO THE PAPER (RADIO)", ES: "ESCUCHAR EL DIARIO (RADIO)", DE: "ZEITUNG HÖREN (RADIO)", AR: "استمع إلى الصحيفة (راديو)" },
+    "ÉCOUTER": { EN: "LISTEN", ES: "ESCUCHAR", DE: "HÖREN", AR: "استمع" },
+    "ARRÊTER": { EN: "STOP", ES: "PARAR", DE: "STOPP", AR: "إيقاف" },
+    "Lire la suite": { EN: "Read more", ES: "Leer más", DE: "Weiterlesen", AR: "اقرأ المزيد" },
+    "La Une": { EN: "Top", ES: "Portada", DE: "Top", AR: "الرئيسية" },
+    "RADIO": { EN: "RADIO", ES: "RADIO", DE: "RADIO", AR: "راديو" },
+  };
+
+  // Traduit une chaîne d'interface selon la langue choisie (FR = original)
+  const tr = (s: string): string => {
+    if (lang === Language.FR) return s;
+    const langKey =
+      lang === Language.EN ? 'EN' :
+      lang === Language.ES ? 'ES' :
+      lang === Language.DE ? 'DE' :
+      lang === Language.AR ? 'AR' : 'FR';
+    return (UI[s] && UI[s][langKey]) ? UI[s][langKey] : s;
+  };
+
+
   // Renvoie titre/résumé/contenu dans la langue choisie (FR = original)
   const L = (a: NewsArticle) => {
     const map: Record<string, string> = {
@@ -604,8 +636,8 @@ const App: React.FC = () => {
       {/* HEADER FIXE ET OPTIMISÉ MOBILE */}
       <header className="border-b-4 border-zinc-900 mx-4 md:mx-10 mt-4 md:mt-6 pb-4 md:pb-6 text-center">
         <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest mb-4">
-          <span className="bg-red-600 text-white px-2 py-0.5">{category}</span>
-          <div className="text-zinc-400 hidden lg:block italic">DIRECTEUR : <span className="text-zinc-900 font-bold uppercase">Atmani Bachir</span></div>
+          <span className="bg-red-600 text-white px-2 py-0.5">{tr(category)}</span>
+          <div className="text-zinc-400 hidden lg:block italic">{tr("DIRECTEUR :")} <span className="text-zinc-900 font-bold uppercase">Atmani Bachir</span></div>
           <div className="flex gap-3 items-center">
             <button 
               onClick={() => window.location.reload()} 
@@ -638,7 +670,7 @@ const App: React.FC = () => {
         <h1 className="font-serif text-[2.8rem] md:text-[7rem] font-black italic tracking-tighter leading-none">L'ÉCHO <span className="text-red-600">DU MATIN</span></h1>
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-4">
             <div className="flex items-center gap-2">
-              <p className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] text-zinc-500">6 HEURES, VU PAR L'IA</p>
+              <p className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] text-zinc-500">{tr("6 HEURES, VU PAR L'IA")}</p>
               <span className="w-1 h-1 bg-zinc-200 rounded-full"></span>
               <span className="text-[10px] font-serif italic text-zinc-400 capitalize">{todayStr}</span>
             </div>
@@ -647,14 +679,14 @@ const App: React.FC = () => {
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5 px-2 py-1 bg-red-600 text-white rounded text-[7px] font-black animate-pulse">
                   <div className="w-1 h-1 bg-white rounded-full"></div>
-                  DIRECT
+                  {tr("DIRECT")}
                 </div>
                 <button 
                   onClick={isRadioMode ? stopRadioMode : startRadioMode}
                   className={`flex items-center gap-2 px-6 py-3 rounded-full border-2 transition-all font-black text-[10px] uppercase tracking-widest shadow-lg ${isRadioMode ? 'bg-red-600 text-white border-red-400 animate-pulse' : 'bg-zinc-900 text-white border-zinc-700 hover:scale-110 hover:shadow-zinc-200'}`}
                 >
                   <Radio className="w-4 h-4" />
-                  {isRadioMode ? `RADIO : ARTICLE ${radioIndex + 1}/3` : 'ÉCOUTER LE JOURNAL (RADIO)'}
+                  {isRadioMode ? `${tr("RADIO")} ${radioIndex + 1}/3` : tr('ÉCOUTER LE JOURNAL (RADIO)')}
                 </button>
               </div>
             )}
@@ -676,7 +708,7 @@ const App: React.FC = () => {
               }} 
               className={`nav-item whitespace-nowrap text-[10px] font-black uppercase tracking-widest transition-all ${category === cat && !showIslamCourse ? 'text-black border-b-2 border-black' : 'text-zinc-300 hover:text-zinc-600'}`}
             >
-              {cat}
+              {tr(cat)}
             </button>
           ))}
           <button 
@@ -836,7 +868,7 @@ const App: React.FC = () => {
                           )}
                         </div>
                         <span className="text-[7px] font-black uppercase mt-1 tracking-tighter">
-                          {isAudioLoading && speakingId === art.id ? 'CHARGEMENT' : 'La Une'}
+                          {isAudioLoading && speakingId === art.id ? 'CHARGEMENT' : tr('La Une')}
                         </span>
                       </button>
                     </div>
@@ -987,7 +1019,7 @@ const App: React.FC = () => {
               <div className="flex gap-2">
                 <button onClick={() => handleSpeak(L(selected).content, selected.id)} className={`flex-grow p-5 md:p-6 border-2 font-black uppercase tracking-widest flex items-center justify-center gap-4 rounded-full transition-all ${speakingId === selected.id ? 'bg-red-600 text-white border-red-600' : isReadingMode ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-zinc-50'}`}>
                     <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
-                    <span className="text-[10px] md:text-xs">{speakingId === selected.id ? 'ARRÊTER' : 'ÉCOUTER'}</span>
+                    <span className="text-[10px] md:text-xs">{speakingId === selected.id ? tr('ARRÊTER') : tr('ÉCOUTER')}</span>
                 </button>
                 <button onClick={() => handleDownloadAudio(selected)} className={`p-5 md:p-6 border-2 font-black uppercase tracking-widest flex items-center justify-center rounded-full transition-all ${isReadingMode ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-zinc-50'}`}>
                     <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
