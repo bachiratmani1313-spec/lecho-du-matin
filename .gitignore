@@ -1,3 +1,5 @@
 scripts/__pycache__/
 .pipeline_work/
-videos/
+/videos/
+dist/
+node_modules/
