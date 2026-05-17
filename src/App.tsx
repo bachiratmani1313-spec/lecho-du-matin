@@ -718,8 +718,33 @@ const App: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 animate-in fade-in duration-500">
             {articles.map((art, idx) => (
               <article key={art.id} className={`${idx === 0 ? 'md:col-span-12 lg:col-span-8' : 'md:col-span-6 lg:col-span-4'} border-b border-zinc-100 pb-10 cursor-pointer group relative`} onClick={() => setSelected(art)}>
-                <div className="aspect-video overflow-hidden mb-6 rounded-sm relative border border-zinc-200">
-                  <ArticleIllustration category={art.category} />
+                <div className="aspect-video overflow-hidden mb-6 rounded-sm relative border border-zinc-200 bg-black">
+                  {art.youtubeId ? (
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${art.youtubeId}?rel=0`}
+                      title={art.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  ) : art.videoFile ? (
+                    <video
+                      width="100%"
+                      height="100%"
+                      controls
+                      playsInline
+                      preload="none"
+                      poster={art.imageUrl}
+                      src={art.videoFile}
+                      className="w-full h-full object-cover"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  ) : (
+                    <ArticleIllustration category={art.category} />
+                  )}
                   
                   {isRadioMode && radioIndex === idx && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[2px]">
