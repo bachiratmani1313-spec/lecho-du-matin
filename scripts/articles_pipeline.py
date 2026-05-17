@@ -352,39 +352,49 @@ def main():
     for cat, articles in by_cat.items():
         for art in articles:
             idx += 1
-            print(f"\n🛠️  Article #{idx} [{cat}] : {art['title'][:60]}...")
-            slug = f"{today}-{cat}-{idx}-{slugify(art['title'])}"
-            audio_p = os.path.join(WORK_DIR, slug + ".mp3")
-            image_p = os.path.join(WORK_DIR, slug + ".png")
-            video_p = os.path.join(VIDEOS_DIR, slug + ".mp4")
+            try:
+                print(f"\n🛠️  Article #{idx} [{cat}] : {art['title'][:60]}...")
+                slug = f"{today}-{cat}-{idx}-{slugify(art['title'])}"
+                audio_p = os.path.join(WORK_DIR, slug + ".mp3")
+                image_p = os.path.join(WORK_DIR, slug + ".png")
+                video_p = os.path.join(VIDEOS_DIR, slug + ".mp4")
 
-            video_rel = ""
-            narration = f"{art['title']}. {art['summary']}"
-            youtube_id = ""
+                video_rel = ""
+                narration = f"{art['title']}. {art['summary']}"
+                youtube_id = ""
 
-            if generate_audio(narration, audio_p) and generate_image(art["title"], cat, image_p):
-                if make_video(image_p, audio_p, video_p):
-                    video_rel = "/videos/" + os.path.basename(video_p)
-                    if youtube:
-                        desc = (
-                            f"{art['summary']}\n\n"
-                            f"📰 Article complet : {art['link']}\n\n"
-                            f"🌐 L'Écho du Matin — lechodumatin.com\n"
-                            f"Directeur : Atmani Bachir"
-                        )
-                        youtube_id = upload_youtube(youtube, video_p, art["title"], desc)
+                if generate_audio(narration, audio_p) and generate_image(art["title"], cat, image_p):
+                    if make_video(image_p, audio_p, video_p):
+                        video_rel = "/videos/" + os.path.basename(video_p)
+                        if youtube:
+                            desc = (
+                                f"{art['summary']}\n\n"
+                                f"📰 Article complet : {art['link']}\n\n"
+                                f"🌐 L'Écho du Matin — lechodumatin.com\n"
+                                f"Directeur : Atmani Bachir"
+                            )
+                            youtube_id = upload_youtube(youtube, video_p, art["title"], desc)
 
-            all_articles.append({
-                "date": today,
-                "category": cat,
-                "title": art["title"],
-                "summary": art["summary"],
-                "content": art["content"],
-                "link": art["link"],
-                "image": art["image"],
-                "youtubeId": youtube_id,
-                "videoFile": video_rel,
-            })
+                all_articles.append({
+                    "date": today,
+                    "category": cat,
+                    "title": art["title"],
+                    "summary": art["summary"],
+                    "content": art["content"],
+                    "link": art["link"],
+                    "image": art["image"],
+                    "youtubeId": youtube_id,
+                    "videoFile": video_rel,
+                })
+            except Exception as e:
+                print(f"  ⚠️ Article #{idx} ignoré (erreur) : {e}")
+                # On garde quand même l'article (sans vidéo) pour ne rien perdre
+                all_articles.append({
+                    "date": today, "category": cat,
+                    "title": art.get("title", ""), "summary": art.get("summary", ""),
+                    "content": art.get("content", ""), "link": art.get("link", ""),
+                    "image": art.get("image", ""), "youtubeId": "", "videoFile": "",
+                })
 
     # Écriture du fichier lu par le site
     with open(ARTICLES_JSON, "w", encoding="utf-8") as f:
@@ -427,7 +437,8 @@ def git_save():
         _run_git(["config", "user.email", "echo@lechodumatin.com"])
         _run_git(["add", "public/"])
         _run_git(["fetch", "origin", "main"])
-        _run_git(["reset", "--soft", "origin/main"])
+        # FETCH_HEAD = le main fraîchement récupéré (fiable même en checkout superficiel)
+        _run_git(["reset", "--soft", "FETCH_HEAD"])
         rc = _run_git(["commit", "-m",
                        f"📰 Articles + vidéos {datetime.now().strftime('%Y-%m-%d %H:%M')}"])
         if rc != 0:
