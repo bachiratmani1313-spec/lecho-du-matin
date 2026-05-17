@@ -1,0 +1,62 @@
+PIPELINE v2026-05-16-e
+Généré : 2026-05-17T13:14:25.329788+00:00
+============================================================
+🏷️  PIPELINE v2026-05-16-e
+============================================================
+🎬 L'ÉCHO DU MATIN — PIPELINE QUOTIDIEN
+============================================================
+
+📰 Étape 1/5 — Récupération des articles RSS...
+  📡 RSS [une] : https://www.france24.com/fr/rss
+  ✅ [une] 2 article(s)
+  📡 RSS [geopolitique] : https://www.france24.com/fr/moyen-orient/rss
+  ✅ [geopolitique] 2 article(s)
+  📡 RSS [finance] : https://www.france24.com/fr/économie/rss
+  📡 RSS [finance] : https://www.francetvinfo.fr/economie.rss
+  ✅ [finance] 2 article(s)
+  📡 RSS [meteo] : https://www.francetvinfo.fr/meteo.rss
+  📡 RSS [meteo] : https://www.france24.com/fr/planète/rss
+  ✅ [meteo] 0 article(s)
+  📡 RSS [europe] : https://www.rtbf.be/site-info/api/rss/info.xml
+  📡 RSS [europe] : https://www.france24.com/fr/europe/rss
+  ✅ [europe] 2 article(s)
+  📡 RSS [futur] : https://www.france24.com/fr/tech/rss
+  📡 RSS [futur] : https://www.francetvinfo.fr/internet.rss
+  ✅ [futur] 2 article(s)
+
+🔑 Connexion YouTube...
+
+🛠️  Article #1 [une] : La Russie attaquée par environ 600 drones ukrainiens, quatre...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+🛠️  Article #2 [une] : Épidémie d'Ebola : l'OMS déclare une urgence internationale...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+🛠️  Article #3 [geopolitique] : Territoires palestiniens : le fils aîné de Mahmoud Abbas élu...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+🛠️  Article #4 [geopolitique] : En direct : une frappe de drone provoque un incendie près d'...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+🛠️  Article #5 [finance] : Magasins pris d'assaut : une vente de montres tourne au chao...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+🛠️  Article #6 [finance] : VIDEO. L'objectif d'un chômage à 5% "d'ici l'année prochaine...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+🛠️  Article #7 [europe] : La Russie attaquée par environ 600 drones ukrainiens, quatre...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+🛠️  Article #8 [europe] : Attaque de drones en Russie, Kiev revendique...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+🛠️  Article #9 [futur] : Avec l'intelligence artificielle, la surveillance émotionnel...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+🛠️  Article #10 [futur] : Intelligence artificielle, durée et "spoilers"... Comment le...
+  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+
+✅ 10 articles écrits dans public/articles.json
+============================================================
+
+💾 Sauvegarde sur GitHub (journal + articles + vidéos)...
