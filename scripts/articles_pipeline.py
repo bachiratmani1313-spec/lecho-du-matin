@@ -38,10 +38,45 @@ PUBLIC_DIR = os.path.join(REPO_ROOT, "public")
 VIDEOS_DIR = os.path.join(PUBLIC_DIR, "videos")
 WORK_DIR = os.path.join(REPO_ROOT, ".pipeline_work")
 ARTICLES_JSON = os.path.join(PUBLIC_DIR, "articles.json")
+LOG_FILE = os.path.join(PUBLIC_DIR, "pipeline-log.txt")
 
 os.makedirs(PUBLIC_DIR, exist_ok=True)
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 os.makedirs(WORK_DIR, exist_ok=True)
+
+PIPELINE_VERSION = "v2026-05-16-d"
+
+# Capture tout l'affichage dans un journal lisible depuis le site
+class _Tee:
+    def __init__(self):
+        self._buf = []
+        self._stdout = sys.__stdout__
+    def write(self, s):
+        self._buf.append(s)
+        try:
+            self._stdout.write(s)
+        except Exception:
+            pass
+    def flush(self):
+        try:
+            self._stdout.flush()
+        except Exception:
+            pass
+    def dump(self):
+        return "".join(self._buf)
+
+_LOG = _Tee()
+
+
+def write_log_file():
+    try:
+        with open(LOG_FILE, "w", encoding="utf-8") as f:
+            f.write(f"PIPELINE {PIPELINE_VERSION}\n")
+            f.write(f"Généré : {datetime.now(timezone.utc).isoformat()}\n")
+            f.write("=" * 60 + "\n")
+            f.write(_LOG.dump())
+    except Exception:
+        pass
 
 # Voix française posée (préférence Bachir : fr-FR-HenriNeural)
 TTS_VOICE = "fr-FR-HenriNeural"
@@ -401,11 +436,6 @@ def main():
         json.dump({"updated": today, "articles": all_articles}, f, ensure_ascii=False, indent=2)
 
     print(f"\n✅ {len(all_articles)} articles écrits dans public/articles.json")
-
-    # Sauvegarde Git robuste (le bot gagne toujours, aucun conflit possible)
-    print("\n💾 Sauvegarde sur GitHub...")
-    git_save()
-
     print("=" * 60)
     return 0
 
@@ -425,37 +455,47 @@ def _run_git(args):
 
 def git_save():
     """
-    Stratégie 'le bot gagne toujours' :
-    1. add public/  (articles.json + videos)
-    2. fetch origin
-    3. reset --soft origin/main  (HEAD au dernier distant, fichiers gardés)
-    4. commit  (un seul commit propre par-dessus le dernier distant)
-    5. push  (fast-forward, AUCUN conflit possible)
+    Sauvegarde 'le bot gagne toujours', avec ré-essais :
+    add public/ -> fetch -> reset --soft FETCH_HEAD -> commit -> push
+    Si push rejeté (course), on recommence (jusqu'à 4 fois).
     """
     try:
         _run_git(["config", "user.name", "🤖 L'Écho Bot"])
         _run_git(["config", "user.email", "echo@lechodumatin.com"])
-        _run_git(["add", "public/"])
-        _run_git(["fetch", "origin", "main"])
-        # FETCH_HEAD = le main fraîchement récupéré (fiable même en checkout superficiel)
-        _run_git(["reset", "--soft", "FETCH_HEAD"])
-        rc = _run_git(["commit", "-m",
-                       f"📰 Articles + vidéos {datetime.now().strftime('%Y-%m-%d %H:%M')}"])
-        if rc != 0:
-            print("  ℹ️ Rien de nouveau à commiter")
-            return
-        push_rc = _run_git(["push", "origin", "HEAD:main"])
-        if push_rc == 0:
-            print("  ✅ Articles + vidéos sauvegardés sur GitHub → Vercel va redéployer")
-        else:
-            print("  ⚠️ Push échoué (voir au-dessus)")
+        for attempt in range(1, 5):
+            print(f"\n  🔁 Tentative de sauvegarde #{attempt}")
+            _run_git(["add", "public/"])
+            if _run_git(["fetch", "origin", "main"]) != 0:
+                print("  ⚠️ fetch échoué, nouvel essai...")
+                continue
+            _run_git(["reset", "--soft", "FETCH_HEAD"])
+            rc = _run_git(["commit", "-m",
+                           f"📰 Articles + vidéos {datetime.now().strftime('%Y-%m-%d %H:%M')}"])
+            if rc != 0:
+                print("  ℹ️ Rien de nouveau à commiter (local déjà à jour)")
+                return
+            if _run_git(["push", "origin", "HEAD:main"]) == 0:
+                print("  ✅ SAUVEGARDÉ sur GitHub → Vercel va redéployer")
+                return
+            print("  ⚠️ Push rejeté (course), on réessaie...")
+        print("  ❌ Sauvegarde impossible après 4 tentatives")
     except Exception as e:
         print(f"  ⚠️ Sauvegarde git échouée : {e}")
 
 
 if __name__ == "__main__":
+    sys.stdout = _LOG
+    sys.stderr = _LOG
+    print(f"🏷️  PIPELINE {PIPELINE_VERSION}")
+    exit_code = 0
     try:
-        sys.exit(main())
+        exit_code = main()
     except Exception:
         traceback.print_exc()
-        sys.exit(1)
+        exit_code = 1
+    finally:
+        # Écrit le journal de bord (lisible sur le site) PUIS sauvegarde tout
+        print("\n💾 Sauvegarde sur GitHub (journal + articles + vidéos)...")
+        write_log_file()
+        git_save()
+    sys.exit(exit_code)
