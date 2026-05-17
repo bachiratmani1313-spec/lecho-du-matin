@@ -276,6 +276,7 @@ const App: React.FC = () => {
     "Lire la suite": { EN: "Read more", ES: "Leer más", DE: "Weiterlesen", AR: "اقرأ المزيد" },
     "La Une": { EN: "Top", ES: "Portada", DE: "Top", AR: "الرئيسية" },
     "RADIO": { EN: "RADIO", ES: "RADIO", DE: "RADIO", AR: "راديو" },
+    "L'ÉCHO DU MATIN": { EN: "THE MORNING ECHO", ES: "EL ECO DE LA MAÑANA", DE: "DAS MORGENECHO", AR: "صدى الصباح" },
   };
 
   // Traduit une chaîne d'interface selon la langue choisie (FR = original)
@@ -667,7 +668,19 @@ const App: React.FC = () => {
             })}
           </div>
         </div>
-        <h1 className="font-serif text-[2.8rem] md:text-[7rem] font-black italic tracking-tighter leading-none">L'ÉCHO <span className="text-red-600">DU MATIN</span></h1>
+        <h1 className="font-serif text-[2.8rem] md:text-[7rem] font-black italic tracking-tighter leading-none">
+          {lang === Language.FR ? (
+            <>L'ÉCHO <span className="text-red-600">DU MATIN</span></>
+          ) : (() => {
+            const t = tr("L'ÉCHO DU MATIN");
+            const parts = t.split(' ');
+            if (parts.length > 1) {
+              const last = parts.pop();
+              return <>{parts.join(' ')} <span className="text-red-600">{last}</span></>;
+            }
+            return <span className="text-red-600">{t}</span>;
+          })()}
+        </h1>
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-4">
             <div className="flex items-center gap-2">
               <p className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] text-zinc-500">{tr("6 HEURES, VU PAR L'IA")}</p>
@@ -905,7 +918,7 @@ const App: React.FC = () => {
               <button onClick={() => { setSelected(null); setIsReadingMode(false); }} className={`p-2 rounded-full ${isReadingMode ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
               </button>
-              <span className="font-serif font-black italic text-lg md:text-xl hidden sm:block">L'ÉCHO DU MATIN</span>
+              <span className="font-serif font-black italic text-lg md:text-xl hidden sm:block">{tr("L'ÉCHO DU MATIN")}</span>
             </div>
             <div className="flex gap-2 overflow-x-auto no-scrollbar py-2">
               <button 
