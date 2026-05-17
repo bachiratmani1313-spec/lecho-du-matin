@@ -391,8 +391,55 @@ def main():
         json.dump({"updated": today, "articles": all_articles}, f, ensure_ascii=False, indent=2)
 
     print(f"\n✅ {len(all_articles)} articles écrits dans public/articles.json")
+
+    # Sauvegarde Git robuste (le bot gagne toujours, aucun conflit possible)
+    print("\n💾 Sauvegarde sur GitHub...")
+    git_save()
+
     print("=" * 60)
     return 0
+
+
+def _run_git(args):
+    r = subprocess.run(["git"] + args, cwd=REPO_ROOT, capture_output=True, text=True)
+    label = " ".join(args)
+    print(f"  $ git {label} -> rc={r.returncode}")
+    out = (r.stdout or "").strip()
+    err = (r.stderr or "").strip()
+    if out:
+        print("    " + out[:300])
+    if r.returncode != 0 and err:
+        print("    ⚠️ " + err[:300])
+    return r.returncode
+
+
+def git_save():
+    """
+    Stratégie 'le bot gagne toujours' :
+    1. add public/  (articles.json + videos)
+    2. fetch origin
+    3. reset --soft origin/main  (HEAD au dernier distant, fichiers gardés)
+    4. commit  (un seul commit propre par-dessus le dernier distant)
+    5. push  (fast-forward, AUCUN conflit possible)
+    """
+    try:
+        _run_git(["config", "user.name", "🤖 L'Écho Bot"])
+        _run_git(["config", "user.email", "echo@lechodumatin.com"])
+        _run_git(["add", "public/"])
+        _run_git(["fetch", "origin", "main"])
+        _run_git(["reset", "--soft", "origin/main"])
+        rc = _run_git(["commit", "-m",
+                       f"📰 Articles + vidéos {datetime.now().strftime('%Y-%m-%d %H:%M')}"])
+        if rc != 0:
+            print("  ℹ️ Rien de nouveau à commiter")
+            return
+        push_rc = _run_git(["push", "origin", "HEAD:main"])
+        if push_rc == 0:
+            print("  ✅ Articles + vidéos sauvegardés sur GitHub → Vercel va redéployer")
+        else:
+            print("  ⚠️ Push échoué (voir au-dessus)")
+    except Exception as e:
+        print(f"  ⚠️ Sauvegarde git échouée : {e}")
 
 
 if __name__ == "__main__":
