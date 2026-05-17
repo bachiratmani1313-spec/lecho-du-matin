@@ -435,29 +435,35 @@ const App: React.FC = () => {
     let isMounted = true;
 
     const loadData = async () => {
-      const cacheKey = `news_edition_v22_${editionKey}_${category}_${lang}`;
+      const cacheKey = `news_edition_v23_${editionKey}_${category}_${lang}`;
       const cached = localStorage.getItem(cacheKey);
-      
+      let hadCache = false;
+
+      // 1. Affichage INSTANTANÉ du cache (si présent) pour ne pas attendre
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
-          if (isMounted) setArticles(parsed);
-          if (isMounted) setLoading(false);
-          if (isMounted) setIsUpdating(false);
-          return; // On ne rafraîchit PAS si on a l'édition du jour
+          if (isMounted && parsed && parsed.length > 0) {
+            setArticles(parsed);
+            setLoading(false);
+            hadCache = true;
+          }
         } catch (e) {
           localStorage.removeItem(cacheKey);
         }
-      } else {
-        if (isMounted) setLoading(true);
+      }
+      if (!hadCache && isMounted) {
+        setLoading(true);
       }
 
+      // 2. On rafraîchit TOUJOURS depuis le pipeline en arrière-plan
+      //    (le site reste utilisable pendant ce temps grâce au cache)
       if (isMounted) setIsUpdating(true);
-      if (isMounted) setLoadingMessage("Récupération de l'Édition du Jour (Aube de La Mecque)...");
+      if (isMounted && !hadCache) setLoadingMessage("Récupération de l'Édition du Jour (Aube de La Mecque)...");
       if (isMounted) setError(null);
-      
+
       const messageTimeout = setTimeout(() => {
-        if (isMounted) setLoadingMessage("Consultation des archives et dépêches réelles...");
+        if (isMounted && !hadCache) setLoadingMessage("Consultation des archives et dépêches réelles...");
       }, 7000);
 
       try {
@@ -469,15 +475,20 @@ const App: React.FC = () => {
         if (!isMounted) return;
 
         if (data && data.length > 0) {
+          // 3. On remplace par la version FRAÎCHE et on met à jour le cache
           setArticles(data);
           localStorage.setItem(cacheKey, JSON.stringify(data));
-        } else {
+        } else if (!hadCache) {
           throw new Error("Le rédacteur n'a pas pu trouver d'informations vérifiées.");
         }
       } catch (err: any) {
         if (!isMounted) return;
         console.error("Erreur de mise à jour:", err);
-        
+        // Si on avait déjà le cache affiché, on ne casse pas l'écran pour une erreur réseau
+        if (hadCache) {
+          if (isMounted) { setIsUpdating(false); clearTimeout(messageTimeout); }
+          return;
+        }
         let userMessage = "L'accès aux serveurs de presse est difficile en ce moment.";
         const technicalDetails = err?.message || String(err);
         
@@ -610,9 +621,18 @@ const App: React.FC = () => {
             >
               <Key className="w-3 h-3" />
             </button>
-            {Object.values(Language).map(l => (
-              <button key={l} onClick={() => setLang(l)} className={`transition-all ${lang === l ? 'font-black border-b-2 border-black' : 'text-zinc-300'}`}>{l.slice(0, 2).toUpperCase()}</button>
-            ))}
+            {Object.values(Language).map(l => {
+              const labels: Record<string, string> = {
+                [Language.FR]: 'FR',
+                [Language.EN]: 'EN',
+                [Language.ES]: 'ES',
+                [Language.DE]: 'DE',
+                [Language.AR]: 'AR',
+              };
+              return (
+                <button key={l} onClick={() => setLang(l)} title={l} className={`transition-all ${lang === l ? 'font-black border-b-2 border-black' : 'text-zinc-300'}`}>{labels[l] || l.slice(0, 2).toUpperCase()}</button>
+              );
+            })}
           </div>
         </div>
         <h1 className="font-serif text-[2.8rem] md:text-[7rem] font-black italic tracking-tighter leading-none">L'ÉCHO <span className="text-red-600">DU MATIN</span></h1>
