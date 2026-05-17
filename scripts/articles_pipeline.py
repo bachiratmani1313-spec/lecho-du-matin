@@ -44,7 +44,7 @@ os.makedirs(PUBLIC_DIR, exist_ok=True)
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 os.makedirs(WORK_DIR, exist_ok=True)
 
-PIPELINE_VERSION = "v2026-05-16-e"
+PIPELINE_VERSION = "v2026-05-17-f"
 
 # Capture tout l'affichage dans un journal lisible depuis le site
 class _Tee:
@@ -155,7 +155,21 @@ def fetch_articles():
                     title = clean_text(entry.get("title", ""))
                     if not title:
                         continue
-                    summary = clean_text(entry.get("summary", "") or entry.get("description", ""))
+
+                    # Résumé court (pour l'aperçu sur la carte)
+                    short = clean_text(entry.get("summary", "") or entry.get("description", ""))
+
+                    # Contenu LE PLUS COMPLET disponible (article riche et nourrissant)
+                    full = ""
+                    if "content" in entry and entry.content:
+                        # content:encoded = texte complet de l'article (le plus riche)
+                        full = clean_text(entry.content[0].get("value", ""))
+                    # Si pas de content:encoded, on prend la description complète (non tronquée)
+                    if len(full) < len(short):
+                        full = short
+                    if not full:
+                        full = title
+
                     link = entry.get("link", "")
 
                     # Image éventuelle du flux
@@ -170,8 +184,9 @@ def fetch_articles():
                                 image = l.get("href", "")
                                 break
 
-                    summary = summary[:280] if summary else title
-                    content = summary
+                    # summary = aperçu court ; content = article complet et riche
+                    summary = (short or full)[:300]
+                    content = full[:5000]  # texte long et nourrissant
                     collected.append({
                         "title": title,
                         "summary": summary,
