@@ -44,7 +44,7 @@ os.makedirs(PUBLIC_DIR, exist_ok=True)
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 os.makedirs(WORK_DIR, exist_ok=True)
 
-PIPELINE_VERSION = "v2026-05-17-g-traduction"
+PIPELINE_VERSION = "v2026-05-17-h-meteo"
 
 # Capture tout l'affichage dans un journal lisible depuis le site
 class _Tee:
@@ -99,8 +99,9 @@ RSS_FEEDS = {
         "https://www.francetvinfo.fr/economie.rss",
     ],
     "meteo": [
-        "https://www.francetvinfo.fr/meteo.rss",
-        "https://www.france24.com/fr/planète/rss",
+        "https://www.lemonde.fr/planete/rss_full.xml",
+        "https://www.francetvinfo.fr/monde/environnement.rss",
+        "https://www.francetvinfo.fr/titres.rss",
     ],
     "europe": [
         "https://www.rtbf.be/site-info/api/rss/info.xml",
