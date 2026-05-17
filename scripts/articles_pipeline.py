@@ -44,7 +44,7 @@ os.makedirs(PUBLIC_DIR, exist_ok=True)
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 os.makedirs(WORK_DIR, exist_ok=True)
 
-PIPELINE_VERSION = "v2026-05-16-d"
+PIPELINE_VERSION = "v2026-05-16-e"
 
 # Capture tout l'affichage dans un journal lisible depuis le site
 class _Tee:
@@ -455,32 +455,57 @@ def _run_git(args):
 
 def git_save():
     """
-    Sauvegarde 'le bot gagne toujours', avec ré-essais :
-    add public/ -> fetch -> reset --soft FETCH_HEAD -> commit -> push
-    Si push rejeté (course), on recommence (jusqu'à 4 fois).
+    Sauvegarde INCREVABLE :
+    1. copie le contenu généré de côté (articles.json, vidéos, log)
+    2. git reset --hard FETCH_HEAD  -> état EXACT du dernier distant (table rase)
+    3. remet le contenu généré par-dessus
+    4. commit + push  -> fast-forward TOUJOURS possible (zéro conflit)
     """
+    import shutil
+    import tempfile
     try:
+        tmp = tempfile.mkdtemp()
+        if os.path.exists(ARTICLES_JSON):
+            shutil.copy(ARTICLES_JSON, os.path.join(tmp, "articles.json"))
+        if os.path.exists(LOG_FILE):
+            shutil.copy(LOG_FILE, os.path.join(tmp, "pipeline-log.txt"))
+        tmp_videos = os.path.join(tmp, "videos")
+        if os.path.isdir(VIDEOS_DIR):
+            shutil.copytree(VIDEOS_DIR, tmp_videos)
+
         _run_git(["config", "user.name", "🤖 L'Écho Bot"])
         _run_git(["config", "user.email", "echo@lechodumatin.com"])
+
         for attempt in range(1, 5):
-            print(f"\n  🔁 Tentative de sauvegarde #{attempt}")
-            _run_git(["add", "public/"])
+            print(f"\n  🔁 Sauvegarde tentative #{attempt}", flush=True)
             if _run_git(["fetch", "origin", "main"]) != 0:
-                print("  ⚠️ fetch échoué, nouvel essai...")
                 continue
-            _run_git(["reset", "--soft", "FETCH_HEAD"])
+            # TABLE RASE : on se cale EXACTEMENT sur le dernier distant
+            _run_git(["reset", "--hard", "FETCH_HEAD"])
+            # On repose le contenu généré PAR-DESSUS
+            os.makedirs(VIDEOS_DIR, exist_ok=True)
+            if os.path.exists(os.path.join(tmp, "articles.json")):
+                shutil.copy(os.path.join(tmp, "articles.json"), ARTICLES_JSON)
+            if os.path.exists(os.path.join(tmp, "pipeline-log.txt")):
+                shutil.copy(os.path.join(tmp, "pipeline-log.txt"), LOG_FILE)
+            if os.path.isdir(tmp_videos):
+                for fn in os.listdir(tmp_videos):
+                    shutil.copy(os.path.join(tmp_videos, fn),
+                                os.path.join(VIDEOS_DIR, fn))
+            _run_git(["add", "public/"])
             rc = _run_git(["commit", "-m",
                            f"📰 Articles + vidéos {datetime.now().strftime('%Y-%m-%d %H:%M')}"])
             if rc != 0:
-                print("  ℹ️ Rien de nouveau à commiter (local déjà à jour)")
+                print("  ℹ️ Rien de nouveau à commiter", flush=True)
                 return
+            # On est PILE sur le dernier distant -> push = fast-forward garanti
             if _run_git(["push", "origin", "HEAD:main"]) == 0:
-                print("  ✅ SAUVEGARDÉ sur GitHub → Vercel va redéployer")
+                print("  ✅ SAUVEGARDÉ sur GitHub → Vercel va redéployer", flush=True)
                 return
-            print("  ⚠️ Push rejeté (course), on réessaie...")
-        print("  ❌ Sauvegarde impossible après 4 tentatives")
+            print("  ⚠️ Push rejeté, nouvel essai...", flush=True)
+        print("  ❌ Sauvegarde impossible après 4 tentatives", flush=True)
     except Exception as e:
-        print(f"  ⚠️ Sauvegarde git échouée : {e}")
+        print(f"  ⚠️ Sauvegarde git échouée : {e}", flush=True)
 
 
 if __name__ == "__main__":
