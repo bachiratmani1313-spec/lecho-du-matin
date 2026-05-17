@@ -44,6 +44,9 @@ export interface NewsArticle {
   sponsorLink?: string;
   youtubeId?: string;
   videoFile?: string;
+  translations?: {
+    [lang: string]: { title: string; summary: string; content: string };
+  };
 }
 
 export interface IslamModule {

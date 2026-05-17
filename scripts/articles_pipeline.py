@@ -44,7 +44,7 @@ os.makedirs(PUBLIC_DIR, exist_ok=True)
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 os.makedirs(WORK_DIR, exist_ok=True)
 
-PIPELINE_VERSION = "v2026-05-17-f"
+PIPELINE_VERSION = "v2026-05-17-g-traduction"
 
 # Capture tout l'affichage dans un journal lisible depuis le site
 class _Tee:
@@ -132,6 +132,53 @@ def clean_text(raw: str) -> str:
 def slugify(text: str, maxlen: int = 40) -> str:
     s = re.sub(r"[^a-zA-Z0-9]+", "-", text.lower()).strip("-")
     return s[:maxlen] or "article"
+
+
+# ---------------------------------------------------------------------------
+# TRADUCTION 5 LANGUES (gratuite, sans clé API)
+# ---------------------------------------------------------------------------
+
+# Langues cibles (le français est l'original, pas besoin de le traduire)
+TARGET_LANGS = ["en", "es", "de", "ar"]
+
+
+def _translate_text(text: str, target: str) -> str:
+    """Traduit un texte (avec découpage si > 4500 caractères). Secours = texte FR."""
+    if not text or not text.strip():
+        return text
+    try:
+        from deep_translator import GoogleTranslator
+        translator = GoogleTranslator(source="fr", target=target)
+        if len(text) <= 4500:
+            return translator.translate(text) or text
+        # Découpage par phrases pour respecter la limite de 5000 caractères
+        chunks, current = [], ""
+        for sentence in re.split(r"(?<=[.!?])\s+", text):
+            if len(current) + len(sentence) + 1 > 4500:
+                if current:
+                    chunks.append(current)
+                current = sentence
+            else:
+                current = (current + " " + sentence).strip()
+        if current:
+            chunks.append(current)
+        return " ".join(translator.translate(c) or c for c in chunks)
+    except Exception as e:
+        print(f"    ⚠️ Traduction {target} échouée : {e}")
+        return text  # secours : on garde le français plutôt que rien
+
+
+def translate_article(title: str, summary: str, content: str) -> dict:
+    """Renvoie {lang: {title, summary, content}} pour les 4 langues cibles."""
+    translations = {}
+    for lang in TARGET_LANGS:
+        print(f"    🌍 Traduction → {lang}")
+        translations[lang] = {
+            "title": _translate_text(title, lang),
+            "summary": _translate_text(summary, lang),
+            "content": _translate_text(content, lang),
+        }
+    return translations
 
 
 # ---------------------------------------------------------------------------
@@ -425,6 +472,12 @@ def main():
                             )
                             youtube_id = upload_youtube(youtube, video_p, art["title"], desc)
 
+                # Traduction écrite dans les 4 autres langues (FR = original)
+                print(f"  🌍 Traduction de l'article #{idx}...")
+                translations = translate_article(
+                    art["title"], art["summary"], art["content"]
+                )
+
                 all_articles.append({
                     "date": today,
                     "category": cat,
@@ -435,6 +488,7 @@ def main():
                     "image": art["image"],
                     "youtubeId": youtube_id,
                     "videoFile": video_rel,
+                    "translations": translations,
                 })
             except Exception as e:
                 print(f"  ⚠️ Article #{idx} ignoré (erreur) : {e}")
@@ -444,6 +498,7 @@ def main():
                     "title": art.get("title", ""), "summary": art.get("summary", ""),
                     "content": art.get("content", ""), "link": art.get("link", ""),
                     "image": art.get("image", ""), "youtubeId": "", "videoFile": "",
+                    "translations": {},
                 })
 
     # Écriture du fichier lu par le site

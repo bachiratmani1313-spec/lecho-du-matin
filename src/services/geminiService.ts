@@ -105,6 +105,7 @@ async function fetchFromPipeline(category: Category): Promise<NewsArticle[]> {
         imageUrl: a.image || getPollinationsImage(a.title),
         youtubeId: a.youtubeId || '',
         videoFile: a.videoFile || '',
+        translations: a.translations || {},
         sources: a.link ? [{ title: 'Source', uri: a.link }] : []
       });
     });

@@ -257,6 +257,27 @@ const App: React.FC = () => {
   // Sync ID: 2026-04-22-1740
   const editionKey = getDailyEditionKey();
   const [lang, setLang] = useState<Language>(Language.FR);
+
+  // Renvoie titre/résumé/contenu dans la langue choisie (FR = original)
+  const L = (a: NewsArticle) => {
+    const map: Record<string, string> = {
+      [Language.EN]: 'en',
+      [Language.ES]: 'es',
+      [Language.DE]: 'de',
+      [Language.AR]: 'ar',
+    };
+    const key = map[lang];
+    const tr = key && a.translations ? a.translations[key] : undefined;
+    if (tr && (tr.title || tr.content)) {
+      return {
+        title: tr.title || a.title,
+        summary: tr.summary || a.summary,
+        content: tr.content || a.content,
+      };
+    }
+    return { title: a.title, summary: a.summary, content: a.content };
+  };
+
   const [category, setCategory] = useState<Category>(Category.UNES);
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
@@ -780,7 +801,7 @@ const App: React.FC = () => {
                         <span className="text-[7px] font-black uppercase mt-1">RADIO</span>
                       </button>
                       <button 
-                        onClick={(e) => { e.stopPropagation(); handleSpeak(art.content, art.id); }}
+                        onClick={(e) => { e.stopPropagation(); handleSpeak(L(art).content, art.id); }}
                         className={`w-16 h-16 rounded-full flex flex-col items-center justify-center shadow-2xl transition-all border-2 ${speakingId === art.id ? 'bg-red-600 text-white border-red-400 animate-pulse' : 'bg-white text-zinc-900 border-zinc-200 hover:scale-110'}`}
                         disabled={isAudioLoading}
                       >
@@ -802,9 +823,9 @@ const App: React.FC = () => {
                   )}
                 </div>
                 <h2 className={`font-serif font-black italic tracking-tighter transition-colors group-hover:text-zinc-700 ${idx === 0 ? 'text-3xl md:text-6xl mb-4' : 'text-2xl mb-2'}`}>
-                  {art.title}
+                  {L(art).title}
                 </h2>
-                <p className="text-zinc-500 text-sm leading-relaxed italic line-clamp-3">{art.summary}</p>
+                <p className="text-zinc-500 text-sm leading-relaxed italic line-clamp-3">{L(art).summary}</p>
               </article>
             ))}
             {(category === Category.UNES || category === Category.ANNONCES) && <SponsorBanner />}
@@ -842,7 +863,7 @@ const App: React.FC = () => {
                 {isReadingMode ? 'Normal' : 'Lecture'}
               </button>
               <button 
-                onClick={() => copyToClipboard(`🗞️ L'ÉCHO DU MATIN\n\n${selected.title.toUpperCase()}\n\n${selected.content}\n\n✨ Par Atmani Bachir`)} 
+                onClick={() => copyToClipboard(`🗞️ L'ÉCHO DU MATIN\n\n${L(selected).title.toUpperCase()}\n\n${L(selected).content}\n\n✨ Par Atmani Bachir`)} 
                 className={cn(
                   "whitespace-nowrap px-4 py-2 rounded-full font-black text-[9px] uppercase tracking-widest flex items-center gap-2 shadow-lg transition-all",
                   copied ? "bg-green-600 text-white" : "bg-zinc-900 text-white"
@@ -863,7 +884,7 @@ const App: React.FC = () => {
                 PARTAGER
               </button>
               <button 
-                onClick={() => copyToClipboard(`🗞️ L'ÉCHO DU MATIN\n\n${selected.title.toUpperCase()}\n\n${selected.content}\n\n✨ Par Atmani Bachir`)} 
+                onClick={() => copyToClipboard(`🗞️ L'ÉCHO DU MATIN\n\n${L(selected).title.toUpperCase()}\n\n${L(selected).content}\n\n✨ Par Atmani Bachir`)} 
                 className={cn(
                   "whitespace-nowrap px-4 py-2 rounded-full font-black text-[9px] uppercase tracking-widest flex items-center gap-2 border transition-all",
                   copied ? "bg-green-50 border-green-200 text-green-700" : "bg-zinc-100 text-zinc-900 border-zinc-200"
@@ -890,7 +911,7 @@ const App: React.FC = () => {
               className={`font-serif font-black italic tracking-tighter leading-[0.9] cursor-pointer active:scale-95 transition-transform ${isReadingMode ? 'text-5xl md:text-8xl mb-12' : 'text-4xl md:text-7xl'}`}
               onClick={() => setIsReadingMode(!isReadingMode)}
             >
-              {selected.title}
+              {L(selected).title}
             </h2>
             
             {!isReadingMode && (
@@ -931,7 +952,7 @@ const App: React.FC = () => {
               )}
               onClick={() => setIsReadingMode(!isReadingMode)}
             >
-              <ReactMarkdown>{selected.content}</ReactMarkdown>
+              <ReactMarkdown>{L(selected).content}</ReactMarkdown>
             </div>
 
             {selected.strategicAdvice && !isReadingMode && (
@@ -944,7 +965,7 @@ const App: React.FC = () => {
 
             <div className="flex flex-col gap-4">
               <div className="flex gap-2">
-                <button onClick={() => handleSpeak(selected.content, selected.id)} className={`flex-grow p-5 md:p-6 border-2 font-black uppercase tracking-widest flex items-center justify-center gap-4 rounded-full transition-all ${speakingId === selected.id ? 'bg-red-600 text-white border-red-600' : isReadingMode ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-zinc-50'}`}>
+                <button onClick={() => handleSpeak(L(selected).content, selected.id)} className={`flex-grow p-5 md:p-6 border-2 font-black uppercase tracking-widest flex items-center justify-center gap-4 rounded-full transition-all ${speakingId === selected.id ? 'bg-red-600 text-white border-red-600' : isReadingMode ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-zinc-50'}`}>
                     <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
                     <span className="text-[10px] md:text-xs">{speakingId === selected.id ? 'ARRÊTER' : 'ÉCOUTER'}</span>
                 </button>
