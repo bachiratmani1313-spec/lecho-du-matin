@@ -1,7 +1,7 @@
-PIPELINE v2026-05-17-f
-Généré : 2026-05-17T13:29:25.695435+00:00
+PIPELINE v2026-05-17-g-traduction
+Généré : 2026-05-17T20:28:53.263927+00:00
 ============================================================
-🏷️  PIPELINE v2026-05-17-f
+🏷️  PIPELINE v2026-05-17-g-traduction
 ============================================================
 🎬 L'ÉCHO DU MATIN — PIPELINE QUOTIDIEN
 ============================================================
@@ -26,35 +26,85 @@ Généré : 2026-05-17T13:29:25.695435+00:00
 
 🔑 Connexion YouTube...
 
-🛠️  Article #1 [une] : La Russie attaquée par environ 600 drones ukrainiens, quatre...
+🛠️  Article #1 [une] : J.Viala-Gaudefroy:"les nationalistes chrétiens veulent gagne...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #1...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
-🛠️  Article #2 [une] : Épidémie d'Ebola : l'OMS déclare une urgence internationale...
+🛠️  Article #2 [une] : Carburant : Lecornu présentera jeudi un nouveau dispositif d...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #2...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
-🛠️  Article #3 [geopolitique] : Territoires palestiniens : le fils aîné de Mahmoud Abbas élu...
+🛠️  Article #3 [geopolitique] : Netanyahu déclare qu'Israël est proche de son objectif de tu...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #3...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
-🛠️  Article #4 [geopolitique] : En direct : une frappe de drone provoque un incendie près d'...
+🛠️  Article #4 [geopolitique] : Liban : malgré la prolongation de la trêve, des frappes isra...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #4...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
-🛠️  Article #5 [finance] : Magasins pris d'assaut : une vente de montres tourne au chao...
+🛠️  Article #5 [finance] : Parcs d’attractions : ces familles à la recherche de sensati...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #5...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
-🛠️  Article #6 [finance] : VIDEO. L'objectif d'un chômage à 5% "d'ici l'année prochaine...
+🛠️  Article #6 [finance] : Hausse des prix des carburants : Sébastien Lecornu présenter...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #6...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
-🛠️  Article #7 [europe] : Rouyaume-Uni : l'ex-ministre de la Santé dit vouloir "se pré...
+🛠️  Article #7 [europe] : "En termes de capacité de drones, l'Ukraine semble avoir fra...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #7...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
-🛠️  Article #8 [europe] : La Russie attaquée par environ 600 drones ukrainiens, quatre...
+🛠️  Article #8 [europe] : Royaume-Uni : l'ex-ministre de la Santé dit vouloir "se prés...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #8...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
-🛠️  Article #9 [futur] : Avec l'intelligence artificielle, la surveillance émotionnel...
+🛠️  Article #9 [futur] : Intelligence artificielle : le dilemme de l’UE qui n’envisag...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #9...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
-🛠️  Article #10 [futur] : Intelligence artificielle, durée et "spoilers"... Comment le...
+🛠️  Article #10 [futur] : Avec l'intelligence artificielle, la surveillance émotionnel...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  🌍 Traduction de l'article #10...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
 
 ✅ 10 articles écrits dans public/articles.json
 ============================================================
