@@ -1,7 +1,7 @@
-PIPELINE v2026-05-16-e
-Généré : 2026-05-17T13:14:25.329788+00:00
+PIPELINE v2026-05-17-f
+Généré : 2026-05-17T13:29:25.695435+00:00
 ============================================================
-🏷️  PIPELINE v2026-05-16-e
+🏷️  PIPELINE v2026-05-17-f
 ============================================================
 🎬 L'ÉCHO DU MATIN — PIPELINE QUOTIDIEN
 ============================================================
@@ -44,10 +44,10 @@ Généré : 2026-05-17T13:14:25.329788+00:00
 🛠️  Article #6 [finance] : VIDEO. L'objectif d'un chômage à 5% "d'ici l'année prochaine...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
 
-🛠️  Article #7 [europe] : La Russie attaquée par environ 600 drones ukrainiens, quatre...
+🛠️  Article #7 [europe] : Rouyaume-Uni : l'ex-ministre de la Santé dit vouloir "se pré...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
 
-🛠️  Article #8 [europe] : Attaque de drones en Russie, Kiev revendique...
+🛠️  Article #8 [europe] : La Russie attaquée par environ 600 drones ukrainiens, quatre...
   ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
 
 🛠️  Article #9 [futur] : Avec l'intelligence artificielle, la surveillance émotionnel...
