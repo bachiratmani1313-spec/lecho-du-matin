@@ -26,6 +26,7 @@ from datetime import datetime, timezone
 
 import requests
 import feedparser
+import trafilatura
 import edge_tts
 from PIL import Image, ImageDraw, ImageFont
 
@@ -44,7 +45,7 @@ os.makedirs(PUBLIC_DIR, exist_ok=True)
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 os.makedirs(WORK_DIR, exist_ok=True)
 
-PIPELINE_VERSION = "v2026-05-17-h-meteo"
+PIPELINE_VERSION = "v2026-05-18-i-textelong"
 
 # Capture tout l'affichage dans un journal lisible depuis le site
 class _Tee:
@@ -206,19 +207,35 @@ def fetch_articles():
 
                     # Résumé court (pour l'aperçu sur la carte)
                     short = clean_text(entry.get("summary", "") or entry.get("description", ""))
+                    link = entry.get("link", "")
 
-                    # Contenu LE PLUS COMPLET disponible (article riche et nourrissant)
+                    # 1) Texte LE PLUS COMPLET : on ouvre la page et on extrait le vrai article
                     full = ""
-                    if "content" in entry and entry.content:
-                        # content:encoded = texte complet de l'article (le plus riche)
-                        full = clean_text(entry.content[0].get("value", ""))
-                    # Si pas de content:encoded, on prend la description complète (non tronquée)
+                    if link:
+                        try:
+                            downloaded = trafilatura.fetch_url(link)
+                            if downloaded:
+                                extracted = trafilatura.extract(
+                                    downloaded,
+                                    include_comments=False,
+                                    include_tables=False,
+                                    favor_precision=True,
+                                )
+                                if extracted:
+                                    full = clean_text(extracted)
+                        except Exception as ex:
+                            print(f"    ⚠️ Extraction page échouée : {ex}")
+
+                    # 2) Repli : content:encoded du flux RSS
+                    if len(full) < 400 and "content" in entry and entry.content:
+                        rss_full = clean_text(entry.content[0].get("value", ""))
+                        if len(rss_full) > len(full):
+                            full = rss_full
+                    # 3) Repli final : la description courte
                     if len(full) < len(short):
                         full = short
                     if not full:
                         full = title
-
-                    link = entry.get("link", "")
 
                     # Image éventuelle du flux
                     image = ""
@@ -232,9 +249,10 @@ def fetch_articles():
                                 image = l.get("href", "")
                                 break
 
-                    # summary = aperçu court ; content = article complet et riche
+                    # summary = aperçu court ; content = article long et nourrissant
                     summary = (short or full)[:300]
-                    content = full[:5000]  # texte long et nourrissant
+                    content = full[:3500]  # texte long (et traduisible sans exploser)
+                    print(f"    📏 Contenu : {len(content)} caractères")
                     collected.append({
                         "title": title,
                         "summary": summary,
