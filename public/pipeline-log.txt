@@ -1,5 +1,5 @@
 PIPELINE v2026-05-18-i-textelong
-Généré : 2026-05-18T06:15:07.593738+00:00
+Généré : 2026-05-18T06:37:04.649185+00:00
 ============================================================
 🏷️  PIPELINE v2026-05-18-i-textelong
 ============================================================
@@ -38,7 +38,7 @@ Généré : 2026-05-18T06:15:07.593738+00:00
 🔑 Connexion YouTube...
 
 🛠️  Article #1 [une] : Cinéma : Canal+ ne travaillera plus avec les 600 signataires...
-  📺 Vidéo YouTube publiée : https://youtu.be/cmh7BaGDwDM
+  📺 Vidéo YouTube publiée : https://youtu.be/g7Mt1nExh9w
   🌍 Traduction de l'article #1...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -46,7 +46,7 @@ Généré : 2026-05-18T06:15:07.593738+00:00
     🌍 Traduction → ar
 
 🛠️  Article #2 [une] : Pour Trump, le pouvoir rime avec dollars....
-  📺 Vidéo YouTube publiée : https://youtu.be/yP-G39S5mO0
+  📺 Vidéo YouTube publiée : https://youtu.be/eaKDo6aobwI
   🌍 Traduction de l'article #2...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -54,7 +54,7 @@ Généré : 2026-05-18T06:15:07.593738+00:00
     🌍 Traduction → ar
 
 🛠️  Article #3 [geopolitique] : Moyen-Orient en direct : les puissances du G7 discutent des ...
-  📺 Vidéo YouTube publiée : https://youtu.be/MMOKMvYEvYU
+  📺 Vidéo YouTube publiée : https://youtu.be/QFkrpum11Jo
   🌍 Traduction de l'article #3...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -62,7 +62,7 @@ Généré : 2026-05-18T06:15:07.593738+00:00
     🌍 Traduction → ar
 
 🛠️  Article #4 [geopolitique] : Les Émirats dénoncent une "agression inacceptable" après une...
-  📺 Vidéo YouTube publiée : https://youtu.be/E41ZWvafqtM
+  📺 Vidéo YouTube publiée : https://youtu.be/oWsSTe_q4TM
   🌍 Traduction de l'article #4...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -70,7 +70,7 @@ Généré : 2026-05-18T06:15:07.593738+00:00
     🌍 Traduction → ar
 
 🛠️  Article #5 [finance] : "C'est le sujet tabou par excellence" : l'appréhension des D...
-  📺 Vidéo YouTube publiée : https://youtu.be/QP0rav4fOtM
+  📺 Vidéo YouTube publiée : https://youtu.be/mmUUpfqDKPI
   🌍 Traduction de l'article #5...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -78,7 +78,7 @@ Généré : 2026-05-18T06:15:07.593738+00:00
     🌍 Traduction → ar
 
 🛠️  Article #6 [finance] : "Un risque particulièrement grave" : comment le blocage des ...
-  📺 Vidéo YouTube publiée : https://youtu.be/ogydRqKy9m4
+  📺 Vidéo YouTube publiée : https://youtu.be/Xo1zevxcLOc
   🌍 Traduction de l'article #6...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -86,7 +86,7 @@ Généré : 2026-05-18T06:15:07.593738+00:00
     🌍 Traduction → ar
 
 🛠️  Article #7 [meteo] : Lyon-Turin : les nuisances du chantier colossal inquiètent l...
-  📺 Vidéo YouTube publiée : https://youtu.be/OTCZU--Yj6k
+  📺 Vidéo YouTube publiée : https://youtu.be/91kl6lFlBoo
   🌍 Traduction de l'article #7...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -94,7 +94,7 @@ Généré : 2026-05-18T06:15:07.593738+00:00
     🌍 Traduction → ar
 
 🛠️  Article #8 [meteo] : Hantavirus : l’OMS considère que le risque pour la santé pub...
-  📺 Vidéo YouTube publiée : https://youtu.be/ACr0IDMiMlw
+  📺 Vidéo YouTube publiée : https://youtu.be/sYwfiBf4_Ts
   🌍 Traduction de l'article #8...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -102,7 +102,7 @@ Généré : 2026-05-18T06:15:07.593738+00:00
     🌍 Traduction → ar
 
 🛠️  Article #9 [europe] : Hantavirus : le Hondius attendu aux Pays-Bas, l'OMS se veut ...
-  📺 Vidéo YouTube publiée : https://youtu.be/TEgUziLOSNA
+  📺 Vidéo YouTube publiée : https://youtu.be/mYYtXrCJKYk
   🌍 Traduction de l'article #9...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -110,23 +110,23 @@ Généré : 2026-05-18T06:15:07.593738+00:00
     🌍 Traduction → ar
 
 🛠️  Article #10 [europe] : "En termes de capacité de drones, l'Ukraine semble avoir fra...
-  📺 Vidéo YouTube publiée : https://youtu.be/f8dwTkLmh8o
+  📺 Vidéo YouTube publiée : https://youtu.be/df8u4bsVjiA
   🌍 Traduction de l'article #10...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #11 [futur] : L'Iran veut taxer les câbles internet sous-marins présents d...
-  ⚠️  Upload YouTube échoué : <HttpError 400 when requesting None returned "The user has exceeded the number of videos they may upload.". Details: "[{'message': 'The user has exceeded the number of videos they may upload.', 'domain': 'youtube.video', 'reason': 'uploadLimitExceeded'}]">
+🛠️  Article #11 [futur] : "Etes-vous totalement digne de confiance ?" : on vous racont...
+  📺 Vidéo YouTube publiée : https://youtu.be/cradDxdP8gQ
   🌍 Traduction de l'article #11...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #12 [futur] : Intelligence artificielle : le dilemme de l’UE qui n’envisag...
-  ⚠️  Upload YouTube échoué : <HttpError 400 when requesting None returned "The user has exceeded the number of videos they may upload.". Details: "[{'message': 'The user has exceeded the number of videos they may upload.', 'domain': 'youtube.video', 'reason': 'uploadLimitExceeded'}]">
+🛠️  Article #12 [futur] : L'Iran veut taxer les câbles internet sous-marins présents d...
+  📺 Vidéo YouTube publiée : https://youtu.be/A2tV8y2uPM8
   🌍 Traduction de l'article #12...
     🌍 Traduction → en
     🌍 Traduction → es
