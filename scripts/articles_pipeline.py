@@ -45,7 +45,7 @@ os.makedirs(PUBLIC_DIR, exist_ok=True)
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 os.makedirs(WORK_DIR, exist_ok=True)
 
-PIPELINE_VERSION = "v2026-05-18-i-textelong"
+PIPELINE_VERSION = "v2026-05-18-j-limite3"
 
 # Capture tout l'affichage dans un journal lisible depuis le site
 class _Tee:
@@ -84,6 +84,11 @@ TTS_VOICE = "fr-FR-HenriNeural"
 
 # Nombre d'articles par rubrique
 ARTICLES_PER_CATEGORY = 2
+
+# Limite d'upload YouTube par jour (les N premiers articles seulement).
+# YouTube bloque au-delà d'un certain nombre/jour pour une chaîne récente.
+# Le site garde TOUTES les vidéos en local (rien n'est perdu visuellement).
+YOUTUBE_UPLOAD_LIMIT = 3
 
 # Flux RSS gratuits par rubrique — SOURCES 100% FRANÇAISES (pas d'anglais)
 RSS_FEEDS = {
@@ -482,7 +487,8 @@ def main():
                 if generate_audio(narration, audio_p) and generate_image(art["title"], cat, image_p):
                     if make_video(image_p, audio_p, video_p):
                         video_rel = "/videos/" + os.path.basename(video_p)
-                        if youtube:
+                        if youtube and idx <= YOUTUBE_UPLOAD_LIMIT:
+                            print(f"  📤 Upload YouTube ({idx}/{YOUTUBE_UPLOAD_LIMIT} autorisés aujourd'hui)...")
                             desc = (
                                 f"{art['summary']}\n\n"
                                 f"📰 Article complet : {art['link']}\n\n"
@@ -490,6 +496,8 @@ def main():
                                 f"Directeur : Atmani Bachir"
                             )
                             youtube_id = upload_youtube(youtube, video_p, art["title"], desc)
+                        elif youtube:
+                            print(f"  ⏭️  Article #{idx} : pas d'upload YouTube (limite {YOUTUBE_UPLOAD_LIMIT}/jour) — vidéo locale seulement")
 
                 # Traduction écrite dans les 4 autres langues (FR = original)
                 print(f"  🌍 Traduction de l'article #{idx}...")

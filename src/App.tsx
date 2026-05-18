@@ -22,6 +22,7 @@ import {
   CloudSun,
   Newspaper,
   LayoutGrid,
+  Share2,
   CheckCircle2
 } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -277,6 +278,7 @@ const App: React.FC = () => {
     "La Une": { EN: "Top", ES: "Portada", DE: "Top", AR: "الرئيسية" },
     "RADIO": { EN: "RADIO", ES: "RADIO", DE: "RADIO", AR: "راديو" },
     "L'ÉCHO DU MATIN": { EN: "THE MORNING ECHO", ES: "EL ECO DE LA MAÑANA", DE: "DAS MORGENECHO", AR: "صدى الصباح" },
+    "Partager": { EN: "Share", ES: "Compartir", DE: "Teilen", AR: "مشاركة" },
   };
 
   // Traduit une chaîne d'interface selon la langue choisie (FR = original)
@@ -395,6 +397,22 @@ const App: React.FC = () => {
           console.error("Erreur de partage:", err);
           copyToClipboard(shareText);
         }
+      }
+    } else {
+      copyToClipboard(shareText);
+    }
+  };
+
+  const handleShareCard = async (e: React.MouseEvent, article: NewsArticle) => {
+    e.stopPropagation();
+    const t = L(article);
+    const siteUrl = 'https://lechodumatin.com';
+    const shareText = `🗞️ ${t.title}\n\n${t.summary}\n\n📰 Lire sur L'Écho du Matin : ${siteUrl}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: t.title, text: shareText, url: siteUrl });
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') copyToClipboard(shareText);
       }
     } else {
       copyToClipboard(shareText);
@@ -891,6 +909,13 @@ const App: React.FC = () => {
                   {L(art).title}
                 </h2>
                 <p className="text-zinc-500 text-sm leading-relaxed italic line-clamp-3">{L(art).summary}</p>
+                <button
+                  onClick={(e) => handleShareCard(e, art)}
+                  className="mt-4 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-zinc-400 hover:text-black border border-zinc-200 hover:border-black rounded-full px-4 py-2 transition-all"
+                >
+                  <Share2 className="w-3.5 h-3.5" />
+                  {tr("Partager")}
+                </button>
               </article>
             ))}
             {(category === Category.UNES || category === Category.ANNONCES) && <SponsorBanner />}
