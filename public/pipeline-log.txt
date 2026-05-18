@@ -1,5 +1,5 @@
 PIPELINE v2026-05-18-i-textelong
-Généré : 2026-05-18T06:04:53.153544+00:00
+Généré : 2026-05-18T06:15:07.593738+00:00
 ============================================================
 🏷️  PIPELINE v2026-05-18-i-textelong
 ============================================================
@@ -22,7 +22,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
   ✅ [finance] 2 article(s)
   📡 RSS [meteo] : https://www.lemonde.fr/planete/rss_full.xml
     📏 Contenu : 209 caractères
-    📏 Contenu : 324 caractères
+    📏 Contenu : 229 caractères
   ✅ [meteo] 2 article(s)
   📡 RSS [europe] : https://www.rtbf.be/site-info/api/rss/info.xml
   📡 RSS [europe] : https://www.france24.com/fr/europe/rss
@@ -38,7 +38,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
 🔑 Connexion YouTube...
 
 🛠️  Article #1 [une] : Cinéma : Canal+ ne travaillera plus avec les 600 signataires...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/cmh7BaGDwDM
   🌍 Traduction de l'article #1...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -46,7 +46,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #2 [une] : Pour Trump, le pouvoir rime avec dollars....
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/yP-G39S5mO0
   🌍 Traduction de l'article #2...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -54,7 +54,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #3 [geopolitique] : Moyen-Orient en direct : les puissances du G7 discutent des ...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/MMOKMvYEvYU
   🌍 Traduction de l'article #3...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -62,7 +62,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #4 [geopolitique] : Les Émirats dénoncent une "agression inacceptable" après une...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/E41ZWvafqtM
   🌍 Traduction de l'article #4...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -70,7 +70,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #5 [finance] : "C'est le sujet tabou par excellence" : l'appréhension des D...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/QP0rav4fOtM
   🌍 Traduction de l'article #5...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -78,7 +78,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #6 [finance] : "Un risque particulièrement grave" : comment le blocage des ...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/ogydRqKy9m4
   🌍 Traduction de l'article #6...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -86,7 +86,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #7 [meteo] : Lyon-Turin : les nuisances du chantier colossal inquiètent l...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/OTCZU--Yj6k
   🌍 Traduction de l'article #7...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -94,7 +94,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #8 [meteo] : Hantavirus : l’OMS considère que le risque pour la santé pub...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/ACr0IDMiMlw
   🌍 Traduction de l'article #8...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -102,7 +102,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #9 [europe] : Hantavirus : le Hondius attendu aux Pays-Bas, l'OMS se veut ...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/TEgUziLOSNA
   🌍 Traduction de l'article #9...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -110,15 +110,15 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #10 [europe] : "En termes de capacité de drones, l'Ukraine semble avoir fra...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  📺 Vidéo YouTube publiée : https://youtu.be/f8dwTkLmh8o
   🌍 Traduction de l'article #10...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #11 [futur] : L'Iran veut taxer les câbles internet marins présents dans l...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+🛠️  Article #11 [futur] : L'Iran veut taxer les câbles internet sous-marins présents d...
+  ⚠️  Upload YouTube échoué : <HttpError 400 when requesting None returned "The user has exceeded the number of videos they may upload.". Details: "[{'message': 'The user has exceeded the number of videos they may upload.', 'domain': 'youtube.video', 'reason': 'uploadLimitExceeded'}]">
   🌍 Traduction de l'article #11...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -126,7 +126,7 @@ Généré : 2026-05-18T06:04:53.153544+00:00
     🌍 Traduction → ar
 
 🛠️  Article #12 [futur] : Intelligence artificielle : le dilemme de l’UE qui n’envisag...
-  ⚠️  Upload YouTube échoué : ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+  ⚠️  Upload YouTube échoué : <HttpError 400 when requesting None returned "The user has exceeded the number of videos they may upload.". Details: "[{'message': 'The user has exceeded the number of videos they may upload.', 'domain': 'youtube.video', 'reason': 'uploadLimitExceeded'}]">
   🌍 Traduction de l'article #12...
     🌍 Traduction → en
     🌍 Traduction → es
