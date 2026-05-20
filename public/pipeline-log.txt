@@ -1,12 +1,16 @@
-PIPELINE v2026-05-18-j-limite3
-Généré : 2026-05-20T04:25:59.986906+00:00
+PIPELINE v2026-05-20-l-youtube-priorite
+Généré : 2026-05-20T04:42:18.511361+00:00
 ============================================================
-🏷️  PIPELINE v2026-05-18-j-limite3
+🏷️  PIPELINE v2026-05-20-l-youtube-priorite
 ============================================================
 🎬 L'ÉCHO DU MATIN — PIPELINE QUOTIDIEN
 ============================================================
 
 📰 Étape 1/5 — Récupération des articles RSS...
+  📡 RSS [maghreb] : https://www.tsa-algerie.com/feed/
+    📏 Contenu : 2292 caractères
+    📏 Contenu : 3423 caractères
+  ✅ [maghreb] 2 article(s)
   📡 RSS [une] : https://www.france24.com/fr/rss
     📏 Contenu : 3500 caractères
     📏 Contenu : 443 caractères
@@ -31,112 +35,128 @@ Généré : 2026-05-20T04:25:59.986906+00:00
   ✅ [europe] 2 article(s)
   📡 RSS [futur] : https://www.france24.com/fr/tech/rss
   📡 RSS [futur] : https://www.francetvinfo.fr/internet.rss
-    📏 Contenu : 2214 caractères
     📏 Contenu : 3500 caractères
+    📏 Contenu : 2214 caractères
   ✅ [futur] 2 article(s)
 
 🔑 Connexion YouTube...
 
-🛠️  Article #1 [une] : Xi Jinping reçoit Vladimir Poutine pour réaffirmer la solidi...
-  📤 Upload YouTube (1/3 autorisés aujourd'hui)...
-  📺 Vidéo YouTube publiée : https://youtu.be/XGw-m5cK7A0
+🛠️  Article #1 [maghreb] : L’Algérie fixe 5 nouvelles règles pour l’importation des pro...
+  📤 Upload YouTube (1/3) — rubrique prioritaire « maghreb »
+  📺 Vidéo YouTube publiée : https://youtu.be/78DZXLJ3g5c
   🌍 Traduction de l'article #1...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #2 [une] : Moyen-Orient en direct : Donald Trump participera au sommet ...
-  📤 Upload YouTube (2/3 autorisés aujourd'hui)...
-  📺 Vidéo YouTube publiée : https://youtu.be/M4SZC-CqvpU
+🛠️  Article #2 [maghreb] : “Entrismes islamiste” : les musulmans de France face à la me...
+  📤 Upload YouTube (2/3) — rubrique prioritaire « maghreb »
+  📺 Vidéo YouTube publiée : https://youtu.be/oXT42cCcIPA
   🌍 Traduction de l'article #2...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #3 [geopolitique] : Moyen-Orient en direct : Donald Trump participera au sommet ...
-  📤 Upload YouTube (3/3 autorisés aujourd'hui)...
-  📺 Vidéo YouTube publiée : https://youtu.be/dTh3kqwa7c4
+🛠️  Article #3 [une] : Xi Jinping reçoit Vladimir Poutine pour réaffirmer la solidi...
+  📤 Upload YouTube (3/3) — rubrique prioritaire « une »
+  📺 Vidéo YouTube publiée : https://youtu.be/Syku3IEKwBo
   🌍 Traduction de l'article #3...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #4 [geopolitique] : Détroit d'Ormuz : l'Iran peut-il imposer un droit de passage...
-  ⏭️  Article #4 : pas d'upload YouTube (limite 3/jour) — vidéo locale seulement
+🛠️  Article #4 [une] : Moyen-Orient en direct : Donald Trump participera au sommet ...
+  ⏭️  Article #4 (une) : quota YouTube atteint (3/jour) — vidéo locale seulement
   🌍 Traduction de l'article #4...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #5 [finance] : Tribune contre l'"emprise" de Vincent Bolloré sur le cinéma ...
-  ⏭️  Article #5 : pas d'upload YouTube (limite 3/jour) — vidéo locale seulement
+🛠️  Article #5 [geopolitique] : Moyen-Orient en direct : Donald Trump participera au sommet ...
+  ⏭️  Article #5 (geopolitique) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #5...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #6 [finance] : Des dizaines de taxis autonomes tournent en rond à Atlanta...
-  ⏭️  Article #6 : pas d'upload YouTube (limite 3/jour) — vidéo locale seulement
+🛠️  Article #6 [geopolitique] : Détroit d'Ormuz : l'Iran peut-il imposer un droit de passage...
+  ⏭️  Article #6 (geopolitique) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #6...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #7 [meteo] : « Tout mon corps me fait mal » : à Delhi, le calvaire des tr...
-  ⏭️  Article #7 : pas d'upload YouTube (limite 3/jour) — vidéo locale seulement
+🛠️  Article #7 [finance] : Tribune contre l'"emprise" de Vincent Bolloré sur le cinéma ...
+  ⏭️  Article #7 (finance) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #7...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #8 [meteo] : Daniel Kretinsky, le milliardaire insatiable...
-  ⏭️  Article #8 : pas d'upload YouTube (limite 3/jour) — vidéo locale seulement
+🛠️  Article #8 [finance] : Des dizaines de taxis autonomes tournent en rond à Atlanta...
+  ⏭️  Article #8 (finance) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #8...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #9 [europe] : Le Pentagone réduit son nombre de brigades stationnées en Eu...
-  ⏭️  Article #9 : pas d'upload YouTube (limite 3/jour) — vidéo locale seulement
+🛠️  Article #9 [meteo] : « Tout mon corps me fait mal » : à Delhi, le calvaire des tr...
+  ⏭️  Article #9 (meteo) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #9...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #10 [europe] : "L'ange de la mort" : un ancien directeur de prison libyen d...
-  ⏭️  Article #10 : pas d'upload YouTube (limite 3/jour) — vidéo locale seulement
+🛠️  Article #10 [meteo] : Daniel Kretinsky, le milliardaire insatiable...
+  ⏭️  Article #10 (meteo) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #10...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #11 [futur] : Des IA pour remplacer les ouvriers du textile ?...
-  ⏭️  Article #11 : pas d'upload YouTube (limite 3/jour) — vidéo locale seulement
+🛠️  Article #11 [europe] : Le Pentagone réduit son nombre de brigades stationnées en Eu...
+  ⏭️  Article #11 (europe) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #11...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #12 [futur] : Immigration : le ministère de l’Intérieur va expérimenter l’...
-  ⏭️  Article #12 : pas d'upload YouTube (limite 3/jour) — vidéo locale seulement
+🛠️  Article #12 [europe] : "L'ange de la mort" : un ancien directeur de prison libyen d...
+  ⏭️  Article #12 (europe) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #12...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-✅ 12 articles écrits dans public/articles.json
+🛠️  Article #13 [futur] : REPORTAGE. "L'élève va toujours être guidé et encouragé" : à...
+  ⏭️  Article #13 (futur) : rubrique non prioritaire — vidéo locale seulement
+  🌍 Traduction de l'article #13...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
+
+🛠️  Article #14 [futur] : Des IA pour remplacer les ouvriers du textile ?...
+  ⏭️  Article #14 (futur) : rubrique non prioritaire — vidéo locale seulement
+  🌍 Traduction de l'article #14...
+    🌍 Traduction → en
+    🌍 Traduction → es
+    🌍 Traduction → de
+    🌍 Traduction → ar
+
+✅ 14 articles écrits dans public/articles.json
 ============================================================
 
 💾 Sauvegarde sur GitHub (journal + articles + vidéos)...
