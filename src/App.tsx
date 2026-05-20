@@ -726,16 +726,18 @@ const App: React.FC = () => {
 
       {/* NAVIGATION SCROLLABLE MOBILE CORRIGÉE */}
       <div className="sticky top-0 bg-[#FDFCF8]/95 backdrop-blur z-50 border-b border-zinc-900 nav-container">
-        <nav className="no-scrollbar py-4 px-6 overflow-x-auto flex items-center justify-center gap-8">
+        <nav className="no-scrollbar py-4 px-6 overflow-x-auto flex items-center justify-start md:justify-center gap-8 scroll-smooth">
           {Object.values(Category).map(cat => (
             <button 
               key={cat} 
-              onClick={() => {
+              data-tab={cat}
+              onClick={(e) => {
                 setShowIslamCourse(false);
                 if (category !== cat) {
                     setCategory(cat);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
+                (e.currentTarget as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
               }} 
               className={`nav-item whitespace-nowrap text-[10px] font-black uppercase tracking-widest transition-all ${category === cat && !showIslamCourse ? 'text-black border-b-2 border-black' : 'text-zinc-300 hover:text-zinc-600'}`}
             >
