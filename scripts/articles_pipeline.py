@@ -45,7 +45,7 @@ os.makedirs(PUBLIC_DIR, exist_ok=True)
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 os.makedirs(WORK_DIR, exist_ok=True)
 
-PIPELINE_VERSION = "v2026-05-20-k-maghreb"
+PIPELINE_VERSION = "v2026-05-20-l-youtube-priorite"
 
 # Capture tout l'affichage dans un journal lisible depuis le site
 class _Tee:
@@ -90,8 +90,23 @@ ARTICLES_PER_CATEGORY = 2
 # Le site garde TOUTES les vidéos en local (rien n'est perdu visuellement).
 YOUTUBE_UPLOAD_LIMIT = 3
 
+# RUBRIQUES PRIORITAIRES pour YouTube : on concentre les 3 vidéos quotidiennes
+# sur les rubriques qui parlent à notre public (effet multiplicateur de vues).
+# Les autres rubriques ont seulement une vidéo locale sur le site (pas d'upload YouTube).
+# Bachir : ajuste cette liste selon ce qui marche le mieux dans tes statistiques.
+YOUTUBE_PRIORITY_CATEGORIES = ["maghreb", "une"]
+
 # Flux RSS gratuits par rubrique — SOURCES 100% FRANÇAISES (pas d'anglais)
+# Ordre IMPORTANT : les rubriques en haut sont traitées en premier
+# → c'est ce qui détermine quelles vidéos partent sur YouTube (cf. YOUTUBE_PRIORITY_CATEGORIES)
 RSS_FEEDS = {
+    "maghreb": [
+        # Sources francophones du Maghreb — actu locale et vie quotidienne (PRIORITÉ YouTube)
+        "https://www.tsa-algerie.com/feed/",          # Algérie
+        "https://fr.hespress.com/feed",                # Maroc (édition française)
+        "https://www.tunisienumerique.com/feed/",      # Tunisie
+        "https://www.france24.com/fr/afrique/rss",     # fallback Afrique généraliste
+    ],
     "une": [
         "https://www.france24.com/fr/rss",
         "https://www.francetvinfo.fr/titres.rss",
@@ -112,13 +127,6 @@ RSS_FEEDS = {
     "europe": [
         "https://www.rtbf.be/site-info/api/rss/info.xml",
         "https://www.france24.com/fr/europe/rss",
-    ],
-    "maghreb": [
-        # Sources francophones du Maghreb — actu locale et vie quotidienne
-        "https://www.tsa-algerie.com/feed/",          # Algérie
-        "https://fr.hespress.com/feed",                # Maroc (édition française)
-        "https://www.tunisienumerique.com/feed/",      # Tunisie
-        "https://www.france24.com/fr/afrique/rss",     # fallback Afrique généraliste
     ],
     "futur": [
         "https://www.france24.com/fr/tech/rss",
@@ -477,6 +485,7 @@ def main():
 
     all_articles = []
     idx = 0
+    youtube_uploaded = 0
     for cat, articles in by_cat.items():
         for art in articles:
             idx += 1
@@ -494,8 +503,10 @@ def main():
                 if generate_audio(narration, audio_p) and generate_image(art["title"], cat, image_p):
                     if make_video(image_p, audio_p, video_p):
                         video_rel = "/videos/" + os.path.basename(video_p)
-                        if youtube and idx <= YOUTUBE_UPLOAD_LIMIT:
-                            print(f"  📤 Upload YouTube ({idx}/{YOUTUBE_UPLOAD_LIMIT} autorisés aujourd'hui)...")
+                        is_priority = cat in YOUTUBE_PRIORITY_CATEGORIES
+                        if youtube and is_priority and youtube_uploaded < YOUTUBE_UPLOAD_LIMIT:
+                            youtube_uploaded += 1
+                            print(f"  📤 Upload YouTube ({youtube_uploaded}/{YOUTUBE_UPLOAD_LIMIT}) — rubrique prioritaire « {cat} »")
                             desc = (
                                 f"{art['summary']}\n\n"
                                 f"📰 Article complet : {art['link']}\n\n"
@@ -503,8 +514,10 @@ def main():
                                 f"Directeur : Atmani Bachir"
                             )
                             youtube_id = upload_youtube(youtube, video_p, art["title"], desc)
+                        elif youtube and not is_priority:
+                            print(f"  ⏭️  Article #{idx} ({cat}) : rubrique non prioritaire — vidéo locale seulement")
                         elif youtube:
-                            print(f"  ⏭️  Article #{idx} : pas d'upload YouTube (limite {YOUTUBE_UPLOAD_LIMIT}/jour) — vidéo locale seulement")
+                            print(f"  ⏭️  Article #{idx} ({cat}) : quota YouTube atteint ({YOUTUBE_UPLOAD_LIMIT}/jour) — vidéo locale seulement")
 
                 # Traduction écrite dans les 4 autres langues (FR = original)
                 print(f"  🌍 Traduction de l'article #{idx}...")
