@@ -1,5 +1,5 @@
 PIPELINE v2026-05-20-l-youtube-priorite
-Généré : 2026-05-20T04:42:18.511361+00:00
+Généré : 2026-05-20T07:43:35.326728+00:00
 ============================================================
 🏷️  PIPELINE v2026-05-20-l-youtube-priorite
 ============================================================
@@ -13,16 +13,16 @@ Généré : 2026-05-20T04:42:18.511361+00:00
   ✅ [maghreb] 2 article(s)
   📡 RSS [une] : https://www.france24.com/fr/rss
     📏 Contenu : 3500 caractères
-    📏 Contenu : 443 caractères
+    📏 Contenu : 319 caractères
   ✅ [une] 2 article(s)
   📡 RSS [geopolitique] : https://www.france24.com/fr/moyen-orient/rss
-    📏 Contenu : 443 caractères
+    📏 Contenu : 473 caractères
     📏 Contenu : 3500 caractères
   ✅ [geopolitique] 2 article(s)
   📡 RSS [finance] : https://www.france24.com/fr/économie/rss
   📡 RSS [finance] : https://www.francetvinfo.fr/economie.rss
     📏 Contenu : 3500 caractères
-    📏 Contenu : 2447 caractères
+    📏 Contenu : 3500 caractères
   ✅ [finance] 2 article(s)
   📡 RSS [meteo] : https://www.lemonde.fr/planete/rss_full.xml
     📏 Contenu : 209 caractères
@@ -30,20 +30,20 @@ Généré : 2026-05-20T04:42:18.511361+00:00
   ✅ [meteo] 2 article(s)
   📡 RSS [europe] : https://www.rtbf.be/site-info/api/rss/info.xml
   📡 RSS [europe] : https://www.france24.com/fr/europe/rss
-    📏 Contenu : 2711 caractères
+    📏 Contenu : 2695 caractères
     📏 Contenu : 3500 caractères
   ✅ [europe] 2 article(s)
   📡 RSS [futur] : https://www.france24.com/fr/tech/rss
   📡 RSS [futur] : https://www.francetvinfo.fr/internet.rss
     📏 Contenu : 3500 caractères
-    📏 Contenu : 2214 caractères
+    📏 Contenu : 2128 caractères
   ✅ [futur] 2 article(s)
 
 🔑 Connexion YouTube...
 
 🛠️  Article #1 [maghreb] : L’Algérie fixe 5 nouvelles règles pour l’importation des pro...
   📤 Upload YouTube (1/3) — rubrique prioritaire « maghreb »
-  📺 Vidéo YouTube publiée : https://youtu.be/78DZXLJ3g5c
+  📺 Vidéo YouTube publiée : https://youtu.be/uuK-nSZfIA8
   🌍 Traduction de l'article #1...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -52,23 +52,23 @@ Généré : 2026-05-20T04:42:18.511361+00:00
 
 🛠️  Article #2 [maghreb] : “Entrismes islamiste” : les musulmans de France face à la me...
   📤 Upload YouTube (2/3) — rubrique prioritaire « maghreb »
-  📺 Vidéo YouTube publiée : https://youtu.be/oXT42cCcIPA
+  📺 Vidéo YouTube publiée : https://youtu.be/Y0yqQjjJroU
   🌍 Traduction de l'article #2...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #3 [une] : Xi Jinping reçoit Vladimir Poutine pour réaffirmer la solidi...
+🛠️  Article #3 [une] : Endeuillée par la tuerie de San Diego, la communauté musulma...
   📤 Upload YouTube (3/3) — rubrique prioritaire « une »
-  📺 Vidéo YouTube publiée : https://youtu.be/Syku3IEKwBo
+  📺 Vidéo YouTube publiée : https://youtu.be/ocgKEfrgDrY
   🌍 Traduction de l'article #3...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #4 [une] : Moyen-Orient en direct : Donald Trump participera au sommet ...
+🛠️  Article #4 [une] : Pourquoi, en France, les films sortent-ils le mercredi au ci...
   ⏭️  Article #4 (une) : quota YouTube atteint (3/jour) — vidéo locale seulement
   🌍 Traduction de l'article #4...
     🌍 Traduction → en
@@ -76,7 +76,7 @@ Généré : 2026-05-20T04:42:18.511361+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #5 [geopolitique] : Moyen-Orient en direct : Donald Trump participera au sommet ...
+🛠️  Article #5 [geopolitique] : Moyen-Orient en direct : trois pétroliers, ⁠chinois et sud-c...
   ⏭️  Article #5 (geopolitique) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #5...
     🌍 Traduction → en
@@ -92,7 +92,7 @@ Généré : 2026-05-20T04:42:18.511361+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #7 [finance] : Tribune contre l'"emprise" de Vincent Bolloré sur le cinéma ...
+🛠️  Article #7 [finance] : Narcotrafic : "On ne peut pas pratiquer la sanction collecti...
   ⏭️  Article #7 (finance) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #7...
     🌍 Traduction → en
@@ -100,7 +100,7 @@ Généré : 2026-05-20T04:42:18.511361+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #8 [finance] : Des dizaines de taxis autonomes tournent en rond à Atlanta...
+🛠️  Article #8 [finance] : Tribune anti-Bolloré : "Il faut mettre les egos de côtés", e...
   ⏭️  Article #8 (finance) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #8...
     🌍 Traduction → en
