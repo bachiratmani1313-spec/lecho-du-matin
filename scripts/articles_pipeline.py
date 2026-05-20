@@ -45,7 +45,7 @@ os.makedirs(PUBLIC_DIR, exist_ok=True)
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 os.makedirs(WORK_DIR, exist_ok=True)
 
-PIPELINE_VERSION = "v2026-05-18-j-limite3"
+PIPELINE_VERSION = "v2026-05-20-k-maghreb"
 
 # Capture tout l'affichage dans un journal lisible depuis le site
 class _Tee:
@@ -112,6 +112,13 @@ RSS_FEEDS = {
     "europe": [
         "https://www.rtbf.be/site-info/api/rss/info.xml",
         "https://www.france24.com/fr/europe/rss",
+    ],
+    "maghreb": [
+        # Sources francophones du Maghreb — actu locale et vie quotidienne
+        "https://www.tsa-algerie.com/feed/",          # Algérie
+        "https://fr.hespress.com/feed",                # Maroc (édition française)
+        "https://www.tunisienumerique.com/feed/",      # Tunisie
+        "https://www.france24.com/fr/afrique/rss",     # fallback Afrique généraliste
     ],
     "futur": [
         "https://www.france24.com/fr/tech/rss",

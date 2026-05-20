@@ -5,6 +5,7 @@ export enum Category {
   FINANCE = "Finance & Crypto",
   METEO = "Météo & Alertes Sat",
   SOCIETE = "Belgique & Europe",
+  MAGHREB = "Maghreb & Vie quotidienne",
   TECH = "IA & Futur",
   ANNONCES = "Partenariats & Annonces"
 }

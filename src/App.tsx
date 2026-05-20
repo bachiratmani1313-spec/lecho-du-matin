@@ -48,6 +48,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   [Category.FINANCE]: "https://images.unsplash.com/photo-1611974714024-46202e33bc3b?auto=format&fit=crop&w=1200&q=80",
   [Category.METEO]: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1200&q=80",
   [Category.SOCIETE]: "https://images.unsplash.com/photo-1560161407-063991206644?auto=format&fit=crop&w=1200&q=80",
+  [Category.MAGHREB]: "https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?auto=format&fit=crop&w=1200&q=80",
   [Category.TECH]: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80",
   [Category.ANNONCES]: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80"
 };
@@ -268,6 +269,7 @@ const App: React.FC = () => {
     "Belgique & Europe": { EN: "Belgium & Europe", ES: "Bélgica y Europa", DE: "Belgien & Europa", AR: "بلجيكا وأوروبا" },
     "IA & Futur": { EN: "AI & Future", ES: "IA y Futuro", DE: "KI & Zukunft", AR: "الذكاء الاصطناعي والمستقبل" },
     "Partenariats & Annonces": { EN: "Partners & Ads", ES: "Socios y Anuncios", DE: "Partner & Anzeigen", AR: "الشركاء والإعلانات" },
+    "Maghreb & Vie quotidienne": { EN: "Maghreb & Daily Life", ES: "Magreb y Vida Cotidiana", DE: "Maghreb & Alltag", AR: "المغرب العربي والحياة اليومية" },
     "6 HEURES, VU PAR L'IA": { EN: "6 AM, SEEN BY AI", ES: "LAS 6, VISTO POR IA", DE: "6 UHR, VON KI GESEHEN", AR: "السادسة صباحًا بعين الذكاء الاصطناعي" },
     "DIRECTEUR :": { EN: "DIRECTOR:", ES: "DIRECTOR:", DE: "DIREKTOR:", AR: "المدير:" },
     "DIRECT": { EN: "LIVE", ES: "EN VIVO", DE: "LIVE", AR: "مباشر" },
