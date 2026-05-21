@@ -1,5 +1,5 @@
 PIPELINE v2026-05-20-l-youtube-priorite
-Généré : 2026-05-21T07:33:05.064149+00:00
+Généré : 2026-05-21T07:50:43.792987+00:00
 ============================================================
 🏷️  PIPELINE v2026-05-20-l-youtube-priorite
 ============================================================
@@ -43,7 +43,7 @@ Généré : 2026-05-21T07:33:05.064149+00:00
 
 🛠️  Article #1 [maghreb] : Unesco : le stand algérien attaqué par des Marocains, l’amba...
   📤 Upload YouTube (1/3) — rubrique prioritaire « maghreb »
-  📺 Vidéo YouTube publiée : https://youtu.be/F5EmO7nd1aI
+  📺 Vidéo YouTube publiée : https://youtu.be/d122G-hbN_I
   🌍 Traduction de l'article #1...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -52,7 +52,7 @@ Généré : 2026-05-21T07:33:05.064149+00:00
 
 🛠️  Article #2 [maghreb] : Monoxyde de carbone : une famille décimée à Oum El Bouaghi...
   📤 Upload YouTube (2/3) — rubrique prioritaire « maghreb »
-  📺 Vidéo YouTube publiée : https://youtu.be/k87OLEdTjSQ
+  📺 Vidéo YouTube publiée : https://youtu.be/PVWB3ERg1WA
   🌍 Traduction de l'article #2...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -61,7 +61,7 @@ Généré : 2026-05-21T07:33:05.064149+00:00
 
 🛠️  Article #3 [une] : Comment le gouvernement congolais compte riposter contre l'é...
   📤 Upload YouTube (3/3) — rubrique prioritaire « une »
-  📺 Vidéo YouTube publiée : https://youtu.be/ktgXpeiZ-ek
+  📺 Vidéo YouTube publiée : https://youtu.be/JjeXDtMiHSo
   🌍 Traduction de l'article #3...
     🌍 Traduction → en
     🌍 Traduction → es
@@ -140,7 +140,7 @@ Généré : 2026-05-21T07:33:05.064149+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #13 [futur] : La France veut bâtir un géant européen de l’IA avec un inves...
+🛠️  Article #13 [futur] : Amende de 400 000 euros maintenue en Australie pour X, liée ...
   ⏭️  Article #13 (futur) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #13...
     🌍 Traduction → en
@@ -148,7 +148,7 @@ Généré : 2026-05-21T07:33:05.064149+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #14 [futur] : Croquettes sans céréales, litière toxique… Les publicités tr...
+🛠️  Article #14 [futur] : REPORTAGE. "C'est une révolution militaire" : l’armée frança...
   ⏭️  Article #14 (futur) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #14...
     🌍 Traduction → en
