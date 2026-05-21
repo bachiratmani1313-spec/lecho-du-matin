@@ -1,5 +1,5 @@
 PIPELINE v2026-05-20-l-youtube-priorite
-Généré : 2026-05-20T07:43:35.326728+00:00
+Généré : 2026-05-21T07:33:05.064149+00:00
 ============================================================
 🏷️  PIPELINE v2026-05-20-l-youtube-priorite
 ============================================================
@@ -8,15 +8,15 @@ Généré : 2026-05-20T07:43:35.326728+00:00
 
 📰 Étape 1/5 — Récupération des articles RSS...
   📡 RSS [maghreb] : https://www.tsa-algerie.com/feed/
-    📏 Contenu : 2292 caractères
-    📏 Contenu : 3423 caractères
+    📏 Contenu : 2728 caractères
+    📏 Contenu : 1863 caractères
   ✅ [maghreb] 2 article(s)
   📡 RSS [une] : https://www.france24.com/fr/rss
-    📏 Contenu : 3500 caractères
-    📏 Contenu : 319 caractères
+    📏 Contenu : 1520 caractères
+    📏 Contenu : 1651 caractères
   ✅ [une] 2 article(s)
   📡 RSS [geopolitique] : https://www.france24.com/fr/moyen-orient/rss
-    📏 Contenu : 473 caractères
+    📏 Contenu : 597 caractères
     📏 Contenu : 3500 caractères
   ✅ [geopolitique] 2 article(s)
   📡 RSS [finance] : https://www.france24.com/fr/économie/rss
@@ -25,50 +25,50 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     📏 Contenu : 3500 caractères
   ✅ [finance] 2 article(s)
   📡 RSS [meteo] : https://www.lemonde.fr/planete/rss_full.xml
+    📏 Contenu : 247 caractères
     📏 Contenu : 209 caractères
-    📏 Contenu : 295 caractères
   ✅ [meteo] 2 article(s)
   📡 RSS [europe] : https://www.rtbf.be/site-info/api/rss/info.xml
   📡 RSS [europe] : https://www.france24.com/fr/europe/rss
-    📏 Contenu : 2695 caractères
+    📏 Contenu : 2603 caractères
     📏 Contenu : 3500 caractères
   ✅ [europe] 2 article(s)
   📡 RSS [futur] : https://www.france24.com/fr/tech/rss
   📡 RSS [futur] : https://www.francetvinfo.fr/internet.rss
     📏 Contenu : 3500 caractères
-    📏 Contenu : 2128 caractères
+    📏 Contenu : 3500 caractères
   ✅ [futur] 2 article(s)
 
 🔑 Connexion YouTube...
 
-🛠️  Article #1 [maghreb] : L’Algérie fixe 5 nouvelles règles pour l’importation des pro...
+🛠️  Article #1 [maghreb] : Unesco : le stand algérien attaqué par des Marocains, l’amba...
   📤 Upload YouTube (1/3) — rubrique prioritaire « maghreb »
-  📺 Vidéo YouTube publiée : https://youtu.be/uuK-nSZfIA8
+  📺 Vidéo YouTube publiée : https://youtu.be/F5EmO7nd1aI
   🌍 Traduction de l'article #1...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #2 [maghreb] : “Entrismes islamiste” : les musulmans de France face à la me...
+🛠️  Article #2 [maghreb] : Monoxyde de carbone : une famille décimée à Oum El Bouaghi...
   📤 Upload YouTube (2/3) — rubrique prioritaire « maghreb »
-  📺 Vidéo YouTube publiée : https://youtu.be/Y0yqQjjJroU
+  📺 Vidéo YouTube publiée : https://youtu.be/k87OLEdTjSQ
   🌍 Traduction de l'article #2...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #3 [une] : Endeuillée par la tuerie de San Diego, la communauté musulma...
+🛠️  Article #3 [une] : Comment le gouvernement congolais compte riposter contre l'é...
   📤 Upload YouTube (3/3) — rubrique prioritaire « une »
-  📺 Vidéo YouTube publiée : https://youtu.be/ocgKEfrgDrY
+  📺 Vidéo YouTube publiée : https://youtu.be/ktgXpeiZ-ek
   🌍 Traduction de l'article #3...
     🌍 Traduction → en
     🌍 Traduction → es
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #4 [une] : Pourquoi, en France, les films sortent-ils le mercredi au ci...
+🛠️  Article #4 [une] : Aston Villa surclasse Fribourg et remporte la Ligue Europa...
   ⏭️  Article #4 (une) : quota YouTube atteint (3/jour) — vidéo locale seulement
   🌍 Traduction de l'article #4...
     🌍 Traduction → en
@@ -76,7 +76,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #5 [geopolitique] : Moyen-Orient en direct : trois pétroliers, ⁠chinois et sud-c...
+🛠️  Article #5 [geopolitique] : Moyen-Orient en direct : des pays européens outrés par le tr...
   ⏭️  Article #5 (geopolitique) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #5...
     🌍 Traduction → en
@@ -84,7 +84,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #6 [geopolitique] : Détroit d'Ormuz : l'Iran peut-il imposer un droit de passage...
+🛠️  Article #6 [geopolitique] : Les États-Unis et Israël ont-ils voulu replacer Mahmoud Ahma...
   ⏭️  Article #6 (geopolitique) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #6...
     🌍 Traduction → en
@@ -92,7 +92,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #7 [finance] : Narcotrafic : "On ne peut pas pratiquer la sanction collecti...
+🛠️  Article #7 [finance] : Hausse des prix : le PDG de Carrefour pas favorable à une ré...
   ⏭️  Article #7 (finance) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #7...
     🌍 Traduction → en
@@ -100,7 +100,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #8 [finance] : Tribune anti-Bolloré : "Il faut mettre les egos de côtés", e...
+🛠️  Article #8 [finance] : Présidentielle 2027 : au RN, les équipes de Marine Le Pen et...
   ⏭️  Article #8 (finance) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #8...
     🌍 Traduction → en
@@ -108,7 +108,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #9 [meteo] : « Tout mon corps me fait mal » : à Delhi, le calvaire des tr...
+🛠️  Article #9 [meteo] : Face à la crise climatique, « il n’est pas impossible que no...
   ⏭️  Article #9 (meteo) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #9...
     🌍 Traduction → en
@@ -116,7 +116,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #10 [meteo] : Daniel Kretinsky, le milliardaire insatiable...
+🛠️  Article #10 [meteo] : PFAS : l’Etat attaqué en justice pour son inaction dans la l...
   ⏭️  Article #10 (meteo) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #10...
     🌍 Traduction → en
@@ -124,7 +124,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #11 [europe] : Le Pentagone réduit son nombre de brigades stationnées en Eu...
+🛠️  Article #11 [europe] : L'Allemagne veut accorder à l'Ukraine un statut de "membre a...
   ⏭️  Article #11 (europe) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #11...
     🌍 Traduction → en
@@ -132,7 +132,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #12 [europe] : "L'ange de la mort" : un ancien directeur de prison libyen d...
+🛠️  Article #12 [europe] : Drones et guerre hybride : pourquoi la Lettonie se retrouve ...
   ⏭️  Article #12 (europe) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #12...
     🌍 Traduction → en
@@ -140,7 +140,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #13 [futur] : REPORTAGE. "L'élève va toujours être guidé et encouragé" : à...
+🛠️  Article #13 [futur] : La France veut bâtir un géant européen de l’IA avec un inves...
   ⏭️  Article #13 (futur) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #13...
     🌍 Traduction → en
@@ -148,7 +148,7 @@ Généré : 2026-05-20T07:43:35.326728+00:00
     🌍 Traduction → de
     🌍 Traduction → ar
 
-🛠️  Article #14 [futur] : Des IA pour remplacer les ouvriers du textile ?...
+🛠️  Article #14 [futur] : Croquettes sans céréales, litière toxique… Les publicités tr...
   ⏭️  Article #14 (futur) : rubrique non prioritaire — vidéo locale seulement
   🌍 Traduction de l'article #14...
     🌍 Traduction → en
